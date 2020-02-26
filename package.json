@@ -1,0 +1,14 @@
+{
+  "name": "quilt.b",
+  "version": "1.0.0",
+  "description": "prototype library for generating quilts",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dora Caswell",
+  "license": "BSD 3 clause",
+  "dependencies": {},
+  "devDependencies": {}
+}
