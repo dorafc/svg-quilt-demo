@@ -1,6 +1,7 @@
 import { drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHorizontal } from "../src/drawBlocks.js"
+import { getTotalFreq } from "../src/util.js"
 
-let colorPalette = {
+let colors = {
   "hotPink" : {
     frequency : 1,
     fill : "hotpink"
@@ -48,11 +49,11 @@ let sampleGenerator = {
   dimensions : {
     rows : 10,
     cols : 10,
-    blockWidth : 70,
-    blockHeight : 70
+    blockWidth : 50,
+    blockHeight : 50
   },
-  colorPalette : colorPalette,
-  blockTypes : blockTypes
+  colorPalette : colors,
+  blockTypes : blockTypes,
 }
 
 export { sampleGenerator };

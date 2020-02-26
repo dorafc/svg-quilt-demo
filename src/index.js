@@ -1,7 +1,7 @@
 let blocks;      // random block types in the quilt
 
 import { sampleGenerator } from '../docs/sample.js';
-import { shuffleArray } from '../src/util.js'
+import { shuffleArray, getTotalFreq } from '../src/util.js'
 
 // initialize the Quilt SVG element
 function initQuilt(quilt){
@@ -28,21 +28,27 @@ function renderBlocks(name, blocks){
   })
 }
 
+// generate values for weighting block and color frequencies
+function generateFrequencyTotals(generator){
+  let newQuiltGenerator = generator
+  newQuiltGenerator.totalBlockFreq = getTotalFreq(generator.blockTypes)
+  newQuiltGenerator.totalColorFreq = getTotalFreq(generator.colorPalette)
+  return newQuiltGenerator
+}
+
 // generate random blocks based off of generator object
 function generateBlocks(generator){
-  // let name = generator.name
   let { rows, cols, blockWidth, blockHeight } = generator.dimensions
   let colors = generator.colorPalette
   let colorKeys = Object.keys(colors)
   let types = generator.blockTypes
-  let typeKeys = Object.keys(generator.blockTypes)
+  let totalBlockFreq = generator.totalBlockFreq
 
   let blocks = []
 
   // loop through rows and columns to generate quilt blocks
   for (let c  = 0; c < cols; c++){
     for (let r = 0; r < rows; r++){
-      // name, startX, startY, height, width, draw function, color pallette
       let startX = c * blockWidth  
       let startY = r * blockHeight
 
@@ -51,7 +57,17 @@ function generateBlocks(generator){
       colorPalette = colorPalette.map((color) => colors[color].fill)
 
       // get random block type
-      let blockType = typeKeys[Math.floor(Math.random() * Math.floor(typeKeys.length))]
+      let countFreq = 0;
+      let blockType;
+      let setBlockType = Math.floor(Math.random() * Math.floor(totalBlockFreq)) + 1;
+      for (let [key, value] of Object.entries(types)) {
+        
+        countFreq += value.frequency;
+        if (setBlockType <= countFreq){
+          blockType = key
+          break;
+        }
+      }
 
       blocks.push(
         {
@@ -67,12 +83,12 @@ function generateBlocks(generator){
     }
   }
 
-  // console.log(blocks)
   return blocks;
 }
 
 
-
-initQuilt(sampleGenerator)
-blocks = generateBlocks(sampleGenerator)
+const newQuilt = generateFrequencyTotals(sampleGenerator)
+console.log(newQuilt)
+initQuilt(newQuilt)
+blocks = generateBlocks(newQuilt)
 renderBlocks("sampleQuilt", blocks)

@@ -10,4 +10,15 @@ function shuffleArray(arr) {
   return arr;
 }
 
-export { shuffleArray };
+// get the total possible frequency of options
+function getTotalFreq(options){
+  let total = 0;
+
+  for (let value of Object.values(options)) {
+    total += value.frequency;
+  }
+
+  return total
+}
+
+export { shuffleArray, getTotalFreq };
