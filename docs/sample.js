@@ -11,7 +11,7 @@ let colorPalette = {
   },
   "limegreen" : {
     frequency : 1,
-    fill : "green"
+    fill : "limegreen"
   },
   "deeppink" : {
     frequency : 1,

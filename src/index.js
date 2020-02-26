@@ -32,7 +32,8 @@ function renderBlocks(name, blocks){
 function generateBlocks(generator){
   // let name = generator.name
   let { rows, cols, blockWidth, blockHeight } = generator.dimensions
-  let colors = Object.keys(generator.colorPalette)
+  let colors = generator.colorPalette
+  let colorKeys = Object.keys(colors)
   let types = generator.blockTypes
   let typeKeys = Object.keys(generator.blockTypes)
 
@@ -46,7 +47,8 @@ function generateBlocks(generator){
       let startY = r * blockHeight
 
       // generate two color palette
-      let colorPalette = shuffleArray(colors).slice(0,2)
+      let colorPalette = shuffleArray(colorKeys).slice(0,2)
+      colorPalette = colorPalette.map((color) => colors[color].fill)
 
       // get random block type
       let blockType = typeKeys[Math.floor(Math.random() * Math.floor(typeKeys.length))]
