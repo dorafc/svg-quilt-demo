@@ -21,4 +21,22 @@ function getTotalFreq(options){
   return total
 }
 
-export { shuffleArray, getTotalFreq };
+// selected a randomized option from an object with weighted frequency types
+function getRandomWeightedFreq(totalFreq, options){
+  let selection;
+  let countFreq = 0;
+  let randomPick = Math.floor(Math.random() * Math.floor(totalFreq)) + 1;
+
+  for (let [key, value] of Object.entries(options)) {
+        
+    countFreq += value.frequency;
+    if (randomPick <= countFreq){
+      selection = key
+      break;
+    }
+  }
+
+  return selection;
+}
+
+export { shuffleArray, getTotalFreq, getRandomWeightedFreq };

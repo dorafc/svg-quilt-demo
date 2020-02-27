@@ -1,7 +1,7 @@
 let blocks;      // random block types in the quilt
 
 import { sampleGenerator } from '../docs/sample.js';
-import { shuffleArray, getTotalFreq } from '../src/util.js'
+import { shuffleArray, getTotalFreq, getRandomWeightedFreq } from '../src/util.js'
 
 // initialize the Quilt SVG element
 function initQuilt(quilt){
@@ -57,17 +57,7 @@ function generateBlocks(generator){
       colorPalette = colorPalette.map((color) => colors[color].fill)
 
       // get random block type
-      let countFreq = 0;
-      let blockType;
-      let setBlockType = Math.floor(Math.random() * Math.floor(totalBlockFreq)) + 1;
-      for (let [key, value] of Object.entries(types)) {
-        
-        countFreq += value.frequency;
-        if (setBlockType <= countFreq){
-          blockType = key
-          break;
-        }
-      }
+      let blockType = getRandomWeightedFreq(totalBlockFreq, types);
 
       blocks.push(
         {
@@ -88,7 +78,6 @@ function generateBlocks(generator){
 
 
 const newQuilt = generateFrequencyTotals(sampleGenerator)
-console.log(newQuilt)
 initQuilt(newQuilt)
 blocks = generateBlocks(newQuilt)
 renderBlocks("sampleQuilt", blocks)
