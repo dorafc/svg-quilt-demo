@@ -22,20 +22,31 @@ function getTotalFreq(options){
 }
 
 // selected a randomized option from an object with weighted frequency types
-function getRandomWeightedFreq(totalFreq, options){
-  let selection;
-  let countFreq = 0;
-  let randomPick = Math.floor(Math.random() * Math.floor(totalFreq)) + 1;
+function getRandomWeightedFreq(totalFreq, options, num){
+  // console.log(num)
 
-  for (let [key, value] of Object.entries(options)) {
-        
-    countFreq += value.frequency;
-    if (randomPick <= countFreq){
-      selection = key
-      break;
+  let selection = [];
+  let countFreq;
+  let selectionLength = num ? num : 1;
+
+  for (let i = selectionLength; i >= 1; i--){
+    let randomPick = Math.floor(Math.random() * Math.floor(totalFreq)) + 1;
+    countFreq = 0;
+    // let optEntries = Object.entries(options)
+    // optEntries.reduce(() => {
+
+    // })
+    for (let [key, value] of Object.entries(options)) {
+      countFreq += value.frequency;
+
+      if (randomPick <= countFreq){
+        selection.push(key)
+
+        break;
+      }
     }
   }
-
+  
   return selection;
 }
 

@@ -2,7 +2,7 @@ import { drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHorizont
 import { getTotalFreq } from "../src/util.js"
 
 let colors = {
-  "hotPink" : {
+  "hotpink" : {
     frequency : 1,
     fill : "hotpink"
   },

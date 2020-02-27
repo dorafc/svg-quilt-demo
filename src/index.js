@@ -40,9 +40,10 @@ function generateFrequencyTotals(generator){
 function generateBlocks(generator){
   let { rows, cols, blockWidth, blockHeight } = generator.dimensions
   let colors = generator.colorPalette
-  let colorKeys = Object.keys(colors)
+  let totalColorFreq = generator.totalColorFreq
   let types = generator.blockTypes
   let totalBlockFreq = generator.totalBlockFreq
+  console.log(generator)
 
   let blocks = []
 
@@ -53,8 +54,9 @@ function generateBlocks(generator){
       let startY = r * blockHeight
 
       // generate two color palette
-      let colorPalette = shuffleArray(colorKeys).slice(0,2)
-      colorPalette = colorPalette.map((color) => colors[color].fill)
+      // let colorPalette = shuffleArray(colorKeys).slice(0,2)
+      // colorPalette = colorPalette.map((color) => colors[color].fill)
+      let colorPalette = getRandomWeightedFreq(totalColorFreq, colors, 2)
 
       // get random block type
       let blockType = getRandomWeightedFreq(totalBlockFreq, types);
