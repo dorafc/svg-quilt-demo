@@ -1,6 +1,7 @@
 import { drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHorizontal } from "../src/drawBlocks.js"
-import { getTotalFreq } from "../src/util.js"
+// import { getTotalFreq } from "../src/util.js"
 
+// color pallette
 let colors = {
   "hotpink" : {
     frequency : 1,

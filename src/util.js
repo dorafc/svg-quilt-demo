@@ -23,7 +23,6 @@ function getTotalFreq(options){
 
 // selected a randomized option from an object with weighted frequency types
 function getRandomWeightedFreq(totalFreq, options, num){
-  // console.log(num)
 
   let selection = [];
   let countFreq;

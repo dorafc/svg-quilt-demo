@@ -4,11 +4,11 @@ import { sampleGenerator } from '../docs/sample.js';
 import { shuffleArray, getTotalFreq, getRandomWeightedFreq } from '../src/util.js'
 
 // initialize the Quilt SVG element
-function initQuilt(quilt){
+function insertQuiltSVG(quilt){
   let {name, spaceNameID, dimensions} = quilt 
-  console.log(dimensions)
+  // console.log(dimensions)
   let {rows, cols, blockHeight, blockWidth} = dimensions
-  console.log(blockHeight, blockWidth)
+  // console.log(blockHeight, blockWidth)
   let quiltSpace = document.getElementById(spaceNameID)
   let quiltSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg")
 
@@ -24,15 +24,17 @@ function initQuilt(quilt){
 function renderBlocks(name, blocks){
 
   blocks.forEach((block, i) => {
-    block.type.draw(name, `quilt ${i}`, block.startX, block.startY, block.height, block.width, block.colors)
+    block.type.draw(name, `quilt${i}`, block.startX, block.startY, block.height, block.width, block.colors)
   })
 }
 
 // generate values for weighting block and color frequencies
 function generateFrequencyTotals(generator){
+  // make sure we create a new generator object
   let newQuiltGenerator = generator
   newQuiltGenerator.totalBlockFreq = getTotalFreq(generator.blockTypes)
   newQuiltGenerator.totalColorFreq = getTotalFreq(generator.colorPalette)
+
   return newQuiltGenerator
 }
 
@@ -43,13 +45,13 @@ function generateBlocks(generator){
   let totalColorFreq = generator.totalColorFreq
   let types = generator.blockTypes
   let totalBlockFreq = generator.totalBlockFreq
-  console.log(generator)
+  // console.log(generator)
 
   let blocks = []
 
   // loop through rows and columns to generate quilt blocks
-  for (let c  = 0; c < cols; c++){
-    for (let r = 0; r < rows; r++){
+  for (let r  = 0; r < cols; r++){
+    for (let c = 0; c < rows; c++){
       let startX = c * blockWidth  
       let startY = r * blockHeight
 
@@ -63,8 +65,8 @@ function generateBlocks(generator){
 
       blocks.push(
         {
-          type : types[blockType],
-          name : `blockr${r}c${c}`,
+          type : types[blockType[0]],
+          name : `block${r}c${c}`,
           startX : startX,
           startY : startY,
           height : blockHeight,
@@ -80,6 +82,6 @@ function generateBlocks(generator){
 
 
 const newQuilt = generateFrequencyTotals(sampleGenerator)
-initQuilt(newQuilt)
+insertQuiltSVG(newQuilt)
 blocks = generateBlocks(newQuilt)
 renderBlocks("sampleQuilt", blocks)
