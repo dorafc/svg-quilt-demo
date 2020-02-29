@@ -9,6 +9,8 @@
   },
   "author": "Dora Caswell",
   "license": "BSD 3 clause",
-  "dependencies": {},
+  "dependencies": {
+    "live-server": "^1.2.1"
+  },
   "devDependencies": {}
 }
