@@ -8,5 +8,12 @@ class Dimensions{
     this.cols = cols;                         // id of the element to append the quilt SVG
     this.blockWidth = blockWidth;             // dimensions of the quilt
     this.blockHeight = blockHeight;           // color palette for the quilt to render
+
+
+    this.quiltWidth = this.cols * this.blockWidth;
+    this.quiltHeight = this.rows * this.blockHeight;
   }
 }
+
+
+export { Dimensions };

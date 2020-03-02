@@ -6,15 +6,12 @@ import { shuffleArray, getTotalFreq, getRandomWeightedFreq } from '../src/util.j
 // initialize the Quilt SVG element
 function insertQuiltSVG(quilt){
   let {name, spaceNameID, dimensions} = quilt 
-  // console.log(dimensions)
-  let {rows, cols, blockHeight, blockWidth} = dimensions
-  // console.log(blockHeight, blockWidth)
   let quiltSpace = document.getElementById(spaceNameID)
   let quiltSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg")
 
-  quiltSVG.setAttribute("height", blockHeight * rows)
-  quiltSVG.setAttribute("width", blockWidth * cols)
-  quiltSVG.setAttribute("viewbox", `0 0 ${blockHeight * rows} ${blockWidth * cols}`)
+  quiltSVG.setAttribute("height", dimensions.quiltHeight)
+  quiltSVG.setAttribute("width", dimensions.quiltWidth)
+  quiltSVG.setAttribute("viewbox", `0 0 ${dimensions.quiltHeight} ${dimensions.quiltWidth}`)
   quiltSVG.setAttribute("id", name)
 
   quiltSpace.appendChild(quiltSVG)
@@ -45,13 +42,13 @@ function generateBlocks(generator){
   let totalColorFreq = generator.totalColorFreq
   let types = generator.blockTypes
   let totalBlockFreq = generator.totalBlockFreq
-  // console.log(generator)
+  console.log(generator.dimensions)
 
   let blocks = []
 
   // loop through rows and columns to generate quilt blocks
-  for (let r  = 0; r < cols; r++){
-    for (let c = 0; c < rows; c++){
+  for (let r  = 0; r < rows; r++){
+    for (let c = 0; c < cols; c++){
       let startX = c * blockWidth  
       let startY = r * blockHeight
 
