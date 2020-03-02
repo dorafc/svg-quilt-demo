@@ -15,5 +15,4 @@ class Dimensions{
   }
 }
 
-
 export { Dimensions };

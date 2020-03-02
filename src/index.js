@@ -1,18 +1,18 @@
 let blocks;      // random block types in the quilt
 
-import { sampleGenerator } from '../docs/sample.js';
-import { shuffleArray, getTotalFreq, getRandomWeightedFreq } from '../src/util.js'
+import { newQuilt } from '../docs/sample.js';
+import { getRandomWeightedFreq } from '../src/util.js'
 
 // initialize the Quilt SVG element
 function insertQuiltSVG(quilt){
-  let {name, spaceNameID, dimensions} = quilt 
-  let quiltSpace = document.getElementById(spaceNameID)
+  let {quiltID, spaceName, dimensions} = quilt 
+  let quiltSpace = document.getElementById(spaceName)
   let quiltSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg")
 
   quiltSVG.setAttribute("height", dimensions.quiltHeight)
   quiltSVG.setAttribute("width", dimensions.quiltWidth)
   quiltSVG.setAttribute("viewbox", `0 0 ${dimensions.quiltHeight} ${dimensions.quiltWidth}`)
-  quiltSVG.setAttribute("id", name)
+  quiltSVG.setAttribute("id", quiltID)
 
   quiltSpace.appendChild(quiltSVG)
 }
@@ -25,16 +25,6 @@ function renderBlocks(name, blocks){
   })
 }
 
-// generate values for weighting block and color frequencies
-function generateFrequencyTotals(generator){
-  // make sure we create a new generator object
-  let newQuiltGenerator = generator
-  newQuiltGenerator.totalBlockFreq = getTotalFreq(generator.blockTypes)
-  newQuiltGenerator.totalColorFreq = getTotalFreq(generator.colorPalette)
-
-  return newQuiltGenerator
-}
-
 // generate random blocks based off of generator object
 function generateBlocks(generator){
   let { rows, cols, blockWidth, blockHeight } = generator.dimensions
@@ -42,7 +32,6 @@ function generateBlocks(generator){
   let totalColorFreq = generator.totalColorFreq
   let types = generator.blockTypes
   let totalBlockFreq = generator.totalBlockFreq
-  console.log(generator.dimensions)
 
   let blocks = []
 
@@ -74,11 +63,10 @@ function generateBlocks(generator){
     }
   }
 
+  console.log(blocks)
   return blocks;
 }
 
-
-const newQuilt = generateFrequencyTotals(sampleGenerator)
 insertQuiltSVG(newQuilt)
 blocks = generateBlocks(newQuilt)
 renderBlocks("sampleQuilt", blocks)

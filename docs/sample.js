@@ -1,6 +1,6 @@
 import { drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHorizontal } from "../src/drawBlocks.js"
 import { Dimensions } from "../classes/Dimensions.js"
-// import { getTotalFreq } from "../src/util.js"
+import { QuiltSettings } from "../classes/QuiltSettings.js"
 
 // color pallette
 let colors = {
@@ -45,14 +45,8 @@ let blockTypes = {
   }
 }
 
-let testDimensions = new Dimensions(10, 20, 50, 50)
+let testDimensions = new Dimensions(10, 10, 50, 50)
 
-let sampleGenerator = {
-  name : "sampleQuilt",
-  spaceNameID :  "quiltSpace",
-  dimensions : testDimensions,
-  colorPalette : colors,
-  blockTypes : blockTypes,
-}
+let newQuilt = new QuiltSettings("sampleQuilt", "quiltSpace", testDimensions, colors, blockTypes)
 
-export { sampleGenerator };
+export { newQuilt };
