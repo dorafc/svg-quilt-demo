@@ -1,6 +1,14 @@
 import { drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHorizontal } from "../src/drawBlocks.js"
 import { Dimensions } from "../classes/Dimensions.js"
 import { QuiltSettings } from "../classes/QuiltSettings.js"
+import { Color } from "../classes/Color.js"
+import { WeightedList } from "../classes/WeightedList.js"
+
+let hotpink = new Color(1, "hotpink")
+let green = new Color(1, "green")
+let limeGreen = new Color(1, "limegreen")
+let colorList = new WeightedList(hotpink, green, limeGreen)
+colorList.normalizeWeight()
 
 // color pallette
 let colors = {
