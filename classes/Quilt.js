@@ -19,7 +19,8 @@ class Quilt{
     this.insertQuiltSVG()
 
     this.blocks.forEach((block, i) => {
-      block.type.draw(this.quiltID, `quilt${i}`, block.startX, block.startY, block.height, block.width, block.colors)
+      console.log(block)
+      block.draw(this.quiltID, `quilt${i}`, block.startX, block.startY, block.height, block.width, block.colors)
     })
   }
 

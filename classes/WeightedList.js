@@ -11,7 +11,6 @@ class WeightedList{
   selectObj(count, unique){
     let selectionLength = count ? count : 1;            // number of objects selected from the list
     let selected = []                                   // array of selected objects
-    console.log(unique)
 
     // pick correct number of unique objects
     do {

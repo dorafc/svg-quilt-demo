@@ -12,8 +12,6 @@ class QuiltSettings{
     this.colorPalette = colorPalette;         // color palette for the quilt to render
     this.blockTypes = blockTypes              // block types for the quilt
     this.uniqueColor = uniqueColor            // toggle for quilt blocks to include patches of the same color
-
-    this.totalBlockFreq = getTotalFreq(this.blockTypes)
   }
   
   // generate random blocks based off of generator object
@@ -30,11 +28,10 @@ class QuiltSettings{
         let colorPick = this.colorPalette.selectObj(2, this.uniqueColor).map(color => color.fill)
 
         // get random block type
-        let blockType = getRandomWeightedFreq(this.totalBlockFreq, this.blockTypes);
-
+        let blockType = this.blockTypes.selectObj(1, true)[0];
         blocks.push(
           {
-            type : this.blockTypes[blockType[0]],
+            draw : blockType.draw,
             name : `block${r}c${c}`,
             startX : startX,
             startY : startY,
