@@ -27,7 +27,7 @@ class QuiltSettings{
         let startY = r * this.dimensions.blockHeight
 
         // generate two color palette
-        let colorPalette = getRandomWeightedFreq(this.totalColorFreq, this.colorPalette, 2)
+        let colorPick = this.colorPalette.selectObj(2)
 
         // get random block type
         let blockType = getRandomWeightedFreq(this.totalBlockFreq, this.blockTypes);
@@ -40,7 +40,7 @@ class QuiltSettings{
             startY : startY,
             height : this.dimensions.blockHeight,
             width : this.dimensions.blockWidth,
-            colors : colorPalette
+            colors : colorPick
           }
         )
       }

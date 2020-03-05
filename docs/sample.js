@@ -7,28 +7,9 @@ import { WeightedList } from "../classes/WeightedList.js"
 let hotpink = new Color(1, "hotpink")
 let green = new Color(1, "green")
 let limeGreen = new Color(1, "limegreen")
-let colorList = new WeightedList(hotpink, green, limeGreen)
-colorList.normalizeWeight()
+let deeppink = new Color(1, "deeppink")
+let colors = new WeightedList(hotpink, green, limeGreen, deeppink)
 
-// color pallette
-let colors = {
-  "hotpink" : {
-    frequency : 1,
-    fill : "hotpink"
-  },
-  "green" : {
-    frequency : 1,
-    fill : "green"
-  },
-  "limegreen" : {
-    frequency : 1,
-    fill : "limegreen"
-  },
-  "deeppink" : {
-    frequency : 1,
-    fill : "deeppink"
-  }
-}
 
 let blockTypes = {
   solid : {

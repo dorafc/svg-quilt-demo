@@ -5,24 +5,48 @@ List of weighted objects
 class WeightedList{
   constructor(){
     this.list = [...arguments];                         // array of weighted objects
+    this.weights = getNormalizedWeights(this.list)
   }
 
-  normalizeWeight(){
-    // get total weight of list
-    let totalWeight = 0;
+  selectObj(count){
+    let selectionLength = count ? count : 1;
+    let selected = []
 
-    this.list.forEach(obj => {
-      totalWeight += obj.weight
-    })  
+    for (let i = selectionLength; i >= 1; i--){
+      let picked = false;
+      let randomPick = Math.random()
+       this.list.forEach((obj, i) => {
+         if (!picked && randomPick < this.weights[i]){
+           picked = true;
+           selected.push(obj.fill)
+         }
+       })
+    }
 
-    // update weight values and create values for choosing option
-    let selectVal = 0
-    this.list.forEach(obj => {
-      obj.normWeight = obj.weight / totalWeight
-      selectVal += obj.normWeight
-      obj.selectWeightValue = selectVal
-    })
+    console.log(selected)
+    return selected
   }
+}
+
+// return normalized weights as an array
+function getNormalizedWeights(list){
+  let weights = []
+
+  // get total weight of list
+  let totalWeight = 0;
+
+  list.forEach(obj => {
+    totalWeight += obj.weight
+  })  
+
+  // update weight values and create values for choosing option
+  let totalWeightVal = 0;
+  list.forEach(obj => {
+    totalWeightVal += obj.weight / totalWeight
+    weights.push(totalWeightVal)
+  })
+
+  return weights
 }
 
 export { WeightedList };
