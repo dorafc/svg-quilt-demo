@@ -5,15 +5,15 @@ QuiltSettings object contains parameters that a creates a quilt object
 import { getTotalFreq, getRandomWeightedFreq } from '../src/util.js'
 
 class QuiltSettings{
-  constructor(quiltID, spaceNameID, dimensions, colorPalette, blockTypes){
+  constructor(quiltID, spaceNameID, dimensions, colorPalette, blockTypes, uniqueColor){
     this.quiltID = quiltID;                   // unique identifier for the quilt
     this.spaceName = spaceNameID;             // id of the element to append the quilt SVG
     this.dimensions = dimensions;             // dimensions of the quilt
     this.colorPalette = colorPalette;         // color palette for the quilt to render
     this.blockTypes = blockTypes              // block types for the quilt
+    this.uniqueColor = uniqueColor            // toggle for quilt blocks to include patches of the same color
 
     this.totalBlockFreq = getTotalFreq(this.blockTypes)
-    this.totalColorFreq = getTotalFreq(this.colorPalette)
   }
   
   // generate random blocks based off of generator object
@@ -27,7 +27,7 @@ class QuiltSettings{
         let startY = r * this.dimensions.blockHeight
 
         // generate two color palette
-        let colorPick = this.colorPalette.selectObj(2).map(color => color.fill)
+        let colorPick = this.colorPalette.selectObj(2, this.uniqueColor).map(color => color.fill)
 
         // get random block type
         let blockType = getRandomWeightedFreq(this.totalBlockFreq, this.blockTypes);

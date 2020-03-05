@@ -8,9 +8,10 @@ class WeightedList{
     this.weights = getNormalizedWeights(this.list)      // normalized list of weights for selecting values
   }
 
-  selectObj(count){
+  selectObj(count, unique){
     let selectionLength = count ? count : 1;            // number of objects selected from the list
-    let selected = new Set()                            // set of selected objects
+    let selected = []                                   // array of selected objects
+    console.log(unique)
 
     // pick correct number of unique objects
     do {
@@ -18,10 +19,12 @@ class WeightedList{
 
       let pick = this.weights.findIndex(val => randomPick <= val)
       let obj = this.list[pick]
-      selected.add(obj)
-    } while (selected.size < selectionLength)
+      if (!unique || !selected.includes(obj)){
+        selected.push(obj)
+      }
+    } while (selected.length < selectionLength)
 
-    return Array.from(selected.values())
+    return selected
   }
 }
 

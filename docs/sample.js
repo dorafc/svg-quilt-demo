@@ -4,7 +4,10 @@ import { QuiltSettings } from "../classes/QuiltSettings.js"
 import { Color } from "../classes/Color.js"
 import { WeightedList } from "../classes/WeightedList.js"
 
-let hotpink = new Color(3, "hotpink")
+let quiltID = "sampleQuilt"
+let spaceName = "quiltSpace"
+
+let hotpink = new Color(1, "hotpink")
 let green = new Color(1, "green")
 let limeGreen = new Color(1, "limegreen")
 let deeppink = new Color(1, "deeppink")
@@ -37,7 +40,8 @@ let blockTypes = {
 }
 
 let testDimensions = new Dimensions(10, 10, 50, 50)
+let uniqueColor = false
 
-let newQuilt = new QuiltSettings("sampleQuilt", "quiltSpace", testDimensions, colors, blockTypes)
+let newQuilt = new QuiltSettings(quiltID, spaceName, testDimensions, colors, blockTypes, uniqueColor)
 
 export { newQuilt };

@@ -24,6 +24,9 @@ let drawDownTriangle = (quiltID, idName, startX, startY, height, width, colors) 
   trianglePath1.setAttribute("d", `M${startX} ${startY} l0 ${height} l${width} 0 Z`)
   trianglePath2.setAttribute("fill", colors[1])
   trianglePath2.setAttribute("d", `M${startX} ${startY} l${width} 0 l0 ${height} Z`)
+  if (colors[0] === colors[1]){
+    triangleOpacity(trianglePath1, trianglePath2)
+  }
 
   triangleBlock.appendChild(trianglePath1)
   triangleBlock.appendChild(trianglePath2)
@@ -42,6 +45,9 @@ let drawUpTriangle = (quiltID, idName, startX, startY, height, width, colors) =>
   trianglePath1.setAttribute("d", `M${startX} ${startY+height} l${width} 0 l0 ${-height} Z`)
   trianglePath2.setAttribute("fill", colors[1])
   trianglePath2.setAttribute("d", `M${startX} ${startY+height} l0 ${-height} l${width} 0 Z`)
+  if (colors[0] === colors[1]){
+    triangleOpacity(trianglePath1, trianglePath2)
+  }
 
   triangleBlock.appendChild(trianglePath1)
   triangleBlock.appendChild(trianglePath2)
@@ -60,6 +66,9 @@ let drawVertical = (quiltID, idName, startX, startY, height, width, colors) => {
   verticalPath1.setAttribute("d", `M${startX} ${startY} l0 ${height} l${width/2} 0 l0 ${-height} Z`)
   verticalPath2.setAttribute("fill", colors[1])
   verticalPath2.setAttribute("d", `M${startX+(width/2)} ${startY} l0 ${height} l${width/2} 0 l0 ${-height} Z`)
+  if (colors[0] === colors[1]){
+    triangleOpacity(verticalPath1, verticalPath2)
+  }
 
   verticalBlock.appendChild(verticalPath1)
   verticalBlock.appendChild(verticalPath2)
@@ -68,6 +77,7 @@ let drawVertical = (quiltID, idName, startX, startY, height, width, colors) => {
 
 // create a quilt block with a horizontal seam
 let drawHorizontal = (quiltID, idName, startX, startY, height, width, colors) => {
+  
   let quilt = document.getElementById(quiltID)
   let horizontalBlock = document.createElementNS("http://www.w3.org/2000/svg", "g")
   let horizontalPath1 = document.createElementNS("http://www.w3.org/2000/svg", "path")
@@ -78,10 +88,22 @@ let drawHorizontal = (quiltID, idName, startX, startY, height, width, colors) =>
   horizontalPath1.setAttribute("d", `M${startX} ${startY} l0 ${height/2} l${width} 0 l0 ${-height/2} Z`)
   horizontalPath2.setAttribute("fill", colors[1])
   horizontalPath2.setAttribute("d", `M${startX} ${startY+(height/2)} l0 ${height/2} l${width} 0 l0 ${-height/2} Z`)
+  if (colors[0] === colors[1]){
+    triangleOpacity(horizontalPath1, horizontalPath2)
+  }
 
   horizontalBlock.appendChild(horizontalPath1)
   horizontalBlock.appendChild(horizontalPath2)
   quilt.appendChild(horizontalBlock)
+}
+
+function triangleOpacity(path1, path2){
+  let randNum = Math.random()
+  if (randNum > .5){
+    path1.setAttribute("opacity", .9)
+  } else {
+    path2.setAttribute("opacity", .9)
+  }
 }
 
 export { drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHorizontal }
