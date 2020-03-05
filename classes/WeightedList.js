@@ -5,26 +5,23 @@ List of weighted objects
 class WeightedList{
   constructor(){
     this.list = [...arguments];                         // array of weighted objects
-    this.weights = getNormalizedWeights(this.list)
+    this.weights = getNormalizedWeights(this.list)      // normalized list of weights for selecting values
   }
 
   selectObj(count){
-    let selectionLength = count ? count : 1;
-    let selected = []
+    let selectionLength = count ? count : 1;            // number of objects selected from the list
+    let selected = new Set()                            // set of selected objects
 
-    for (let i = selectionLength; i >= 1; i--){
-      let picked = false;
-      let randomPick = Math.random()
-       this.list.forEach((obj, i) => {
-         if (!picked && randomPick < this.weights[i]){
-           picked = true;
-           selected.push(obj.fill)
-         }
-       })
-    }
+    // pick correct number of unique objects
+    do {
+      let randomPick = Math.random()                    // pick a random number
 
-    console.log(selected)
-    return selected
+      let pick = this.weights.findIndex(val => randomPick <= val)
+      let obj = this.list[pick]
+      selected.add(obj)
+    } while (selected.size < selectionLength)
+
+    return Array.from(selected.values())
   }
 }
 

@@ -4,11 +4,13 @@ import { QuiltSettings } from "../classes/QuiltSettings.js"
 import { Color } from "../classes/Color.js"
 import { WeightedList } from "../classes/WeightedList.js"
 
-let hotpink = new Color(1, "hotpink")
+let hotpink = new Color(3, "hotpink")
 let green = new Color(1, "green")
 let limeGreen = new Color(1, "limegreen")
 let deeppink = new Color(1, "deeppink")
-let colors = new WeightedList(hotpink, green, limeGreen, deeppink)
+let teal = new Color(1, "teal")
+let yellow = new Color(1, "yellow")
+let colors = new WeightedList(hotpink, green, limeGreen, deeppink, teal, yellow)
 
 
 let blockTypes = {
