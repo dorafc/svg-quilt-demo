@@ -3,7 +3,7 @@ import { Dimensions } from "../classes/Dimensions.js"
 import { QuiltSettings } from "../classes/QuiltSettings.js"
 import { Color } from "../classes/Color.js"
 import { WeightedList } from "../classes/WeightedList.js"
-import { Block } from "../classes/Blocks.js"
+import { BlockOptions } from "../classes/BlockOptions.js"
 
 let quiltID = "sampleQuilt"
 let spaceName = "quiltSpace"
@@ -19,12 +19,12 @@ let yellow = new Color(1, "yellow")
 let colors = new WeightedList(hotpink, green, limeGreen, deeppink, teal, yellow)
 
 // blocks
-let solid = new Block(1, drawSolid)
-let upTriangle = new Block(1, drawUpTriangle)
-let downTriangle = new Block(1, drawDownTriangle)
-let vertical = new Block(1, drawVertical)
-let horizontal = new Block(1, drawHorizontal)
-let blocks = new WeightedList(solid, upTriangle, downTriangle, vertical, horizontal)
+let solid = new BlockOptions(1, drawSolid)
+let upTriangle = new BlockOptions(1, drawUpTriangle)
+let downTriangle = new BlockOptions(1, drawDownTriangle)
+let vertical = new BlockOptions(1, drawVertical)
+let horizontal = new BlockOptions(1, drawHorizontal)
+let blocks = new WeightedList(solid, upTriangle, downTriangle)
 
 let uniqueColor = true
 
