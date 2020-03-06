@@ -3,6 +3,7 @@ QuiltSettings object contains parameters that a creates a quilt object
 -------*/
 
 import { getTotalFreq, getRandomWeightedFreq } from '../src/util.js'
+import { BlockRender } from './BlockRender.js';
 
 class QuiltSettings{
   constructor(quiltID, spaceNameID, dimensions, colorPalette, blockTypes, uniqueColor){
@@ -29,16 +30,14 @@ class QuiltSettings{
 
         // get random block type
         let blockType = this.blockTypes.selectObj(1, true)[0];
-        blocks.push(
-          {
-            draw : blockType.draw,
-            name : `block${r}c${c}`,
-            startX : startX,
-            startY : startY,
-            height : this.dimensions.blockHeight,
-            width : this.dimensions.blockWidth,
-            colors : colorPick
-          }
+        blocks.push( new BlockRender(blockType.draw,
+                                     `block${r}c${c}`,
+                                     startX,
+                                     startY,
+                                     this.dimensions.blockHeight,
+                                     this.dimensions.blockWidth,
+                                     colorPick
+                                    )
         )
       }
     }
