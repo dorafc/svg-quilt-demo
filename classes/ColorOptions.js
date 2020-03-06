@@ -1,14 +1,14 @@
 /*-------
-Color object contains a weight and fill
+ColorOptions object contains a weight and fill
 -------*/
 
-import { WeightedObject } from "../classes/WeightedObject.js"
+import { WeightedObject } from "./WeightedObject.js"
 
-class Color extends WeightedObject{
+class ColorOptions extends WeightedObject{
   constructor(weight, fill){
     super(weight);                         // likelihood that an object will be randomly selected
     this.fill = fill
   }
 }
 
-export { Color };
+export { ColorOptions };
