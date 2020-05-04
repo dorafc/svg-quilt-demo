@@ -16,6 +16,7 @@ let limeGreen = new ColorOptions(1, "limegreen")
 let deeppink = new ColorOptions(1, "deeppink")
 let teal = new ColorOptions(1, "teal")
 let yellow = new ColorOptions(1, "yellow")
+// let background = new ColorOptions(140, "lightgrey")
 let colors = new WeightedList(hotpink, green, limeGreen, deeppink, teal, yellow)
 
 // blocks
