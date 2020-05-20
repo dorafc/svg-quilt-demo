@@ -29,6 +29,9 @@ let blocks = new WeightedList(solid, upTriangle, downTriangle)
 
 let uniqueColor = true
 
-let newQuilt = new QuiltSettings(quiltID, spaceName, testDimensions, colors, blocks, uniqueColor)
+// match edges?
+let matchEdges = true
+
+let newQuilt = new QuiltSettings(quiltID, spaceName, testDimensions, colors, blocks, uniqueColor, matchEdges)
 
 export { newQuilt };

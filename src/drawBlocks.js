@@ -1,3 +1,5 @@
+import { EdgePattern } from "../classes/EdgePattern.js"
+
 // create a solid color block
 let drawSolid = (quiltID, idName, startX, startY, height, width, colors) => {
   let quilt = document.getElementById(quiltID)
@@ -106,4 +108,11 @@ function triangleOpacity(path1, path2){
   }
 }
 
-export { drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHorizontal }
+let blockEdgePatterns = {
+  "drawSolid" : new EdgePattern('A', 'A', 'A', 'A'),
+  "drawDownTriangle" : new EdgePattern('A', 'A', 'B', 'B'),
+  "drawUpTriangle" : new EdgePattern('A', 'B', 'B', 'A'),
+  "drawHourglass" : new EdgePattern('A', 'B', 'A', 'B') // to implement
+}
+
+export { drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHorizontal, blockEdgePatterns }
