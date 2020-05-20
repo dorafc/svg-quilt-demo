@@ -6,7 +6,10 @@ const options = ['A', 'B', 'C', 'D']
 
 class EdgePattern{
   constructor(){
-    if (arguments.length === 4){
+    if (arguments.length === 0){
+      [this.top, this.right, this.bottom, this.left] = [0, 0, 0, 0]
+    }
+    else if (arguments.length === 4){
       // create EdgePattern object from parameters
       [this.top, this.right, this.bottom, this.left] = arguments
     } else if (arguments[0].length === 4){

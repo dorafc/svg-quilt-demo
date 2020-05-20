@@ -3,7 +3,9 @@ QuiltSettings object contains parameters that a creates a quilt object
 -------*/
 
 import { getTotalFreq, getRandomWeightedFreq } from '../src/util.js'
+import { blockEdgePatterns } from '../src/drawBlocks.js'
 import { BlockRender } from './BlockRender.js';
+import { EdgePattern } from './EdgePattern.js';
 
 class QuiltSettings{
   constructor(quiltID, spaceNameID, dimensions, colorPalette, blockTypes, uniqueColor, matchEdges){
@@ -19,11 +21,19 @@ class QuiltSettings{
   // generate random blocks based off of generator object
   generateBlocks(){
     let blocks = []
+    let edges = {}
 
     // set up data for matching edges
     if (this.matchEdges){
       console.log("edge match time!")
+      for (let r  = 0; r < this.dimensions.rows; r++){
+        for (let c = 0; c < this.dimensions.cols; c++){
+          edges[`row${r}col${c}`] = new EdgePattern()
+        }
+      }
+      console.log(edges)
     }
+
 
     // loop through rows and columns to generate quilt blocks
     for (let r  = 0; r < this.dimensions.rows; r++){
@@ -36,7 +46,7 @@ class QuiltSettings{
 
         // get random block type
         let blockType = this.blockTypes.selectObj(1, true)[0];
-        // console.log(blockType.draw.name)
+        // console.log(blockEdgePatterns[blockType.draw.name])
         blocks.push( new BlockRender(blockType.draw,
                                      `block${r}c${c}`,
                                      startX,
