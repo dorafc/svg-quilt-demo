@@ -21,24 +21,38 @@ class QuiltSettings{
   // generate random blocks based off of generator object
   generateBlocks(){
     let blocks = []
-    let edges = {}
 
     // set up data for matching edges
     if (this.matchEdges){
-      console.log("edge match time!")
+      let edges = {}
+      let blockQueue = []
+      let renderedBlocks = new Set()
+
+      // initialize edges
       for (let r  = 0; r < this.dimensions.rows; r++){
         for (let c = 0; c < this.dimensions.cols; c++){
           edges[`row${r}col${c}`] = new EdgePattern()
         }
       }
-    }
+
+      // generate random start block
+      const startRow = Math.floor(Math.random() * this.dimensions.rows)
+      const startCol = Math.floor(Math.random() * this.dimensions.cols)
+
+      //add to queue
+      blockQueue.push({
+        r : startRow,
+        c : startCol,
+        startX : startCol * this.dimensions.blockWidth,
+        startY : startRow * this.dimensions.blockHeight
+      })
+      //add block to rendered set
+      renderedBlocks.add(startRow + ', ' + startCol)
 
 
-    // loop through rows and columns to generate quilt blocks
-    for (let r  = 0; r < this.dimensions.rows; r++){
-      for (let c = 0; c < this.dimensions.cols; c++){
-        let startX = c * this.dimensions.blockWidth  
-        let startY = r * this.dimensions.blockHeight
+      // go through to push to blocks / generate pattern
+      do {
+        let currBlock = blockQueue.shift()
 
         // generate two color palette
         let colorPick = this.colorPalette.selectObj(2, this.uniqueColor).map(color => color.fill)
@@ -47,21 +61,112 @@ class QuiltSettings{
         let blockType = this.blockTypes.selectObj(1, true)[0];
 
         // update edge map
-        edges[`row${r}col${c}`] = blockEdgePatterns[blockType.draw.name]
-        edges[`row${r}col${c}`].setEdgeColors(colorPick)
+        edges[`row${currBlock.r}col${currBlock.c}`] = blockEdgePatterns[blockType.draw.name]
+        edges[`row${currBlock.r}col${currBlock.c}`].setEdgeColors(colorPick)
 
-        // console.log(`row${r}col${c}`,  edges[`row${r}col${c}`])
-        console.log(`row${r}col${c}`,  edges[`row${r}col${c}`].getTopColor())
-
+        // console.log(`row${startRow}col${startCol}`,  edges[`row${startRow}col${startCol}`].getTopColor())
         blocks.push( new BlockRender(blockType.draw,
-                                     `block${r}c${c}`,
-                                     startX,
-                                     startY,
-                                     this.dimensions.blockHeight,
-                                     this.dimensions.blockWidth,
-                                     colorPick
-                                    )
+          `block${currBlock.r}c${currBlock.c}`,
+          currBlock.startX,
+          currBlock.startY,
+          this.dimensions.blockHeight,
+          this.dimensions.blockWidth,
+          colorPick
+          )
         )
+
+        // add neighbors to queue, update edge pattern
+        // block above
+        if (currBlock.r - 1 >= 0 && !renderedBlocks.has(currBlock.r - 1 + ', ' + currBlock.c)){
+          blockQueue.push({
+            r : currBlock.r - 1,
+            c : currBlock.c,
+            startX : currBlock.startX,
+            startY : currBlock.startY - this.dimensions.blockHeight
+          })
+
+          //add block to rendered set
+          renderedBlocks.add(currBlock.r - 1 + ', ' + currBlock.c)
+        }
+
+        // block below
+        if (currBlock.r + 1 < this.dimensions.rows && !renderedBlocks.has(currBlock.r + 1 + ', ' + currBlock.c)){
+          blockQueue.push({
+            r : currBlock.r + 1,
+            c : currBlock.c,
+            startX : currBlock.startX,
+            startY : currBlock.startY + this.dimensions.blockHeight
+          })
+
+          //add block to rendered set
+          renderedBlocks.add(currBlock.r + 1 + ', ' + currBlock.c)
+        }
+        // block above
+        if (currBlock.r - 1 >= 0 && !renderedBlocks.has(currBlock.r - 1 + ', ' + currBlock.c)){
+          blockQueue.push({
+            r : currBlock.r - 1,
+            c : currBlock.c,
+            startX : currBlock.startX,
+            startY : currBlock.startY - this.dimensions.blockHeight
+          })
+
+          //add block to rendered set
+          renderedBlocks.add(currBlock.r - 1 + ', ' + currBlock.c)
+        }
+
+        // block right
+        if (currBlock.c + 1 < this.dimensions.cols && !renderedBlocks.has(currBlock.r + ', ' + (currBlock.c + 1))){
+          blockQueue.push({
+            r : currBlock.r,
+            c : currBlock.c+1,
+            startX : currBlock.startX + this.dimensions.blockWidth,
+            startY : currBlock.startY
+          })
+
+          //add block to rendered set
+          renderedBlocks.add(currBlock.r + ', ' + (currBlock.c+1))
+        }
+
+        // block left
+        if (currBlock.c - 1 >= 0 && !renderedBlocks.has(currBlock.r + ', ' + (currBlock.c - 1))){
+          blockQueue.push({
+            r : currBlock.r,
+            c : currBlock.c-1,
+            startX : currBlock.startX - this.dimensions.blockWidth,
+            startY : currBlock.startY
+          })
+
+          //add block to rendered set
+          renderedBlocks.add(currBlock.r + ', ' + (currBlock.c-1))
+        }
+
+      } while (blockQueue.length > 0)
+    }
+
+    // generate blocks without matching edges
+    else {
+      // loop through rows and columns to generate quilt blocks
+      for (let r  = 0; r < this.dimensions.rows; r++){
+        for (let c = 0; c < this.dimensions.cols; c++){
+          let startX = c * this.dimensions.blockWidth  
+          let startY = r * this.dimensions.blockHeight
+
+          // generate two color palette
+          let colorPick = this.colorPalette.selectObj(2, this.uniqueColor).map(color => color.fill)
+
+          // get random block type
+          let blockType = this.blockTypes.selectObj(1, true)[0];
+
+          blocks.push( new BlockRender(blockType.draw,
+                                      `block${r}c${c}`,
+                                      startX,
+                                      startY,
+                                      this.dimensions.blockHeight,
+                                      this.dimensions.blockWidth,
+                                      colorPick
+                                      )
+          )
+        }
       }
     }
 
