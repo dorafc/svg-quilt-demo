@@ -49,13 +49,39 @@ class QuiltSettings{
       //add block to rendered set
       renderedBlocks.add(startRow + ', ' + startCol)
 
-
       // go through to push to blocks / generate pattern
       do {
         let currBlock = blockQueue.shift()
 
+        // get edge colors
+        let top = 0, right = 0, bottom = 0, left = 0
+        if (currBlock.r - 1 >= 0){
+          top = edges[`row${currBlock.r-1}col${currBlock.c}`].getBottomColor()
+        }
+        if (currBlock.c + 1 < this.dimensions.cols){
+          right = edges[`row${currBlock.r}col${currBlock.c+1}`].getLeftColor()
+        }
+        if (currBlock.r + 1 < this.dimensions.rows){
+          bottom = edges[`row${currBlock.r+1}col${currBlock.c}`].getTopColor()
+        }
+        if (currBlock.c - 1 >= 0){
+          left = edges[`row${currBlock.r}col${currBlock.c-1}`].getRightColor()
+        }
+        let currEdge = new EdgePattern(top, right, bottom, left)
+        currEdge.setEdgeColors([top, right, bottom, left])
+        console.log(currEdge)
+
         // generate two color palette
-        let colorPick = this.colorPalette.selectObj(2, this.uniqueColor).map(color => color.fill)
+        let colorPick
+        if (currEdge.colors.length === 0){
+          colorPick = this.colorPalette.selectObj(2, this.uniqueColor).map(color => color.fill)
+        } else if (currEdge.colors.length === 1){
+          // need to update weights to not pick color already in palette
+          colorPick=this.colorPalette.selectObj(1, this.uniqueColor).map(color => color.fill)
+          colorPick.push(currEdge.colors[0])
+        } else {
+          colorPick = currEdge.colors
+        }        
 
         // get random block type
         let blockType = this.blockTypes.selectObj(1, true)[0];
@@ -64,7 +90,6 @@ class QuiltSettings{
         edges[`row${currBlock.r}col${currBlock.c}`] = blockEdgePatterns[blockType.draw.name]
         edges[`row${currBlock.r}col${currBlock.c}`].setEdgeColors(colorPick)
 
-        // console.log(`row${startRow}col${startCol}`,  edges[`row${startRow}col${startCol}`].getTopColor())
         blocks.push( new BlockRender(blockType.draw,
           `block${currBlock.r}c${currBlock.c}`,
           currBlock.startX,
@@ -100,18 +125,6 @@ class QuiltSettings{
 
           //add block to rendered set
           renderedBlocks.add(currBlock.r + 1 + ', ' + currBlock.c)
-        }
-        // block above
-        if (currBlock.r - 1 >= 0 && !renderedBlocks.has(currBlock.r - 1 + ', ' + currBlock.c)){
-          blockQueue.push({
-            r : currBlock.r - 1,
-            c : currBlock.c,
-            startX : currBlock.startX,
-            startY : currBlock.startY - this.dimensions.blockHeight
-          })
-
-          //add block to rendered set
-          renderedBlocks.add(currBlock.r - 1 + ', ' + currBlock.c)
         }
 
         // block right

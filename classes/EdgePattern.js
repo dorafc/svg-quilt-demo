@@ -43,7 +43,7 @@ class EdgePattern{
 
   // set edge colors
   setEdgeColors(colors){
-    this.colors = colors
+   this.colors = colors.filter(color => color != 0)
   }
 
   getColor(side){
