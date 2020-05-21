@@ -1,4 +1,4 @@
-import { EdgePattern } from "../classes/EdgePattern.js"
+import { EdgePattern } from "./EdgePattern.js"
 
 // create a solid color block
 let drawSolid = (quiltID, idName, startX, startY, height, width, colors) => {

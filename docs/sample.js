@@ -1,4 +1,4 @@
-import { drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHorizontal } from "../src/drawBlocks.js"
+import { drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHorizontal } from "../classes/drawBlocks.js"
 import { Dimensions } from "../classes/Dimensions.js"
 import { QuiltSettings } from "../classes/QuiltSettings.js"
 import { ColorOptions } from "../classes/ColorOptions.js"

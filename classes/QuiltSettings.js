@@ -3,7 +3,7 @@ QuiltSettings object contains parameters that a creates a quilt object
 -------*/
 
 import { getTotalFreq, getRandomWeightedFreq } from '../src/util.js'
-import { blockEdgePatterns } from '../src/drawBlocks.js'
+import { blockEdgePatterns } from './drawBlocks.js'
 import { BlockRender } from './BlockRender.js';
 import { EdgePattern } from './EdgePattern.js';
 
@@ -72,16 +72,7 @@ class QuiltSettings{
         console.log(currEdge)
 
         // generate two color palette
-        let colorPick
-        if (currEdge.colors.length === 0){
-          colorPick = this.colorPalette.selectObj(2, this.uniqueColor).map(color => color.fill)
-        } else if (currEdge.colors.length === 1){
-          // need to update weights to not pick color already in palette
-          colorPick=this.colorPalette.selectObj(1, this.uniqueColor).map(color => color.fill)
-          colorPick.push(currEdge.colors[0])
-        } else {
-          colorPick = currEdge.colors
-        }        
+        let colorPick = this.colorPalette.selectObj(2, this.uniqueColor).map(color => color.fill)        
 
         // get random block type
         let blockType = this.blockTypes.selectObj(1, true)[0];
