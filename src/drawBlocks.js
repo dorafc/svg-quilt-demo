@@ -23,9 +23,10 @@ let drawDownTriangle = (quiltID, idName, startX, startY, height, width, colors) 
 
   triangleBlock.setAttribute("id", idName)
   trianglePath1.setAttribute("fill", colors[0])
-  trianglePath1.setAttribute("d", `M${startX} ${startY} l0 ${height} l${width} 0 Z`)
+  trianglePath1.setAttribute("d", `M${startX} ${startY} l${width} 0 l0 ${height} Z`)
   trianglePath2.setAttribute("fill", colors[1])
-  trianglePath2.setAttribute("d", `M${startX} ${startY} l${width} 0 l0 ${height} Z`)
+  trianglePath2.setAttribute("d", `M${startX} ${startY} l0 ${height} l${width} 0 Z`)
+  
   if (colors[0] === colors[1]){
     triangleOpacity(trianglePath1, trianglePath2)
   }
@@ -44,9 +45,10 @@ let drawUpTriangle = (quiltID, idName, startX, startY, height, width, colors) =>
 
   triangleBlock.setAttribute("id", idName)
   trianglePath1.setAttribute("fill", colors[0])
-  trianglePath1.setAttribute("d", `M${startX} ${startY+height} l${width} 0 l0 ${-height} Z`)
+  trianglePath1.setAttribute("d", `M${startX} ${startY+height} l0 ${-height} l${width} 0 Z`)
   trianglePath2.setAttribute("fill", colors[1])
-  trianglePath2.setAttribute("d", `M${startX} ${startY+height} l0 ${-height} l${width} 0 Z`)
+  trianglePath2.setAttribute("d", `M${startX} ${startY+height} l${width} 0 l0 ${-height} Z`)
+  
   if (colors[0] === colors[1]){
     triangleOpacity(trianglePath1, trianglePath2)
   }

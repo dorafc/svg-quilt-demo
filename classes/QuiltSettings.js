@@ -31,7 +31,6 @@ class QuiltSettings{
           edges[`row${r}col${c}`] = new EdgePattern()
         }
       }
-      console.log(edges)
     }
 
 
@@ -46,7 +45,14 @@ class QuiltSettings{
 
         // get random block type
         let blockType = this.blockTypes.selectObj(1, true)[0];
-        // console.log(blockEdgePatterns[blockType.draw.name])
+
+        // update edge map
+        edges[`row${r}col${c}`] = blockEdgePatterns[blockType.draw.name]
+        edges[`row${r}col${c}`].setEdgeColors(colorPick)
+
+        // console.log(`row${r}col${c}`,  edges[`row${r}col${c}`])
+        console.log(`row${r}col${c}`,  edges[`row${r}col${c}`].getTopColor())
+
         blocks.push( new BlockRender(blockType.draw,
                                      `block${r}c${c}`,
                                      startX,

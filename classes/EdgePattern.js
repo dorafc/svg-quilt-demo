@@ -45,5 +45,32 @@ class EdgePattern{
   setEdgeColors(colors){
     this.colors = colors
   }
+
+  getColor(side){
+    
+    const optIndex = options.indexOf(this[side])
+    console.log(optIndex, this.colors)
+    if (optIndex === -1 || !this.colors){
+      return 0
+    } else {
+      return this.colors[optIndex]
+    }
+  }
+
+  getTopColor(){
+    return this.getColor("top")
+  }
+
+  getRightColor(){
+    return this.getColor("right")
+  }
+
+  getBottomColor(){
+    return this.getColor("bottom")
+  }
+
+  getLeftColor(){
+    return this.getColor("left")
+  }
 }
 export { EdgePattern };
