@@ -11,7 +11,7 @@ class EdgePattern{
     }
     else if (arguments.length === 4){
       // create EdgePattern object from parameters
-      [this.top, this.right, this.bottom, this.left] = arguments
+      [this.top, this.right, this.bottom, this.left] = this.generateEdgePattern([arguments[0], arguments[1], arguments[2], arguments[3]])
     } else if (arguments[0].length === 4){
       // generate edge pattern object from a partially known edge fills
       [this.top, this.right, this.bottom, this.left] = this.generateEdgePattern(arguments[0])
@@ -39,6 +39,11 @@ class EdgePattern{
       }
     })
     return pattern
+  }
+
+  // set edge colors
+  setEdgeColors(colors){
+    this.colors = colors
   }
 }
 export { EdgePattern };
