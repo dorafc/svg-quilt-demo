@@ -100,13 +100,4 @@ let drawHourglass =  (quiltID, idName, startX, startY, height, width, colors) =>
   return drawBlock([colors[0], colors[1], colors[0], colors[1]], startX, startY, height, width)
 }
 
-function triangleOpacity(path1, path2){
-  let randNum = Math.random()
-  if (randNum > .5){
-    path1.setAttribute("opacity", .9)
-  } else {
-    path2.setAttribute("opacity", .9)
-  }
-}
-
 export { drawBlock, drawSolid, drawDownTriangle, drawUpTriangle, drawHourglass }
