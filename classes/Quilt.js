@@ -19,21 +19,22 @@ class Quilt{
     this.insertQuiltSVG()
 
     this.blocks.forEach((block, i) => {
-      block.draw(this.quiltID, `quilt${i}`, block.startX, block.startY, block.height, block.width, block.colors)
+      let blockGroup = block.draw(this.quiltID, `quilt${i}`, block.startX, block.startY, block.height, block.width, block.colors)
+      this.quiltSVG.appendChild(blockGroup)
     })
   }
 
   // initialize the Quilt SVG element
   insertQuiltSVG(){
-    let quiltSpace = document.getElementById(this.spaceName)
-    let quiltSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+    this.quiltSpace = document.getElementById(this.spaceName)
+    this.quiltSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg")
 
-    quiltSVG.setAttribute("height", this.dimensions.quiltHeight)
-    quiltSVG.setAttribute("width", this.dimensions.quiltWidth)
-    quiltSVG.setAttribute("viewbox", `0 0 ${this.dimensions.quiltHeight} ${this.dimensions.quiltWidth}`)
-    quiltSVG.setAttribute("id", this.quiltID)
+    this.quiltSVG.setAttribute("height", this.dimensions.quiltHeight)
+    this.quiltSVG.setAttribute("width", this.dimensions.quiltWidth)
+    this.quiltSVG.setAttribute("viewbox", `0 0 ${this.dimensions.quiltHeight} ${this.dimensions.quiltWidth}`)
+    this.quiltSVG.setAttribute("id", this.quiltID)
 
-    quiltSpace.appendChild(quiltSVG)
+    this.quiltSpace.appendChild(this.quiltSVG)
   }
 }
 

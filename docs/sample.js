@@ -1,4 +1,4 @@
-import { drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHourglass, drawHorizontal } from "../classes/drawBlocks.js"
+import { drawSolid, drawDownTriangle, drawUpTriangle, drawHourglass } from "../classes/drawBlocks.js"
 import { Dimensions } from "../classes/Dimensions.js"
 import { QuiltSettings } from "../classes/QuiltSettings.js"
 import { ColorOptions } from "../classes/ColorOptions.js"
@@ -24,8 +24,6 @@ let solid = new BlockOptions(1, drawSolid)
 let upTriangle = new BlockOptions(1, drawUpTriangle)
 let downTriangle = new BlockOptions(1, drawDownTriangle)
 let hourglass = new BlockOptions(1, drawHourglass)
-let vertical = new BlockOptions(1, drawVertical)
-let horizontal = new BlockOptions(1, drawHorizontal)
 let blocks = new WeightedList(solid, upTriangle, downTriangle, hourglass)
 
 let uniqueColor = true

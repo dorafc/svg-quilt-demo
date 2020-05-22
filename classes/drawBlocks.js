@@ -80,16 +80,12 @@ let drawBlock = (edges, startX, startY, height, width) => {
 
 // create a solid color block
 let drawSolid = (quiltID, idName, startX, startY, height, width, colors) => {
-  let quilt = document.getElementById(quiltID)
-  let solidBlock = drawBlock([colors[0], colors[0], colors[0], colors[0]], startX, startY, height, width)
-  quilt.appendChild(solidBlock)
+  return drawBlock([colors[0], colors[0], colors[0], colors[0]], startX, startY, height, width)
 }
 
 // create a triangle quilt block with diagonal line going down from orgin
 let drawDownTriangle = (quiltID, idName, startX, startY, height, width, colors) => {
-  let quilt = document.getElementById(quiltID)
-  let triangleBlock = drawBlock([colors[0], colors[0], colors[1], colors[1]], startX, startY, height, width)
-  quilt.appendChild(triangleBlock)
+  return drawBlock([colors[0], colors[0], colors[1], colors[1]], startX, startY, height, width)
 }
 
 // create a triangle quilt block with diagonal line going up from orgin
@@ -97,59 +93,11 @@ let drawUpTriangle = (quiltID, idName, startX, startY, height, width, colors) =>
   // if (colors[0] === colors[1]){
   //   triangleOpacity(trianglePath1, trianglePath2)
   // }
-
-  let quilt = document.getElementById(quiltID)
-  let triangleBlock = drawBlock([colors[0], colors[1], colors[1], colors[0]], startX, startY, height, width)
-  quilt.appendChild(triangleBlock)
+  return drawBlock([colors[0], colors[1], colors[1], colors[0]], startX, startY, height, width)
 }
 
 let drawHourglass =  (quiltID, idName, startX, startY, height, width, colors) => {
-  let quilt = document.getElementById(quiltID)
-  let hourBlock = drawBlock([colors[0], colors[1], colors[0], colors[1]], startX, startY, height, width)
-  quilt.appendChild(hourBlock)
-}
-
-// create a quilt block with a vertical seam
-let drawVertical = (quiltID, idName, startX, startY, height, width, colors) => {
-  let quilt = document.getElementById(quiltID)
-  let verticalBlock = document.createElementNS("http://www.w3.org/2000/svg", "g")
-  let verticalPath1 = document.createElementNS("http://www.w3.org/2000/svg", "path")
-  let verticalPath2 = document.createElementNS("http://www.w3.org/2000/svg", "path")
-
-  verticalBlock.setAttribute("id", idName)
-  verticalPath1.setAttribute("fill", colors[0])
-  verticalPath1.setAttribute("d", `M${startX} ${startY} l0 ${height} l${width/2} 0 l0 ${-height} Z`)
-  verticalPath2.setAttribute("fill", colors[1])
-  verticalPath2.setAttribute("d", `M${startX+(width/2)} ${startY} l0 ${height} l${width/2} 0 l0 ${-height} Z`)
-  if (colors[0] === colors[1]){
-    triangleOpacity(verticalPath1, verticalPath2)
-  }
-
-  verticalBlock.appendChild(verticalPath1)
-  verticalBlock.appendChild(verticalPath2)
-  quilt.appendChild(verticalBlock)
-}
-
-// create a quilt block with a horizontal seam
-let drawHorizontal = (quiltID, idName, startX, startY, height, width, colors) => {
-  
-  let quilt = document.getElementById(quiltID)
-  let horizontalBlock = document.createElementNS("http://www.w3.org/2000/svg", "g")
-  let horizontalPath1 = document.createElementNS("http://www.w3.org/2000/svg", "path")
-  let horizontalPath2 = document.createElementNS("http://www.w3.org/2000/svg", "path")
-
-  horizontalBlock.setAttribute("id", idName)
-  horizontalPath1.setAttribute("fill", colors[0])
-  horizontalPath1.setAttribute("d", `M${startX} ${startY} l0 ${height/2} l${width} 0 l0 ${-height/2} Z`)
-  horizontalPath2.setAttribute("fill", colors[1])
-  horizontalPath2.setAttribute("d", `M${startX} ${startY+(height/2)} l0 ${height/2} l${width} 0 l0 ${-height/2} Z`)
-  if (colors[0] === colors[1]){
-    triangleOpacity(horizontalPath1, horizontalPath2)
-  }
-
-  horizontalBlock.appendChild(horizontalPath1)
-  horizontalBlock.appendChild(horizontalPath2)
-  quilt.appendChild(horizontalBlock)
+  return drawBlock([colors[0], colors[1], colors[0], colors[1]], startX, startY, height, width)
 }
 
 function triangleOpacity(path1, path2){
@@ -161,4 +109,4 @@ function triangleOpacity(path1, path2){
   }
 }
 
-export { drawBlock, drawSolid, drawDownTriangle, drawUpTriangle, drawHourglass, drawVertical, drawHorizontal }
+export { drawBlock, drawSolid, drawDownTriangle, drawUpTriangle, drawHourglass }
