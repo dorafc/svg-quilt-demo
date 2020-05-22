@@ -3,7 +3,6 @@ QuiltSettings object contains parameters that a creates a quilt object
 -------*/
 
 import { getTotalFreq, getRandomWeightedFreq } from '../src/util.js'
-import { blockEdgePatterns } from './drawBlocks.js'
 import { BlockRender } from './BlockRender.js';
 import { EdgePattern } from './EdgePattern.js';
 
@@ -77,8 +76,8 @@ class QuiltSettings{
         let blockType = this.blockTypes.selectObj(1, true)[0];
 
         // update edge map
-        edges[`row${currBlock.r}col${currBlock.c}`] = blockEdgePatterns[blockType.draw.name]
-        edges[`row${currBlock.r}col${currBlock.c}`].setEdgeColors(colorPick)
+        // edges[`row${currBlock.r}col${currBlock.c}`] = blockEdgePatterns[blockType.draw.name]
+        // edges[`row${currBlock.r}col${currBlock.c}`].setEdgeColors(colorPick)
 
         blocks.push( new BlockRender(blockType.draw,
           `block${currBlock.r}c${currBlock.c}`,

@@ -161,11 +161,4 @@ function triangleOpacity(path1, path2){
   }
 }
 
-let blockEdgePatterns = {
-  "drawSolid" : new EdgePattern('A', 'A', 'A', 'A'),
-  "drawDownTriangle" : new EdgePattern('A', 'A', 'B', 'B'),
-  "drawUpTriangle" : new EdgePattern('A', 'B', 'B', 'A'),
-  "drawHourglass" : new EdgePattern('A', 'B', 'A', 'B') // to implement
-}
-
-export { drawBlock, drawSolid, drawDownTriangle, drawUpTriangle, drawHourglass, drawVertical, drawHorizontal, blockEdgePatterns }
+export { drawBlock, drawSolid, drawDownTriangle, drawUpTriangle, drawHourglass, drawVertical, drawHorizontal }
