@@ -20,17 +20,15 @@ let yellow = new ColorOptions(1, "yellow")
 let colors = new WeightedList(hotpink, green, limeGreen, deeppink, teal, yellow)
 
 // blocks
-let solid = new BlockOptions(1, drawSolid)
+let solid = new BlockOptions(0, drawSolid)
 let upTriangle = new BlockOptions(1, drawUpTriangle)
 let downTriangle = new BlockOptions(1, drawDownTriangle)
 let hourglass = new BlockOptions(1, drawHourglass)
 let blocks = new WeightedList(solid, upTriangle, downTriangle, hourglass)
 
-let uniqueColor = true
-
 // match edges?
 let matchEdges = true
 
-let newQuilt = new QuiltSettings(quiltID, spaceName, testDimensions, colors, blocks, uniqueColor, matchEdges)
+let newQuilt = new QuiltSettings(quiltID, spaceName, testDimensions, colors, blocks, matchEdges)
 
 export { newQuilt };
