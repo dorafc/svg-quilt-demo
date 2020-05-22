@@ -21,7 +21,7 @@ let drawBlock = (edges, startX, startY, height, width) => {
                 {x : startX+width, y : startY+height}, 
                 {x : startX, y : startY+height}]
 
-                console.log(coords)
+  let center = {x : startX + width/2, y : startY + height/2}
   
   // check for number of colors
   let colors = new Set(edges)
@@ -36,8 +36,9 @@ let drawBlock = (edges, startX, startY, height, width) => {
   }
 
   // draw edges
-  let currPath;
+  let currPath
   let currDraw
+  let lineCount = 0
   let paths = []
 
   for (let i = 0; i < 4; i++){
@@ -53,16 +54,20 @@ let drawBlock = (edges, startX, startY, height, width) => {
 
     // draw new line
     currDraw += ` L${coords[(i+1) % 4].x} ${coords[(i+1) % 4].y}`
+    lineCount++
+    console.log(lineCount)
 
     // check for creating a new path
     if (edges[i] !== edges[i+1]){
       // check to see if need to draw line to center
+      (lineCount === 1) ? currDraw += ` L${center.x} ${center.y}` : ""
       currDraw += 'Z'
       currPath.setAttribute("d", currDraw)
       console.log(currPath)
       paths.push(currPath)
       currPath = null;
       currDraw = ""
+      lineCount = 0
     }
   }
 
