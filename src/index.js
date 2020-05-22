@@ -11,7 +11,7 @@ import { drawBlock } from '../classes/drawBlocks.js'
 
 let quilt = new Quilt(newQuilt);
 
-// quilt.renderBlocks()
+quilt.renderBlocks()
 
 let quiltSpace = document.getElementById("newQuilt")
 let quiltSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg")

@@ -55,7 +55,6 @@ let drawBlock = (edges, startX, startY, height, width) => {
     // draw new line
     currDraw += ` L${coords[(i+1) % 4].x} ${coords[(i+1) % 4].y}`
     lineCount++
-    console.log(lineCount)
 
     // check for creating a new path
     if (edges[i] !== edges[i+1] || (colors.size > 1 && lineCount === 2)){
@@ -63,7 +62,6 @@ let drawBlock = (edges, startX, startY, height, width) => {
       (lineCount === 1) ? currDraw += ` L${center.x} ${center.y}` : ""
       currDraw += 'Z'
       currPath.setAttribute("d", currDraw)
-      console.log(currPath)
       paths.push(currPath)
       currPath = null;
       currDraw = ""
@@ -83,59 +81,32 @@ let drawBlock = (edges, startX, startY, height, width) => {
 // create a solid color block
 let drawSolid = (quiltID, idName, startX, startY, height, width, colors) => {
   let quilt = document.getElementById(quiltID)
-  let solidBlock = document.createElementNS("http://www.w3.org/2000/svg", "g")
-  let solidPath = document.createElementNS("http://www.w3.org/2000/svg", "path")
-
-  solidBlock.setAttribute("id", idName)
-  solidPath.setAttribute("fill", colors[0])
-  solidPath.setAttribute("d", `M${startX} ${startY} l0 ${height} l${width} 0 l0 ${-height}Z`)
-
-  solidBlock.appendChild(solidPath)
+  let solidBlock = drawBlock([colors[0], colors[0], colors[0], colors[0]], startX, startY, height, width)
   quilt.appendChild(solidBlock)
 }
 
 // create a triangle quilt block with diagonal line going down from orgin
 let drawDownTriangle = (quiltID, idName, startX, startY, height, width, colors) => {
   let quilt = document.getElementById(quiltID)
-  let triangleBlock = document.createElementNS("http://www.w3.org/2000/svg", "g")
-  let trianglePath1 = document.createElementNS("http://www.w3.org/2000/svg", "path")
-  let trianglePath2 = document.createElementNS("http://www.w3.org/2000/svg", "path")
-
-  triangleBlock.setAttribute("id", idName)
-  trianglePath1.setAttribute("fill", colors[0])
-  trianglePath1.setAttribute("d", `M${startX} ${startY} l${width} 0 l0 ${height} Z`)
-  trianglePath2.setAttribute("fill", colors[1])
-  trianglePath2.setAttribute("d", `M${startX} ${startY} l0 ${height} l${width} 0 Z`)
-  
-  if (colors[0] === colors[1]){
-    triangleOpacity(trianglePath1, trianglePath2)
-  }
-
-  triangleBlock.appendChild(trianglePath1)
-  triangleBlock.appendChild(trianglePath2)
+  let triangleBlock = drawBlock([colors[0], colors[0], colors[1], colors[1]], startX, startY, height, width)
   quilt.appendChild(triangleBlock)
 }
 
 // create a triangle quilt block with diagonal line going up from orgin
 let drawUpTriangle = (quiltID, idName, startX, startY, height, width, colors) => {
+  // if (colors[0] === colors[1]){
+  //   triangleOpacity(trianglePath1, trianglePath2)
+  // }
+
   let quilt = document.getElementById(quiltID)
-  let triangleBlock = document.createElementNS("http://www.w3.org/2000/svg", "g")
-  let trianglePath1 = document.createElementNS("http://www.w3.org/2000/svg", "path")
-  let trianglePath2 = document.createElementNS("http://www.w3.org/2000/svg", "path")
-
-  triangleBlock.setAttribute("id", idName)
-  trianglePath1.setAttribute("fill", colors[0])
-  trianglePath1.setAttribute("d", `M${startX} ${startY+height} l0 ${-height} l${width} 0 Z`)
-  trianglePath2.setAttribute("fill", colors[1])
-  trianglePath2.setAttribute("d", `M${startX} ${startY+height} l${width} 0 l0 ${-height} Z`)
-  
-  if (colors[0] === colors[1]){
-    triangleOpacity(trianglePath1, trianglePath2)
-  }
-
-  triangleBlock.appendChild(trianglePath1)
-  triangleBlock.appendChild(trianglePath2)
+  let triangleBlock = drawBlock([colors[0], colors[1], colors[1], colors[0]], startX, startY, height, width)
   quilt.appendChild(triangleBlock)
+}
+
+let drawHourglass =  (quiltID, idName, startX, startY, height, width, colors) => {
+  let quilt = document.getElementById(quiltID)
+  let hourBlock = drawBlock([colors[0], colors[1], colors[0], colors[1]], startX, startY, height, width)
+  quilt.appendChild(hourBlock)
 }
 
 // create a quilt block with a vertical seam
@@ -197,4 +168,4 @@ let blockEdgePatterns = {
   "drawHourglass" : new EdgePattern('A', 'B', 'A', 'B') // to implement
 }
 
-export { drawBlock, drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHorizontal, blockEdgePatterns }
+export { drawBlock, drawSolid, drawDownTriangle, drawUpTriangle, drawHourglass, drawVertical, drawHorizontal, blockEdgePatterns }
