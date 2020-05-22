@@ -2,9 +2,7 @@
 QuiltSettings object contains parameters that a creates a quilt object
 -------*/
 
-import { getTotalFreq, getRandomWeightedFreq } from '../src/util.js'
 import { BlockRender } from './BlockRender.js';
-import { EdgePattern } from './EdgePattern.js';
 
 class QuiltSettings{
   constructor(quiltID, spaceNameID, dimensions, colorPalette, blockTypes, uniqueColor, matchEdges){
@@ -18,18 +16,10 @@ class QuiltSettings{
   
   // generate random blocks based off of generator object
   generateBlocks(){
-  let blocks = []
+    let blocks = []
 
-    let edges = {}
     let blockQueue = []
     let renderedBlocks = new Set()
-
-    // initialize edges
-    for (let r  = 0; r < this.dimensions.rows; r++){
-      for (let c = 0; c < this.dimensions.cols; c++){
-        edges[`row${r}col${c}`] = new EdgePattern()
-      }
-    }
 
     // generate random start block
     const startRow = Math.floor(Math.random() * this.dimensions.rows)
@@ -49,32 +39,11 @@ class QuiltSettings{
     do {
       let currBlock = blockQueue.shift()
 
-      // get edge colors
-      let top = 0, right = 0, bottom = 0, left = 0
-      if (currBlock.r - 1 >= 0){
-        top = edges[`row${currBlock.r-1}col${currBlock.c}`].getBottomColor()
-      }
-      if (currBlock.c + 1 < this.dimensions.cols){
-        right = edges[`row${currBlock.r}col${currBlock.c+1}`].getLeftColor()
-      }
-      if (currBlock.r + 1 < this.dimensions.rows){
-        bottom = edges[`row${currBlock.r+1}col${currBlock.c}`].getTopColor()
-      }
-      if (currBlock.c - 1 >= 0){
-        left = edges[`row${currBlock.r}col${currBlock.c-1}`].getRightColor()
-      }
-      let currEdge = new EdgePattern(top, right, bottom, left)
-      currEdge.setEdgeColors([top, right, bottom, left])
-
       // generate two color palette
       let colorPick = this.colorPalette.selectObj(2, true).map(color => color.fill)        
 
       // get random block type
       let blockType = this.blockTypes.selectObj(1, true)[0];
-
-      // update edge map
-      // edges[`row${currBlock.r}col${currBlock.c}`] = blockEdgePatterns[blockType.draw.name]
-      // edges[`row${currBlock.r}col${currBlock.c}`].setEdgeColors(colorPick)
 
       blocks.push( new BlockRender(blockType.draw,
         `block${currBlock.r}c${currBlock.c}`,

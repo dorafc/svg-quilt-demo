@@ -1,5 +1,3 @@
-import { EdgePattern } from "./EdgePattern.js"
-
 
 /**
  * Function that handles drawing triangle quilt blocks
