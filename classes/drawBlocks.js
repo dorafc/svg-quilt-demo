@@ -58,7 +58,7 @@ let drawBlock = (edges, startX, startY, height, width) => {
     console.log(lineCount)
 
     // check for creating a new path
-    if (edges[i] !== edges[i+1]){
+    if (edges[i] !== edges[i+1] || (colors.size > 1 && lineCount === 2)){
       // check to see if need to draw line to center
       (lineCount === 1) ? currDraw += ` L${center.x} ${center.y}` : ""
       currDraw += 'Z'
