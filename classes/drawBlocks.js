@@ -1,5 +1,80 @@
 import { EdgePattern } from "./EdgePattern.js"
 
+
+/**
+ * Function that handles drawing triangle quilt blocks
+ * @param {array} edges       array of edges
+ * @param {int} startX        start X coord
+ * @param {int} startY        start Y coord
+ * @param {int} height        block height dimension
+ * @param {int} width         block width dimension
+ * @param {string} quiltID    ID of the quilt in the HTML
+ */
+let drawBlock = (edges, startX, startY, height, width) => {
+  // get quilt DOM element and create block
+  // const quilt = document.getElementById(quiltID)
+  let block = document.createElementNS("http://www.w3.org/2000/svg", "g")
+
+  // generate corner coordinates
+  let coords = [{x : startX, y : startY}, 
+                {x : startX+width, y : startY}, 
+                {x : startX+width, y : startY+height}, 
+                {x : startX, y : startY+height}]
+
+                console.log(coords)
+  
+  // check for number of colors
+  let colors = new Set(edges)
+
+  // determine if 2-3 colors edges need to be rotated
+  if ((colors.size === 2 || colors.size === 3) && edges[0] === edges [3]){
+    let edge = edges.shift()
+    edges.push(edge)
+
+    let coord = coords.shift()
+    coords.push(coord)
+  }
+
+  // draw edges
+  let currPath;
+  let currDraw
+  let paths = []
+
+  for (let i = 0; i < 4; i++){
+    if (!currPath){
+      // init current path
+      currPath = document.createElementNS("http://www.w3.org/2000/svg", "path")
+      currPath.setAttribute("id", `path${paths.length}`)
+      currPath.setAttribute("fill", edges[i])
+
+      // init current draw
+      currDraw = `M${coords[i].x} ${coords[i].y}`
+    }
+
+    // draw new line
+    currDraw += ` L${coords[(i+1) % 4].x} ${coords[(i+1) % 4].y}`
+
+    // check for creating a new path
+    if (edges[i] !== edges[i+1]){
+      // check to see if need to draw line to center
+      currDraw += 'Z'
+      currPath.setAttribute("d", currDraw)
+      console.log(currPath)
+      paths.push(currPath)
+      currPath = null;
+      currDraw = ""
+    }
+  }
+
+  paths.forEach(path => {
+    block.appendChild(path)
+  })
+
+  return block
+
+  // complete edges
+}
+
 // create a solid color block
 let drawSolid = (quiltID, idName, startX, startY, height, width, colors) => {
   let quilt = document.getElementById(quiltID)
@@ -117,4 +192,4 @@ let blockEdgePatterns = {
   "drawHourglass" : new EdgePattern('A', 'B', 'A', 'B') // to implement
 }
 
-export { drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHorizontal, blockEdgePatterns }
+export { drawBlock, drawSolid, drawDownTriangle, drawUpTriangle, drawVertical, drawHorizontal, blockEdgePatterns }

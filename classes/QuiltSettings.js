@@ -69,7 +69,6 @@ class QuiltSettings{
         }
         let currEdge = new EdgePattern(top, right, bottom, left)
         currEdge.setEdgeColors([top, right, bottom, left])
-        console.log(currEdge)
 
         // generate two color palette
         let colorPick = this.colorPalette.selectObj(2, this.uniqueColor).map(color => color.fill)        
