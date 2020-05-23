@@ -3,7 +3,8 @@ QuiltSettings object contains parameters that a creates a quilt object
 -------*/
 
 import { BlockRender } from './BlockRender.js';
-
+import { SetBlockMap } from './SetBlockMap.js'
+ 
 class QuiltSettings{
   constructor(quiltID, spaceNameID, dimensions, colorPalette, blockTypes, uniqueColor, matchEdges){
     this.quiltID = quiltID;                   // unique identifier for the quilt
@@ -17,41 +18,47 @@ class QuiltSettings{
   // generate random blocks based off of generator object
   generateBlocks(){
     let blocks = []                   // blocks to be returned for rendering
-    let blockQueue = []               // queue of blocks to be generated
-    let setBlocks = new Set()         // blocks already generated
+    let blockQueue = new SetBlockMap()
+    // let blockQueue = []               // queue of blocks to be generated
+    // let setBlocks = new Set()         // blocks already generated
 
     // generate random start block
     const startRow = Math.floor(Math.random() * this.dimensions.rows)
     const startCol = Math.floor(Math.random() * this.dimensions.cols)
 
-    // method for generating blocks
-    const addGenerateQueue = (r, c, startX, startY) => {
-      if (!setBlocks.has(r + ', ' + c)){
-        blockQueue.push({
-          r : r,
-          c : c,
-          startX : startX,
-          startY : startY
-        })
+    // // method for generating blocks
+    // const addGenerateQueue = (r, c, startX, startY) => {
+    //   if (!setBlocks.has(r + ', ' + c)){
+    //     blockQueue.push({
+    //       r : r,
+    //       c : c,
+    //       startX : startX,
+    //       startY : startY
+    //     })
     
-        //add block to rendered set
-        setBlocks.add(r + ', ' + c)
-      }
-    }
+    //     //add block to rendered set
+    //     setBlocks.add(r + ', ' + c)
+    //   }
+    // }
 
     //add the dimensions to the generation queue
-    blockQueue.push({
-      r : startRow,
-      c : startCol,
-      startX : startCol * this.dimensions.blockWidth,
-      startY : startRow * this.dimensions.blockHeight
-    })
-    //add block to rendered set
-    setBlocks.add(startRow + ', ' + startCol)
+    // blockQueue.push({
+    //   r : startRow,
+    //   c : startCol,
+    //   startX : startCol * this.dimensions.blockWidth,
+    //   startY : startRow * this.dimensions.blockHeight
+    // })
+    // //add block to rendered set
+    // setBlocks.add(startRow + ', ' + startCol)
+
+    blockQueue.addGenerateQueue(startRow, 
+      startCol, 
+      startCol * this.dimensions.blockWidth, 
+      startRow * this.dimensions.blockHeight)
 
     // go through to push to blocks / generate pattern
     do {
-      let currBlock = blockQueue.shift()
+      let currBlock = blockQueue.getNextBlock()
 
       // generate two color palette
       let colorPick = this.colorPalette.selectObj(2, true).map(color => color.fill)        
@@ -72,7 +79,7 @@ class QuiltSettings{
       // add neighbors to queue, update edge pattern
       // block above
       if (currBlock.r - 1 >= 0){
-        addGenerateQueue( currBlock.r-1, 
+        blockQueue.addGenerateQueue( currBlock.r-1, 
           currBlock.c, 
           currBlock.startX, 
           currBlock.startY - this.dimensions.blockHeight)
@@ -80,7 +87,7 @@ class QuiltSettings{
 
       // block below
       if (currBlock.r + 1 < this.dimensions.rows){
-        addGenerateQueue( currBlock.r+1, 
+        blockQueue.addGenerateQueue( currBlock.r+1, 
           currBlock.c, 
           currBlock.startX, 
           currBlock.startY + this.dimensions.blockHeight)
@@ -88,7 +95,7 @@ class QuiltSettings{
 
       // block right
       if (currBlock.c + 1 < this.dimensions.cols){
-        addGenerateQueue( currBlock.r, 
+        blockQueue.addGenerateQueue( currBlock.r, 
           currBlock.c+1, 
           currBlock.startX + this.dimensions.blockWidth, 
           currBlock.startY)
@@ -96,13 +103,13 @@ class QuiltSettings{
 
       // block left
       if (currBlock.c - 1 >= 0){
-        addGenerateQueue( currBlock.r, 
+        blockQueue.addGenerateQueue( currBlock.r, 
           currBlock.c-1, 
           currBlock.startX - this.dimensions.blockWidth, 
           currBlock.startY)
       }
 
-    } while (blockQueue.length > 0)
+    } while (blockQueue.hasNextBlock())
     return blocks;
   }
 }
