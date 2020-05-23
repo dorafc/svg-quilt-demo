@@ -23,7 +23,7 @@ let colors = new WeightedList(hotpink, green, limeGreen, deeppink, teal, yellow)
 let solid = new BlockOptions(0, drawSolid)
 let upTriangle = new BlockOptions(1, drawUpTriangle)
 let downTriangle = new BlockOptions(1, drawDownTriangle)
-let hourglass = new BlockOptions(1, drawHourglass)
+let hourglass = new BlockOptions(.5, drawHourglass)
 let blocks = new WeightedList(solid, upTriangle, downTriangle, hourglass)
 
 // match edges?

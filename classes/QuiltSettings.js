@@ -16,16 +16,15 @@ class QuiltSettings{
   
   // generate random blocks based off of generator object
   generateBlocks(){
-    let blocks = []
-
-    let blockQueue = []
-    let renderedBlocks = new Set()
+    let blocks = []                   // blocks to be returned for rendering
+    let blockQueue = []               // queue of blocks to be generated
+    let setBlocks = new Set()    // blocks already generated
 
     // generate random start block
     const startRow = Math.floor(Math.random() * this.dimensions.rows)
     const startCol = Math.floor(Math.random() * this.dimensions.cols)
 
-    //add to queue
+    //add the dimensions to the generation queue
     blockQueue.push({
       r : startRow,
       c : startCol,
@@ -33,7 +32,7 @@ class QuiltSettings{
       startY : startRow * this.dimensions.blockHeight
     })
     //add block to rendered set
-    renderedBlocks.add(startRow + ', ' + startCol)
+    setBlocks.add(startRow + ', ' + startCol)
 
     // go through to push to blocks / generate pattern
     do {
@@ -57,7 +56,7 @@ class QuiltSettings{
 
       // add neighbors to queue, update edge pattern
       // block above
-      if (currBlock.r - 1 >= 0 && !renderedBlocks.has(currBlock.r - 1 + ', ' + currBlock.c)){
+      if (currBlock.r - 1 >= 0 && !setBlocks.has(currBlock.r - 1 + ', ' + currBlock.c)){
         blockQueue.push({
           r : currBlock.r - 1,
           c : currBlock.c,
@@ -66,11 +65,11 @@ class QuiltSettings{
         })
 
         //add block to rendered set
-        renderedBlocks.add(currBlock.r - 1 + ', ' + currBlock.c)
+        setBlocks.add(currBlock.r - 1 + ', ' + currBlock.c)
       }
 
       // block below
-      if (currBlock.r + 1 < this.dimensions.rows && !renderedBlocks.has(currBlock.r + 1 + ', ' + currBlock.c)){
+      if (currBlock.r + 1 < this.dimensions.rows && !setBlocks.has(currBlock.r + 1 + ', ' + currBlock.c)){
         blockQueue.push({
           r : currBlock.r + 1,
           c : currBlock.c,
@@ -79,11 +78,11 @@ class QuiltSettings{
         })
 
         //add block to rendered set
-        renderedBlocks.add(currBlock.r + 1 + ', ' + currBlock.c)
+        setBlocks.add(currBlock.r + 1 + ', ' + currBlock.c)
       }
 
       // block right
-      if (currBlock.c + 1 < this.dimensions.cols && !renderedBlocks.has(currBlock.r + ', ' + (currBlock.c + 1))){
+      if (currBlock.c + 1 < this.dimensions.cols && !setBlocks.has(currBlock.r + ', ' + (currBlock.c + 1))){
         blockQueue.push({
           r : currBlock.r,
           c : currBlock.c+1,
@@ -92,11 +91,11 @@ class QuiltSettings{
         })
 
         //add block to rendered set
-        renderedBlocks.add(currBlock.r + ', ' + (currBlock.c+1))
+        setBlocks.add(currBlock.r + ', ' + (currBlock.c+1))
       }
 
       // block left
-      if (currBlock.c - 1 >= 0 && !renderedBlocks.has(currBlock.r + ', ' + (currBlock.c - 1))){
+      if (currBlock.c - 1 >= 0 && !setBlocks.has(currBlock.r + ', ' + (currBlock.c - 1))){
         blockQueue.push({
           r : currBlock.r,
           c : currBlock.c-1,
@@ -105,7 +104,7 @@ class QuiltSettings{
         })
 
         //add block to rendered set
-        renderedBlocks.add(currBlock.r + ', ' + (currBlock.c-1))
+        setBlocks.add(currBlock.r + ', ' + (currBlock.c-1))
       }
 
     } while (blockQueue.length > 0)

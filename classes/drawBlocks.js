@@ -61,7 +61,7 @@ let drawBlock = (edges, startX, startY, height, width) => {
       currDraw += 'Z'
       currPath.setAttribute("d", currDraw)
       paths.push(currPath)
-      currPath = null;
+      currPath = null
       currDraw = ""
       lineCount = 0
     }
