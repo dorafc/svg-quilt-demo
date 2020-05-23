@@ -17,39 +17,31 @@ class QuiltSettings{
   
   // generate random blocks based off of generator object
   generateBlocks(){
+
+    /* 
+    * IDEALLY THIS WILL GO AWAY
+    */
+    const mapBlockEdges = (block, colors) => {
+      let edges = {top: 0, right: 0, bottom: 0, left: 0}
+      
+      block === 'drawSolid' ? edges = {top: colors[0], right: colors[0], bottom: colors[0], left: colors[0]} : ""
+      block === 'drawDownTriangle' ? edges = {top: colors[0], right: colors[0], bottom: colors[1], left: colors[1]} : ""
+      block === 'drawUpTriangle' ? edges = {top: colors[0], right: colors[1], bottom: colors[1], left: colors[0]} : ""
+      block === 'drawHourglass' ? edges = {top: colors[0], right: colors[1], bottom: colors[0], left: colors[1]} : ""
+
+      return edges
+    }
+    /*
+    * END GOING AWAY
+    */
+
+
     let blocks = []                   // blocks to be returned for rendering
-    let blockQueue = new SetBlockMap()
-    // let blockQueue = []               // queue of blocks to be generated
-    // let setBlocks = new Set()         // blocks already generated
+    let blockQueue = new SetBlockMap(this.dimensions.rows, this.dimensions.cols)
 
     // generate random start block
     const startRow = Math.floor(Math.random() * this.dimensions.rows)
     const startCol = Math.floor(Math.random() * this.dimensions.cols)
-
-    // // method for generating blocks
-    // const addGenerateQueue = (r, c, startX, startY) => {
-    //   if (!setBlocks.has(r + ', ' + c)){
-    //     blockQueue.push({
-    //       r : r,
-    //       c : c,
-    //       startX : startX,
-    //       startY : startY
-    //     })
-    
-    //     //add block to rendered set
-    //     setBlocks.add(r + ', ' + c)
-    //   }
-    // }
-
-    //add the dimensions to the generation queue
-    // blockQueue.push({
-    //   r : startRow,
-    //   c : startCol,
-    //   startX : startCol * this.dimensions.blockWidth,
-    //   startY : startRow * this.dimensions.blockHeight
-    // })
-    // //add block to rendered set
-    // setBlocks.add(startRow + ', ' + startCol)
 
     blockQueue.addGenerateQueue(startRow, 
       startCol, 
@@ -59,12 +51,15 @@ class QuiltSettings{
     // go through to push to blocks / generate pattern
     do {
       let currBlock = blockQueue.getNextBlock()
+      console.log(blockQueue.getEdges(currBlock.r, currBlock.c))
 
       // generate two color palette
       let colorPick = this.colorPalette.selectObj(2, true).map(color => color.fill)        
 
       // get random block type
+      
       let blockType = this.blockTypes.selectObj(1, true)[0];
+      blockQueue.setEdges(currBlock.r, currBlock.c, mapBlockEdges(blockType.draw.name, colorPick))
 
       blocks.push( new BlockRender(blockType.draw,
         `block${currBlock.r}c${currBlock.c}`,
