@@ -4,9 +4,10 @@ QuiltSettings object contains parameters that a creates a quilt object
 
 import { BlockRender } from './BlockRender.js';
 import { SetBlockMap } from './SetBlockMap.js'
+import { drawBlock } from './drawBlocks.js'
  
 class QuiltSettings{
-  constructor(quiltID, spaceNameID, dimensions, colorPalette, blockTypes, uniqueColor, matchEdges){
+  constructor(quiltID, spaceNameID, dimensions, colorPalette, blockTypes, matchEdges){
     this.quiltID = quiltID;                   // unique identifier for the quilt
     this.spaceName = spaceNameID;             // id of the element to append the quilt SVG
     this.dimensions = dimensions;             // dimensions of the quilt
@@ -51,25 +52,48 @@ class QuiltSettings{
     // go through to push to blocks / generate pattern
     do {
       let currBlock = blockQueue.getNextBlock()
-      console.log(blockQueue.getEdges(currBlock.r, currBlock.c))
+      let colorPick
+      let blockType
 
-      // generate two color palette
-      let colorPick = this.colorPalette.selectObj(2, true).map(color => color.fill)        
+      if (this.matchEdges){
+        let edges = blockQueue.getEdges(currBlock.r, currBlock.c)
+        
+        edges.top === 0 ? edges.top = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
+        edges.right === 0 ? edges.right = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
+        edges.bottom === 0 ? edges.bottom = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
+        edges.left === 0 ? edges.left = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
 
-      // get random block type
-      
-      let blockType = this.blockTypes.selectObj(1, true)[0];
-      blockQueue.setEdges(currBlock.r, currBlock.c, mapBlockEdges(blockType.draw.name, colorPick))
+        blockQueue.setEdges(currBlock.r, currBlock.c, edges)
 
-      blocks.push( new BlockRender(blockType.draw,
-        `block${currBlock.r}c${currBlock.c}`,
-        currBlock.startX,
-        currBlock.startY,
-        this.dimensions.blockHeight,
-        this.dimensions.blockWidth,
-        colorPick
+        console.log(Object.values(edges))
+        blocks.push( new BlockRender(drawBlock,
+          `block${currBlock.r}c${currBlock.c}`,
+          currBlock.startX,
+          currBlock.startY,
+          this.dimensions.blockHeight,
+          this.dimensions.blockWidth,
+          Object.values(edges)
+          )
         )
-      )
+      } else {
+        // generate two color palette
+        colorPick = this.colorPalette.selectObj(2, true).map(color => color.fill)        
+
+        // get random block type
+        
+        blockType = this.blockTypes.selectObj(1, true)[0];
+        blockQueue.setEdges(currBlock.r, currBlock.c, mapBlockEdges(blockType.draw.name, colorPick))
+
+        blocks.push( new BlockRender(blockType.draw,
+          `block${currBlock.r}c${currBlock.c}`,
+          currBlock.startX,
+          currBlock.startY,
+          this.dimensions.blockHeight,
+          this.dimensions.blockWidth,
+          colorPick
+          )
+        )
+      }
 
       // add neighbors to queue, update edge pattern
       // block above

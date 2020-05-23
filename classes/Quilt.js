@@ -2,6 +2,8 @@
 Quilt object contains information about a quilt to render
 -------*/
 
+import { drawBlock } from "../classes/drawBlocks.js"
+
 class Quilt{
   // constructor
   constructor(quiltSettings){
@@ -10,6 +12,7 @@ class Quilt{
     this.dimensions = quiltSettings.dimensions;             // dimensions of the quilt
     this.colorPalette = quiltSettings.colorPalette;         // color palette for the quilt to render
     this.blockTypes = quiltSettings.blockTypes              // block types for the quilt
+    this.matchEdges = quiltSettings.matchEdges
 
     this.blocks = quiltSettings.generateBlocks()
   }
@@ -19,7 +22,15 @@ class Quilt{
     this.insertQuiltSVG()
 
     this.blocks.forEach((block, i) => {
-      let blockGroup = block.draw(this.quiltID, `quilt${i}`, block.startX, block.startY, block.height, block.width, block.colors)
+      console.log(block.draw)
+      let blockGroup
+      if (!this.matchEdges){
+        blockGroup = block.draw(this.quiltID, `quilt${i}`, block.startX, block.startY, block.height, block.width, block.colors)
+      } else {
+        blockGroup = block.draw(block.colors, block.startX, block.startY, block.height, block.width, block.colors)
+      }
+      
+      
       this.quiltSVG.appendChild(blockGroup)
     })
   }
