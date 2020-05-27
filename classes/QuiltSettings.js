@@ -58,14 +58,23 @@ class QuiltSettings{
       if (this.matchEdges){
         let edges = blockQueue.getEdges(currBlock.r, currBlock.c)
         
-        edges.top === 0 ? edges.top = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
-        edges.right === 0 ? edges.right = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
-        edges.bottom === 0 ? edges.bottom = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
-        edges.left === 0 ? edges.left = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
+        let cols = Object.values(edges).filter(edge => edge != 0)
+        console.log(cols)
+
+        if (cols.length <= 1){
+          edges.top === 0 ? edges.top = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
+          edges.right === 0 ? edges.right = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
+          edges.bottom === 0 ? edges.bottom = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
+          edges.left === 0 ? edges.left = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
+        }
+
+        edges.top === 0 ? edges.top = cols[Math.round(Math.random())] : ""
+        edges.right === 0 ? edges.right = cols[Math.round(Math.random())] : ""
+        edges.bottom === 0 ? edges.bottom = cols[Math.round(Math.random())] : ""
+        edges.left === 0 ? edges.left = cols[Math.round(Math.random())] : ""
 
         blockQueue.setEdges(currBlock.r, currBlock.c, edges)
 
-        console.log(Object.values(edges))
         blocks.push( new BlockRender(drawBlock,
           `block${currBlock.r}c${currBlock.c}`,
           currBlock.startX,

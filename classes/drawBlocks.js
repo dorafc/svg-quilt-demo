@@ -71,6 +71,9 @@ let drawBlock = (edges, startX, startY, height, width) => {
     block.appendChild(path)
   })
 
+  // add border for debugging
+  block.setAttribute("style", "stroke-width:.25; stroke:#000")
+
   return block
 
   // complete edges
