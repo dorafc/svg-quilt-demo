@@ -63,6 +63,7 @@ class QuiltSettings{
         let newEdges = {}
 
         let currColor = null
+        console.log("NEW BLOCK")
 
         do {
           // pick a block
@@ -82,19 +83,14 @@ class QuiltSettings{
             // no initial colors in the edge (is first block)
             if (col === null && currColor === null){
               currColor = colorPick[Math.round(Math.random())]
-            } else 
-            if (currColor !== col && currColor !== null){
-              console.log("nope!")
-              // validBlock = false;
             } 
-             else {
+            // set new color from edges
+            else if (currColor === null && col !== null){
               currColor = col
-            }
-
-            // check if fail
-            if (currColor !== col && col !== null){
+            } 
+            else if (currColor !== null && col !== null && currColor !== col){
+              console.log("nope")
               // validBlock = false;
-              // console.log(currColor, col)
             }
 
             // update Edge
@@ -108,8 +104,6 @@ class QuiltSettings{
 
             // console.log(blockType, [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left])
           }
-
-          
 
           blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
 
@@ -130,7 +124,7 @@ class QuiltSettings{
         // get random block type
         
         blockType = this.blockTypes.selectObj(1, true)[0];
-        blockQueue.setEdges(currBlock.r, currBlock.c, mapBlockEdges(blockType.draw.name, colorPick))
+        // blockQueue.setEdges(currBlock.r, currBlock.c, mapBlockEdges(blockType.draw.name, colorPick))
 
         blocks.push( new BlockRender(blockType.draw,
           `block${currBlock.r}c${currBlock.c}`,
