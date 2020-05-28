@@ -18,7 +18,7 @@ class SetBlockMap{
       })
   
       //add block to rendered set
-      this.setBlocks.set(`${r},${c}`, {top: 0, right: 0, bottom: 0, left: 0})
+      this.setBlocks.set(`${r},${c}`, {top: null, right: null, bottom: null, left: null})
     }
   }
 
@@ -27,7 +27,7 @@ class SetBlockMap{
    */
   // initialize colors from neighboring blocks
   getEdges(r,c){
-    let edges = {top: 0, right: 0, bottom: 0, left: 0}
+    let edges = {top: null, right: null, bottom: null, left: null}
 
     // top
     if (r - 1 > 0 && this.setBlocks.has(`${r-1},${c}`)){

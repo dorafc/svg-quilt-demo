@@ -19,24 +19,6 @@ class QuiltSettings{
   // generate random blocks based off of generator object
   generateBlocks(){
 
-    /* 
-    * IDEALLY THIS WILL GO AWAY
-    */
-    const mapBlockEdges = (block, colors) => {
-      let edges = {top: 0, right: 0, bottom: 0, left: 0}
-      
-      block === 'drawSolid' ? edges = {top: colors[0], right: colors[0], bottom: colors[0], left: colors[0]} : ""
-      block === 'drawDownTriangle' ? edges = {top: colors[0], right: colors[0], bottom: colors[1], left: colors[1]} : ""
-      block === 'drawUpTriangle' ? edges = {top: colors[0], right: colors[1], bottom: colors[1], left: colors[0]} : ""
-      block === 'drawHourglass' ? edges = {top: colors[0], right: colors[1], bottom: colors[0], left: colors[1]} : ""
-
-      return edges
-    }
-    /*
-    * END GOING AWAY
-    */
-
-
     let blocks = []                   // blocks to be returned for rendering
     let blockQueue = new SetBlockMap(this.dimensions.rows, this.dimensions.cols)
 
@@ -54,36 +36,88 @@ class QuiltSettings{
       let currBlock = blockQueue.getNextBlock()
       let colorPick
       let blockType
+    
+      const blockColors = {
+        drawSolid : [0, 0, 0, 0],
+        drawDownTriangle : [0, 0, 1, 1],
+        drawUpTriangle : [0, 1, 1, 0],
+        drawHourglass : [0, 1, 0, 1]
+      }
 
       if (this.matchEdges){
-        let edges = blockQueue.getEdges(currBlock.r, currBlock.c)
+        // get edges as iterable object
+        let edges = Object.entries(blockQueue.getEdges(currBlock.r, currBlock.c))
+
+        // generate two color palette
+        colorPick = this.colorPalette.selectObj(2, true).map(color => color.fill)
+
+        // assume that the currently picked block is valid, update if not
+        let validBlock = true;
+
+        // get index of first defined color
+        let shiftArray = edges.findIndex(edge => edge[1] !== null)
+        if (shiftArray === -1) {shiftArray = 0}
+        // console.log(shiftArray)
+
+        // store new edges
+        let newEdges = {}
+
+        let currColor = null
+
+        do {
+          // pick a block
+          blockType = this.blockTypes.selectObj(1, true)[0].draw.name;
+
+          // get the block rotation pattern
+          let rotation = blockColors[blockType]
+          // console.log(blockType, rotation)
+
+          // go through all edges
+          for (let i = shiftArray; i < 4 + shiftArray; i++){
+            // 0 is edge, 1 is color
+            let col = edges[i % 4][1]
+            let edge = edges[i % 4][0]
+            console.log(edge, col, colorPick)
+            
+            // no initial colors in the edge (is first block)
+            if (col === null && currColor === null){
+              currColor = colorPick[Math.round(Math.random())]
+            }
+
+            // check if fail
+            else if (currColor !== col && col !== null){
+              // validBlock = false;
+              // console.log(currColor, col)
+            }
+            
+            
+
+            // update Edge
+            newEdges[edge] = currColor
+
+            // switch for next color?
+            // console.log(rotation[i % 4], rotation[(i + 1) % 4])
+            if (rotation[i % 4] !== rotation[(i + 1) % 4]){
+              currColor = null
+            }
+
+            // console.log(blockType, [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left])
+          }
+
+          
+
+          blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
+
+          blocks.push( new BlockRender(drawBlock,
+            `block${currBlock.r}c${currBlock.c}`,
+            currBlock.startX,
+            currBlock.startY,
+            this.dimensions.blockHeight,
+            this.dimensions.blockWidth,
+            [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left]
+          ))
+        } while (!validBlock)
         
-        let cols = Object.values(edges).filter(edge => edge != 0)
-        console.log(cols)
-
-        if (cols.length <= 1){
-          edges.top === 0 ? edges.top = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
-          edges.right === 0 ? edges.right = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
-          edges.bottom === 0 ? edges.bottom = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
-          edges.left === 0 ? edges.left = this.colorPalette.selectObj(1, true).map(color => color.fill)[0] : ""
-        }
-
-        edges.top === 0 ? edges.top = cols[Math.round(Math.random())] : ""
-        edges.right === 0 ? edges.right = cols[Math.round(Math.random())] : ""
-        edges.bottom === 0 ? edges.bottom = cols[Math.round(Math.random())] : ""
-        edges.left === 0 ? edges.left = cols[Math.round(Math.random())] : ""
-
-        blockQueue.setEdges(currBlock.r, currBlock.c, edges)
-
-        blocks.push( new BlockRender(drawBlock,
-          `block${currBlock.r}c${currBlock.c}`,
-          currBlock.startX,
-          currBlock.startY,
-          this.dimensions.blockHeight,
-          this.dimensions.blockWidth,
-          Object.values(edges)
-          )
-        )
       } else {
         // generate two color palette
         colorPick = this.colorPalette.selectObj(2, true).map(color => color.fill)        
