@@ -7,7 +7,7 @@ import { BlockOptions } from "../classes/BlockOptions.js"
 
 let quiltID = "sampleQuilt"
 let spaceName = "quiltSpace"
-let testDimensions = new Dimensions(10, 10, 50, 50)
+let testDimensions = new Dimensions(5, 5, 50, 50)
 
 // colors
 let hotpink = new ColorOptions(1, "hotpink")

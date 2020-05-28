@@ -77,20 +77,25 @@ class QuiltSettings{
             // 0 is edge, 1 is color
             let col = edges[i % 4][1]
             let edge = edges[i % 4][0]
-            console.log(edge, col, colorPick)
+            console.log(blockType, edge, col, colorPick, currColor)
             
             // no initial colors in the edge (is first block)
             if (col === null && currColor === null){
               currColor = colorPick[Math.round(Math.random())]
+            } else 
+            if (currColor !== col && currColor !== null){
+              console.log("nope!")
+              // validBlock = false;
+            } 
+             else {
+              currColor = col
             }
 
             // check if fail
-            else if (currColor !== col && col !== null){
+            if (currColor !== col && col !== null){
               // validBlock = false;
               // console.log(currColor, col)
             }
-            
-            
 
             // update Edge
             newEdges[edge] = currColor
