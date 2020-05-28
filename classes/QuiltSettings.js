@@ -19,6 +19,7 @@ class QuiltSettings{
   // generate random blocks based off of generator object
   generateBlocks(){
 
+    let count = 0
     let blocks = []                   // blocks to be returned for rendering
     let blockQueue = new SetBlockMap(this.dimensions.rows, this.dimensions.cols)
 
@@ -44,9 +45,42 @@ class QuiltSettings{
         drawHourglass : [0, 1, 0, 1]
       }
 
+      // function to check if the block pattern is valid
+      const checkMatch = (colors, block) => {
+        let pattern = blockColors[block]
+        let isValid = true
+        let colorSets = new Set()
+
+        // determine how many colors are in the pattern
+        let toCheck = new Set(pattern)
+
+        // loop through all pattern options, generate a set of predetermined colors that need to match
+        toCheck.forEach(check => {
+          let cols = []
+          pattern.forEach((edge, i) => {
+           if (edge === check){
+            cols.push(colors[i])
+           }
+           colorSets.add(cols.filter(col => col != null))
+          })          
+        })
+
+        // check if block matches all patterns
+        colorSets.forEach( cols => {
+
+          if (cols.length > 1){
+            isValid = cols.every(col => col === cols[0])
+          }
+        })
+  
+        return isValid
+      }
+
       if (this.matchEdges){
+        count++;
         // get edges as iterable object
         let edges = Object.entries(blockQueue.getEdges(currBlock.r, currBlock.c))
+        
 
         // generate two color palette
         colorPick = this.colorPalette.selectObj(2, true).map(color => color.fill)
@@ -63,11 +97,12 @@ class QuiltSettings{
         let newEdges = {}
 
         let currColor = null
-        console.log("NEW BLOCK")
 
         do {
           // pick a block
           blockType = this.blockTypes.selectObj(1, true)[0].draw.name;
+
+          console.log(checkMatch(edges.map(edge => edge[1]), blockType))
 
           // get the block rotation pattern
           let rotation = blockColors[blockType]
@@ -78,44 +113,48 @@ class QuiltSettings{
             // 0 is edge, 1 is color
             let col = edges[i % 4][1]
             let edge = edges[i % 4][0]
-            console.log(blockType, edge, col, colorPick, currColor)
+            // console.log(blockType, edge, col, colorPick, currColor)
             
+
+            // check if validblock
+            if (currColor !== null && currColor !== col && col !== null){
+              console.log(count, "not valid", blockType, col, currColor, edges)
+              validBlock = false;
+            }
+
             // no initial colors in the edge (is first block)
-            if (col === null && currColor === null){
+            else if (col === null && currColor === null){
               currColor = colorPick[Math.round(Math.random())]
             } 
             // set new color from edges
             else if (currColor === null && col !== null){
               currColor = col
             } 
-            else if (currColor !== null && col !== null && currColor !== col){
-              console.log("nope")
-              // validBlock = false;
-            }
 
             // update Edge
             newEdges[edge] = currColor
 
             // switch for next color?
-            // console.log(rotation[i % 4], rotation[(i + 1) % 4])
             if (rotation[i % 4] !== rotation[(i + 1) % 4]){
               currColor = null
             }
 
-            // console.log(blockType, [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left])
           }
 
-          blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
-
-          blocks.push( new BlockRender(drawBlock,
-            `block${currBlock.r}c${currBlock.c}`,
-            currBlock.startX,
-            currBlock.startY,
-            this.dimensions.blockHeight,
-            this.dimensions.blockWidth,
-            [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left]
-          ))
-        } while (!validBlock)
+          if (validBlock){
+            blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
+            blocks.push( new BlockRender(drawBlock,
+              `block${currBlock.r}c${currBlock.c}`,
+              currBlock.startX,
+              currBlock.startY,
+              this.dimensions.blockHeight,
+              this.dimensions.blockWidth,
+              [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
+              count
+            ))
+          }
+          
+        } while (validBlock === 2)
         
       } else {
         // generate two color palette
