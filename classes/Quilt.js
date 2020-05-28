@@ -22,12 +22,11 @@ class Quilt{
     this.insertQuiltSVG()
 
     this.blocks.forEach((block, i) => {
-      console.log(block.draw)
       let blockGroup
       if (!this.matchEdges){
-        blockGroup = block.draw(this.quiltID, `quilt${i}`, block.startX, block.startY, block.height, block.width, block.colors)
+        blockGroup = block.draw(this.quiltID, `quilt${i}`, block.startX, block.startY, block.height, block.width, block.count)
       } else {
-        blockGroup = block.draw(block.colors, block.startX, block.startY, block.height, block.width, block.colors)
+        blockGroup = block.draw(block.colors, block.startX, block.startY, block.height, block.width, block.count)
       }
       
       
