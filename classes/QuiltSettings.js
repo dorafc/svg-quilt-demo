@@ -36,7 +36,7 @@ class QuiltSettings{
     do {
       let currBlock = blockQueue.getNextBlock()
       let colorPick
-      let blockType
+      let blockType, blockEdges
     
       const blockColors = {
         drawSolid : [0, 0, 0, 0],
@@ -46,8 +46,7 @@ class QuiltSettings{
       }
 
       // function to check if the block pattern is valid
-      const checkMatch = (colors, block) => {
-        let pattern = blockColors[block]
+      const checkMatch = (colors, pattern) => {
         let isValid = true
         let colorSets = new Set()
 
@@ -76,85 +75,162 @@ class QuiltSettings{
         return isValid
       }
 
+      // function to find valid edge colors
+      const getColorSet = (edges, pattern) => {
+        // console.log(edges, pattern)
+        let colorSet = []
+        // get set of color patterns in pattern
+        const colorPatterns = new Set(pattern)
+
+        // loop through all color patterns in set
+        colorPatterns.forEach((colPattern, iColPatt) => {
+          
+          let indexOfColPattern = []
+
+          // get indexes of instances of the color pattern
+          pattern.forEach((pat, i) => {
+            if (pat === colPattern){
+              indexOfColPattern.push(i)
+            }
+          })
+
+          // get list of colors that match the edge pattern
+          let colorsFromPatternEddges = new Set()
+          indexOfColPattern.forEach(colIndex => {
+            colorsFromPatternEddges.add(edges[colIndex])
+          })
+
+          // if the colors from pattern edges has a defined color, set the color
+          if (colorsFromPatternEddges.has(!undefined)){
+            colorsFromPatternEddges.forEach(col => {
+              if (!col) {
+                colorSet[iColPatt] = col
+              }
+            })
+          } else {
+            // otherwise, mark the color as unselected
+            colorSet[iColPatt] = -1
+          }
+
+          // pick for everything in colorSet currently set to -1
+          colorSet.forEach((col, i) => {
+            if (col === -1){
+              // pick a color not already in colorSet
+              do {
+                colorPick = this.colorPalette.selectObj(1, true).map(color => color.fill)[0]
+              } while (colorSet.includes(colorPick))
+              colorSet[i] = colorPick
+            }
+          })
+        })
+
+        // pick colors for any values of -1 in colorSet
+        return colorSet;
+      }
+
       if (this.matchEdges){
+
+        // order that the blocks are generateds
         count++;
+
         // get edges as iterable object
         let edges = Object.entries(blockQueue.getEdges(currBlock.r, currBlock.c))
-        
-
-        // generate two color palette
-        colorPick = this.colorPalette.selectObj(2, true).map(color => color.fill)
-
-        // assume that the currently picked block is valid, update if not
-        let validBlock = true;
-
-        // get index of first defined color
-        let shiftArray = edges.findIndex(edge => edge[1] !== null)
-        if (shiftArray === -1) {shiftArray = 0}
-        // console.log(shiftArray)
+        let edgeColors = edges.map(edge => edge[1])
 
         // store new edges
         let newEdges = {}
 
-        let currColor = null
-
+        // pick a valid block
         do {
-          // pick a block
-          blockType = this.blockTypes.selectObj(1, true)[0].draw.name;
+          // TO DO: add a check to stop if all blocktypes have been tried
+          blockType = this.blockTypes.selectObj(1, true)[0].draw.name
+          blockEdges = blockColors[blockType]
+         } while (!checkMatch(edgeColors, blockEdges))
+        
+        // pick valid colors for 0,1 edges
+        const colors = getColorSet(edgeColors, blockEdges)
 
-          console.log(checkMatch(edges.map(edge => edge[1]), blockType))
+        // set edge colors
+        newEdges.top = colors[blockEdges[0]]
+        newEdges.right = colors[blockEdges[1]]
+        newEdges.bottom = colors[blockEdges[2]]
+        newEdges.left = colors[blockEdges[3]]
 
-          // get the block rotation pattern
-          let rotation = blockColors[blockType]
-          // console.log(blockType, rotation)
+        console.log(count, newEdges, blockType)
 
-          // go through all edges
-          for (let i = shiftArray; i < 4 + shiftArray; i++){
-            // 0 is edge, 1 is color
-            let col = edges[i % 4][1]
-            let edge = edges[i % 4][0]
-            // console.log(blockType, edge, col, colorPick, currColor)
+        // update blockQueue
+        blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
+        blocks.push( new BlockRender(drawBlock,
+          `block${currBlock.r}c${currBlock.c}`,
+          currBlock.startX,
+          currBlock.startY,
+          this.dimensions.blockHeight,
+          this.dimensions.blockWidth,
+          [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
+          count
+        ))
+
+
+
+        // update edges
+        // newEdges.top = 
+
+        // do {
+          
+
+        //   console.log(checkMatch(edges.map(edge => edge[1]), blockType))
+
+        //   // get the block rotation pattern
+        //   let rotation = blockColors[blockType]
+        //   // console.log(blockType, rotation)
+
+        //   // go through all edges
+        //   for (let i = shiftArray; i < 4 + shiftArray; i++){
+        //     // 0 is edge, 1 is color
+        //     let col = edges[i % 4][1]
+        //     let edge = edges[i % 4][0]
+        //     // console.log(blockType, edge, col, colorPick, currColor)
             
 
-            // check if validblock
-            if (currColor !== null && currColor !== col && col !== null){
-              console.log(count, "not valid", blockType, col, currColor, edges)
-              validBlock = false;
-            }
+        //     // check if validblock
+        //     if (currColor !== null && currColor !== col && col !== null){
+        //       console.log(count, "not valid", blockType, col, currColor, edges)
+        //       validBlock = false;
+        //     }
 
-            // no initial colors in the edge (is first block)
-            else if (col === null && currColor === null){
-              currColor = colorPick[Math.round(Math.random())]
-            } 
-            // set new color from edges
-            else if (currColor === null && col !== null){
-              currColor = col
-            } 
+        //     // no initial colors in the edge (is first block)
+        //     else if (col === null && currColor === null){
+        //       currColor = colorPick[Math.round(Math.random())]
+        //     } 
+        //     // set new color from edges
+        //     else if (currColor === null && col !== null){
+        //       currColor = col
+        //     } 
 
-            // update Edge
-            newEdges[edge] = currColor
+        //     // update Edge
+        //     newEdges[edge] = currColor
 
-            // switch for next color?
-            if (rotation[i % 4] !== rotation[(i + 1) % 4]){
-              currColor = null
-            }
+        //     // switch for next color?
+        //     if (rotation[i % 4] !== rotation[(i + 1) % 4]){
+        //       currColor = null
+        //     }
 
-          }
+        //   }
 
-          if (validBlock){
-            blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
-            blocks.push( new BlockRender(drawBlock,
-              `block${currBlock.r}c${currBlock.c}`,
-              currBlock.startX,
-              currBlock.startY,
-              this.dimensions.blockHeight,
-              this.dimensions.blockWidth,
-              [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
-              count
-            ))
-          }
+        //   if (validBlock){
+        //     blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
+        //     blocks.push( new BlockRender(drawBlock,
+        //       `block${currBlock.r}c${currBlock.c}`,
+        //       currBlock.startX,
+        //       currBlock.startY,
+        //       this.dimensions.blockHeight,
+        //       this.dimensions.blockWidth,
+        //       [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
+        //       count
+        //     ))
+        //   }
           
-        } while (validBlock === 2)
+        // } while (validBlock === 2)
         
       } else {
         // generate two color palette
