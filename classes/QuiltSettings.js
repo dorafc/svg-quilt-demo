@@ -102,15 +102,10 @@ class QuiltSettings{
           
 
           // if the colors from pattern edges has a defined color, set the color
-          colorsFromPatternEddges.forEach(col => {
-            if (col) {
-              colorSet[iColPatt] = col
-            } else {
-              // otherwise, mark the color as unselected
-              colorSet[iColPatt] = -1
-            }
-          })
+          let colorsFromEdgesArray = Array.from(colorsFromPatternEddges.values())
+          colorSet[iColPatt] = colorsFromEdgesArray.find(col => col !== undefined) || -1
 
+          console.log(count, colorSet)
           // pick for everything in colorSet currently set to -1
           colorSet.forEach((col, i) => {
             if (col === -1){
