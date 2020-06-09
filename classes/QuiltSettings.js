@@ -97,7 +97,6 @@ class QuiltSettings{
           let colorsFromPatternEddges = new Set()
           indexOfColPattern.forEach(colIndex => {
             colorsFromPatternEddges.add(edges[colIndex])
-            console.log(count, colorsFromPatternEddges, colIndex)
           })
           
 
@@ -105,7 +104,6 @@ class QuiltSettings{
           let colorsFromEdgesArray = Array.from(colorsFromPatternEddges.values())
           colorSet[iColPatt] = colorsFromEdgesArray.find(col => col !== undefined) || -1
 
-          console.log(count, colorSet)
           // pick for everything in colorSet currently set to -1
           colorSet.forEach((col, i) => {
             if (col === -1){
@@ -119,7 +117,6 @@ class QuiltSettings{
         })
 
         // pick colors for any values of -1 in colorSet
-        console.log(count, colorSet, pattern)
         return colorSet;
       }
 
