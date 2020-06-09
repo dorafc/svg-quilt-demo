@@ -30,7 +30,7 @@ class SetBlockMap{
     let edges = {top: undefined, right: undefined, bottom: undefined, left: undefined}
 
     // top
-    if (r - 1 > 0 && this.setBlocks.has(`${r-1},${c}`)){
+    if (r - 1 >= 0 && this.setBlocks.has(`${r-1},${c}`)){
       edges.top = this.setBlocks.get(`${r-1},${c}`).bottom
     }
     
@@ -45,7 +45,7 @@ class SetBlockMap{
     }
 
     // left
-    if (c - 1 > 0 && this.setBlocks.has(`${r},${c-1}`)){
+    if (c - 1 >= 0 && this.setBlocks.has(`${r},${c-1}`)){
       edges.left = this.setBlocks.get(`${r},${c-1}`).right
     }
 
