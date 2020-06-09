@@ -76,15 +76,14 @@ class QuiltSettings{
       }
 
       // function to find valid edge colors
-      const getColorSet = (edges, pattern) => {
-        // console.log(edges, pattern)
+      const getColorSet = (edges, pattern, count) => {
+        console.log(count, edges, pattern)
         let colorSet = []
         // get set of color patterns in pattern
         const colorPatterns = new Set(pattern)
 
         // loop through all color patterns in set
         colorPatterns.forEach((colPattern, iColPatt) => {
-          
           let indexOfColPattern = []
 
           // get indexes of instances of the color pattern
@@ -98,19 +97,19 @@ class QuiltSettings{
           let colorsFromPatternEddges = new Set()
           indexOfColPattern.forEach(colIndex => {
             colorsFromPatternEddges.add(edges[colIndex])
+            console.log(count, colorsFromPatternEddges, colIndex)
           })
+          
 
           // if the colors from pattern edges has a defined color, set the color
-          if (colorsFromPatternEddges.has(!undefined)){
-            colorsFromPatternEddges.forEach(col => {
-              if (!col) {
-                colorSet[iColPatt] = col
-              }
-            })
-          } else {
-            // otherwise, mark the color as unselected
-            colorSet[iColPatt] = -1
-          }
+          colorsFromPatternEddges.forEach(col => {
+            if (col) {
+              colorSet[iColPatt] = col
+            } else {
+              // otherwise, mark the color as unselected
+              colorSet[iColPatt] = -1
+            }
+          })
 
           // pick for everything in colorSet currently set to -1
           colorSet.forEach((col, i) => {
@@ -125,6 +124,7 @@ class QuiltSettings{
         })
 
         // pick colors for any values of -1 in colorSet
+        console.log(count, colorSet, pattern)
         return colorSet;
       }
 
@@ -148,7 +148,7 @@ class QuiltSettings{
          } while (!checkMatch(edgeColors, blockEdges))
         
         // pick valid colors for 0,1 edges
-        const colors = getColorSet(edgeColors, blockEdges)
+        const colors = getColorSet(edgeColors, blockEdges, count)
 
         // set edge colors
         newEdges.top = colors[blockEdges[0]]
@@ -156,7 +156,7 @@ class QuiltSettings{
         newEdges.bottom = colors[blockEdges[2]]
         newEdges.left = colors[blockEdges[3]]
 
-        console.log(count, newEdges, blockType)
+        // console.log(count, newEdges, blockType)
 
         // update blockQueue
         blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)

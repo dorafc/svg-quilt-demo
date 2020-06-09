@@ -12,7 +12,7 @@ let testDimensions = new Dimensions(5, 5, 50, 50)
 // colors
 let hotpink = new ColorOptions(1, "hotpink")
 let green = new ColorOptions(1, "green")
-let limeGreen = new ColorOptions(0, "limegreen")
+let limeGreen = new ColorOptions(1, "limegreen")
 let deeppink = new ColorOptions(0, "deeppink")
 let teal = new ColorOptions(0, "teal")
 let yellow = new ColorOptions(0, "yellow")
