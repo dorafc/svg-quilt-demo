@@ -7,13 +7,14 @@ import { SetBlockMap } from './SetBlockMap.js'
 import { drawBlock } from './drawBlocks.js'
  
 class QuiltSettings{
-  constructor(quiltID, spaceNameID, dimensions, colorPalette, blockTypes, matchEdges){
+  constructor(quiltID, spaceNameID, dimensions, colorPalette, blockTypes, matchEdges, debugging){
     this.quiltID = quiltID;                   // unique identifier for the quilt
     this.spaceName = spaceNameID;             // id of the element to append the quilt SVG
     this.dimensions = dimensions;             // dimensions of the quilt
     this.colorPalette = colorPalette;         // color palette for the quilt to render
     this.blockTypes = blockTypes              // block types for the quilt
     this.matchEdges = matchEdges              // generate blocks to match edges of neighboring blocks
+    this.debugging = debugging
   }
   
   // generate random blocks based off of generator object
@@ -77,7 +78,6 @@ class QuiltSettings{
 
       // function to find valid edge colors
       const getColorSet = (edges, pattern, count) => {
-        console.log(count, edges, pattern)
         let colorSet = []
         // get set of color patterns in pattern
         const colorPatterns = new Set(pattern)
@@ -148,8 +148,6 @@ class QuiltSettings{
         newEdges.bottom = colors[blockEdges[2]]
         newEdges.left = colors[blockEdges[3]]
 
-        // console.log(count, newEdges, blockType)
-
         // update blockQueue
         blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
         blocks.push( new BlockRender(drawBlock,
@@ -161,68 +159,6 @@ class QuiltSettings{
           [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
           count
         ))
-
-
-
-        // update edges
-        // newEdges.top = 
-
-        // do {
-          
-
-        //   console.log(checkMatch(edges.map(edge => edge[1]), blockType))
-
-        //   // get the block rotation pattern
-        //   let rotation = blockColors[blockType]
-        //   // console.log(blockType, rotation)
-
-        //   // go through all edges
-        //   for (let i = shiftArray; i < 4 + shiftArray; i++){
-        //     // 0 is edge, 1 is color
-        //     let col = edges[i % 4][1]
-        //     let edge = edges[i % 4][0]
-        //     // console.log(blockType, edge, col, colorPick, currColor)
-            
-
-        //     // check if validblock
-        //     if (currColor !== null && currColor !== col && col !== null){
-        //       console.log(count, "not valid", blockType, col, currColor, edges)
-        //       validBlock = false;
-        //     }
-
-        //     // no initial colors in the edge (is first block)
-        //     else if (col === null && currColor === null){
-        //       currColor = colorPick[Math.round(Math.random())]
-        //     } 
-        //     // set new color from edges
-        //     else if (currColor === null && col !== null){
-        //       currColor = col
-        //     } 
-
-        //     // update Edge
-        //     newEdges[edge] = currColor
-
-        //     // switch for next color?
-        //     if (rotation[i % 4] !== rotation[(i + 1) % 4]){
-        //       currColor = null
-        //     }
-
-        //   }
-
-        //   if (validBlock){
-        //     blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
-        //     blocks.push( new BlockRender(drawBlock,
-        //       `block${currBlock.r}c${currBlock.c}`,
-        //       currBlock.startX,
-        //       currBlock.startY,
-        //       this.dimensions.blockHeight,
-        //       this.dimensions.blockWidth,
-        //       [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
-        //       count
-        //     ))
-        //   }
-          
-        // } while (validBlock === 2)
         
       } else {
         // generate two color palette

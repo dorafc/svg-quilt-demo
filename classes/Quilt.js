@@ -13,6 +13,7 @@ class Quilt{
     this.colorPalette = quiltSettings.colorPalette;         // color palette for the quilt to render
     this.blockTypes = quiltSettings.blockTypes              // block types for the quilt
     this.matchEdges = quiltSettings.matchEdges
+    this.debugging = quiltSettings.debugging
 
     this.blocks = quiltSettings.generateBlocks()
   }
@@ -24,9 +25,9 @@ class Quilt{
     this.blocks.forEach((block, i) => {
       let blockGroup
       if (!this.matchEdges){
-        blockGroup = block.draw(this.quiltID, `quilt${i}`, block.startX, block.startY, block.height, block.width, block.count)
+        blockGroup = block.draw(this.quiltID, `quilt${i}`, block.startX, block.startY, block.height, block.width, block.count, this.debugging)
       } else {
-        blockGroup = block.draw(block.colors, block.startX, block.startY, block.height, block.width, block.count)
+        blockGroup = block.draw(block.colors, block.startX, block.startY, block.height, block.width, block.count, this.debugging)
       }
       
       

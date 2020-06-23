@@ -8,7 +8,7 @@
  * @param {int} width         block width dimension
  * @param {string} quiltID    ID of the quilt in the HTML
  */
-let drawBlock = (edges, startX, startY, height, width, count) => {
+let drawBlock = (edges, startX, startY, height, width, count, debugging) => {
   // get quilt DOM element and create block
   // const quilt = document.getElementById(quiltID)
   let block = document.createElementNS("http://www.w3.org/2000/svg", "g")
@@ -72,7 +72,7 @@ let drawBlock = (edges, startX, startY, height, width, count) => {
   })
 
   // add block counts for debugging
-  if (count){
+  if (debugging){
     let countText = document.createElementNS("http://www.w3.org/2000/svg", "text")
     let txt = document.createTextNode(count)
     countText.setAttribute("x", startX+5)
@@ -90,25 +90,22 @@ let drawBlock = (edges, startX, startY, height, width, count) => {
 }
 
 // create a solid color block
-let drawSolid = (quiltID, idName, startX, startY, height, width, colors, count) => {
-  return drawBlock([colors[0], colors[0], colors[0], colors[0]], startX, startY, height, width, count)
+let drawSolid = (quiltID, idName, startX, startY, height, width, colors, count, debugging) => {
+  return drawBlock([colors[0], colors[0], colors[0], colors[0]], startX, startY, height, width, count, debugging)
 }
 
 // create a triangle quilt block with diagonal line going down from orgin
-let drawDownTriangle = (quiltID, idName, startX, startY, height, width, colors, count) => {
-  return drawBlock([colors[0], colors[0], colors[1], colors[1]], startX, startY, height, width, count)
+let drawDownTriangle = (quiltID, idName, startX, startY, height, width, colors, count, debugging) => {
+  return drawBlock([colors[0], colors[0], colors[1], colors[1]], startX, startY, height, width, count, debugging)
 }
 
 // create a triangle quilt block with diagonal line going up from orgin
-let drawUpTriangle = (quiltID, idName, startX, startY, height, width, colors, count) => {
-  // if (colors[0] === colors[1]){
-  //   triangleOpacity(trianglePath1, trianglePath2)
-  // }
-  return drawBlock([colors[0], colors[1], colors[1], colors[0]], startX, startY, height, width, count)
+let drawUpTriangle = (quiltID, idName, startX, startY, height, width, colors, count, debugging) => {
+  return drawBlock([colors[0], colors[1], colors[1], colors[0]], startX, startY, height, width, count, debugging)
 }
 
-let drawHourglass =  (quiltID, idName, startX, startY, height, width, colors, count) => {
-  return drawBlock([colors[0], colors[1], colors[0], colors[1]], startX, startY, height, width, count)
+let drawHourglass =  (quiltID, idName, startX, startY, height, width, colors, count, debugging) => {
+  return drawBlock([colors[0], colors[1], colors[0], colors[1]], startX, startY, height, width, count, debugging)
 }
 
 export { drawBlock, drawSolid, drawDownTriangle, drawUpTriangle, drawHourglass }
