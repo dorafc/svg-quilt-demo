@@ -77,7 +77,7 @@ class QuiltSettings{
       }
 
       // function to find valid edge colors
-      const getColorSet = (edges, pattern, count) => {
+      const getColorSet = (edges, pattern) => {
         let colorSet = []
         // get set of color patterns in pattern
         const colorPatterns = new Set(pattern)
@@ -120,65 +120,61 @@ class QuiltSettings{
         return colorSet;
       }
 
+      // order that the blocks are generateds
+      count++;
+
+      // get edges as iterable object
+      let edges = Object.entries(blockQueue.getEdges(currBlock.r, currBlock.c))
+      let edgeColors = edges.map(edge => edge[1])
+
+      // store new edges
+      let newEdges = {}
+
+      // store edge colors
+      let colors
+
       if (this.matchEdges){
-
-        // order that the blocks are generateds
-        count++;
-
-        // get edges as iterable object
-        let edges = Object.entries(blockQueue.getEdges(currBlock.r, currBlock.c))
-        let edgeColors = edges.map(edge => edge[1])
-
-        // store new edges
-        let newEdges = {}
 
         // pick a valid block
         do {
           // TO DO: add a check to stop if all blocktypes have been tried
           blockType = this.blockTypes.selectObj(1, true)[0].draw.name
           blockEdges = blockColors[blockType]
-         } while (!checkMatch(edgeColors, blockEdges))
+        } while (!checkMatch(edgeColors, blockEdges))
         
         // pick valid colors for 0,1 edges
-        const colors = getColorSet(edgeColors, blockEdges, count)
+        colors = getColorSet(edgeColors, blockEdges)
 
-        // set edge colors
-        newEdges.top = colors[blockEdges[0]]
-        newEdges.right = colors[blockEdges[1]]
-        newEdges.bottom = colors[blockEdges[2]]
-        newEdges.left = colors[blockEdges[3]]
-
-        // update blockQueue
-        blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
-        blocks.push( new BlockRender(drawBlock,
-          `block${currBlock.r}c${currBlock.c}`,
-          currBlock.startX,
-          currBlock.startY,
-          this.dimensions.blockHeight,
-          this.dimensions.blockWidth,
-          [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
-          count
-        ))
-        
       } else {
-        // generate two color palette
-        colorPick = this.colorPalette.selectObj(2, true).map(color => color.fill)        
-
         // get random block type
-        
-        blockType = this.blockTypes.selectObj(1, true)[0];
-        // blockQueue.setEdges(currBlock.r, currBlock.c, mapBlockEdges(blockType.draw.name, colorPick))
+        blockType = this.blockTypes.selectObj(1, true)[0].draw.name;
+        blockEdges = blockColors[blockType]
 
-        blocks.push( new BlockRender(blockType.draw,
-          `block${currBlock.r}c${currBlock.c}`,
-          currBlock.startX,
-          currBlock.startY,
-          this.dimensions.blockHeight,
-          this.dimensions.blockWidth,
-          colorPick
-          )
-        )
+        // generate two color palette
+        colorPick = this.colorPalette.selectObj(2, true).map(color => color.fill)   
+        
+        // update colors
+        colors = blockEdges.map(x => colorPick[x])
       }
+
+      // set edge colors
+      newEdges.top = colors[blockEdges[0]]
+      newEdges.right = colors[blockEdges[1]]
+      newEdges.bottom = colors[blockEdges[2]]
+      newEdges.left = colors[blockEdges[3]]
+
+
+      // update blockQueue
+      blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
+      blocks.push( new BlockRender(drawBlock,
+        `block${currBlock.r}c${currBlock.c}`,
+        currBlock.startX,
+        currBlock.startY,
+        this.dimensions.blockHeight,
+        this.dimensions.blockWidth,
+        [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
+        count
+      ))
 
       // add neighbors to queue, update edge pattern
       // block above

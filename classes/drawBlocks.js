@@ -10,7 +10,6 @@
  */
 let drawBlock = (edges, startX, startY, height, width, count, debugging) => {
   // get quilt DOM element and create block
-  // const quilt = document.getElementById(quiltID)
   let block = document.createElementNS("http://www.w3.org/2000/svg", "g")
 
   // generate corner coordinates

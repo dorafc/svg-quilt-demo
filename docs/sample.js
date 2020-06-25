@@ -16,18 +16,17 @@ let limeGreen = new ColorOptions(1, "limegreen")
 let deeppink = new ColorOptions(1, "deeppink")
 let teal = new ColorOptions(1, "teal")
 let yellow = new ColorOptions(1, "yellow")
-let background = new ColorOptions(1400000, "lightgray")
-let colors = new WeightedList(hotpink, green)
+let background = new ColorOptions(14000, "lightgray")
+let colors = new WeightedList(hotpink, green, limeGreen, deeppink, teal, yellow, background)
 
 // blocks
 let solid = new BlockOptions(1, drawSolid)
 let upTriangle = new BlockOptions(1, drawUpTriangle)
 let downTriangle = new BlockOptions(1, drawDownTriangle)
-let hourglass = new BlockOptions(0, drawHourglass)
+let hourglass = new BlockOptions(1, drawHourglass)
 let blocks = new WeightedList(solid, upTriangle, downTriangle, hourglass)
 
 // match edges?
-// Y AM I BROKEN?!
 let matchEdges = true
 
 // debugging : show rendered block order
