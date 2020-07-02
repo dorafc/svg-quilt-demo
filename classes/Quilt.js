@@ -5,6 +5,7 @@ Quilt object contains information about a quilt to render
 import { drawBlock } from "../classes/drawBlocks.js"
 import { BlockRender } from './BlockRender.js';
 import { SetBlockMap } from './SetBlockMap.js'
+import { insertQuiltSVG, renderBlocks } from './quiltRender.js'
 
 class Quilt{
   // constructor
@@ -18,30 +19,34 @@ class Quilt{
     this.debugging = quiltSettings.debugging
 
     this.blocks = this.generateBlocks()
+
+    insertQuiltSVG(this.spaceName, this.quiltID, this.dimensions)
+    renderBlocks(this.blocks, this.quiltID, this.debugging)
+
   }
 
   // render blocks
-  renderBlocks(){
-    this.insertQuiltSVG()
+  // renderBlocks(){
+  //   this.insertQuiltSVG()
 
-    this.blocks.forEach((block, i) => {
-      const blockGroup = block.draw(block.colors, block.startX, block.startY, block.height, block.width, block.count, this.debugging)
-      this.quiltSVG.appendChild(blockGroup)
-    })
-  }
+  //   this.blocks.forEach((block, i) => {
+  //     const blockGroup = block.draw(block.colors, block.startX, block.startY, block.height, block.width, block.count, this.debugging)
+  //     this.quiltSVG.appendChild(blockGroup)
+  //   })
+  // }
 
-  // initialize the Quilt SVG element
-  insertQuiltSVG(){
-    this.quiltSpace = document.getElementById(this.spaceName)
-    this.quiltSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+  // // initialize the Quilt SVG element
+  // insertQuiltSVG(){
+  //   this.quiltSpace = document.getElementById(this.spaceName)
+  //   this.quiltSVG = document.createElementNS("http://www.w3.org/2000/svg", "svg")
 
-    this.quiltSVG.setAttribute("height", this.dimensions.quiltHeight)
-    this.quiltSVG.setAttribute("width", this.dimensions.quiltWidth)
-    this.quiltSVG.setAttribute("viewbox", `0 0 ${this.dimensions.quiltHeight} ${this.dimensions.quiltWidth}`)
-    this.quiltSVG.setAttribute("id", this.quiltID)
+  //   this.quiltSVG.setAttribute("height", this.dimensions.quiltHeight)
+  //   this.quiltSVG.setAttribute("width", this.dimensions.quiltWidth)
+  //   this.quiltSVG.setAttribute("viewbox", `0 0 ${this.dimensions.quiltHeight} ${this.dimensions.quiltWidth}`)
+  //   this.quiltSVG.setAttribute("id", this.quiltID)
 
-    this.quiltSpace.appendChild(this.quiltSVG)
-  }
+  //   this.quiltSpace.appendChild(this.quiltSVG)
+  // }
 
   // generate random blocks based off of generator object
   generateBlocks(){

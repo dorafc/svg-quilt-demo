@@ -8,4 +8,4 @@ import { Quilt } from '../classes/Quilt.js';
 
 let quilt = new Quilt(newQuilt);
 
-quilt.renderBlocks()
+// quilt.renderBlocks()
