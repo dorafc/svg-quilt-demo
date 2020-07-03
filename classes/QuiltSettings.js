@@ -1,8 +1,6 @@
 /*-------
 QuiltSettings object contains parameters that a creates a quilt object
 -------*/
-
-
  
 class QuiltSettings{
   constructor(quiltID, spaceNameID, dimensions, colorPalette, blockTypes, matchEdges, debugging){
@@ -14,7 +12,6 @@ class QuiltSettings{
     this.matchEdges = matchEdges              // generate blocks to match edges of neighboring blocks
     this.debugging = debugging
   }
-  
 }
 
 export { QuiltSettings }
