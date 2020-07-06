@@ -2,9 +2,9 @@
 Functions to generate blocks types
 -------*/
 
-import { BlockRender } from './BlockRender.js';
-import { SetBlockMap } from './SetBlockMap.js'
-import { drawBlock } from "../classes/drawBlocks.js"
+import { BlockRender } from '../classes/BlockRender.js';
+import { SetBlockMap } from '../classes/SetBlockMap.js'
+import { drawBlock } from "./drawBlocks.js"
 
 const blockColors = {
   drawSolid : [0, 0, 0, 0],

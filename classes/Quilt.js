@@ -1,8 +1,8 @@
 /*-------
 Quilt object contains information about a quilt to render
 -------*/
-import { generateBlocks } from './blockGenerator.js'
-import { insertQuiltSVG, renderBlocks } from './quiltRender.js'
+import { generateBlocks } from '../functions/blockGenerator.js'
+import { insertQuiltSVG, renderBlocks } from '../functions/quiltRender.js'
 
 class Quilt{
   // constructor
@@ -21,7 +21,5 @@ class Quilt{
     renderBlocks(this.blocks, this.quiltID, this.debugging)
   }
 }
-
-
 
 export { Quilt }

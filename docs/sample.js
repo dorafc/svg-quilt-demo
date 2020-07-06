@@ -1,9 +1,9 @@
-import { drawSolid, drawDownTriangle, drawUpTriangle, drawHourglass } from "../classes/drawBlocks.js"
+import { drawSolid, drawDownTriangle, drawUpTriangle, drawHourglass } from "../functions/drawBlocks.js"
 import { Dimensions } from "../classes/Dimensions.js"
 import { QuiltSettings } from "../classes/QuiltSettings.js"
-import { ColorOptions } from "../classes/ColorOptions.js"
-import { WeightedList } from "../classes/WeightedList.js"
-import { BlockOptions } from "../classes/BlockOptions.js"
+import { ColorOptions } from "../classes/weighted_obj/ColorOptions.js"
+import { WeightedList } from "../classes/weighted_obj/WeightedList.js"
+import { BlockOptions } from "../classes/weighted_obj/BlockOptions.js"
 
 let quiltID = "sampleQuilt"
 let spaceName = "quiltSpace"
