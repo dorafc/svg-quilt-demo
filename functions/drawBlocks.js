@@ -107,6 +107,4 @@ let drawHourglass =  (startX, startY, height, width, colors, count, debugging) =
   return drawBlock([colors[0], colors[1], colors[0], colors[1]], startX, startY, height, width, count, debugging)
 }
 
-let drawRecursiveBlock = () => {}
-
 export { drawBlock, drawSolid, drawDownTriangle, drawUpTriangle, drawHourglass }

@@ -12,10 +12,11 @@ class Quilt{
     this.dimensions = quiltSettings.dimensions;             // dimensions of the quilt
     this.colorPalette = quiltSettings.colorPalette;         // color palette for the quilt to render
     this.blockTypes = quiltSettings.blockTypes              // block types for the quilt
-    this.matchEdges = quiltSettings.matchEdges
-    this.debugging = quiltSettings.debugging
+    this.matchEdges = quiltSettings.matchEdges              // match edges along blocks or not
+    this.recursiveBlock = quiltSettings.recursiveBlock      // percentage of blocks with recursive subblocks
+    this.debugging = quiltSettings.debugging                // display order of block rendering
 
-    this.blocks = generateBlocks(this.dimensions, this.matchEdges, this.blockTypes, this.colorPalette)
+    this.blocks = generateBlocks(this.dimensions, this.matchEdges, this.blockTypes, this.colorPalette, this.recursiveBlock)
 
     insertQuiltSVG(this.spaceName, this.quiltID, this.dimensions)
     renderBlocks(this.blocks, this.quiltID, this.debugging)

@@ -14,7 +14,7 @@ const blockColors = {
 }
 
 // generate random blocks based off of generator object
-const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette) => {
+const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recursiveBlock) => {
   let count = 0
   let blocks = []                   // blocks to be returned for rendering
   let blockQueue = new SetBlockMap(dimensions.rows, dimensions.cols)
