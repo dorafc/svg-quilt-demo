@@ -89,22 +89,24 @@ let drawBlock = (edges, startX, startY, height, width, count, debugging) => {
 }
 
 // create a solid color block
-let drawSolid = (quiltID, idName, startX, startY, height, width, colors, count, debugging) => {
+let drawSolid = (startX, startY, height, width, colors, count, debugging) => {
   return drawBlock([colors[0], colors[0], colors[0], colors[0]], startX, startY, height, width, count, debugging)
 }
 
 // create a triangle quilt block with diagonal line going down from orgin
-let drawDownTriangle = (quiltID, idName, startX, startY, height, width, colors, count, debugging) => {
+let drawDownTriangle = (startX, startY, height, width, colors, count, debugging) => {
   return drawBlock([colors[0], colors[0], colors[1], colors[1]], startX, startY, height, width, count, debugging)
 }
 
 // create a triangle quilt block with diagonal line going up from orgin
-let drawUpTriangle = (quiltID, idName, startX, startY, height, width, colors, count, debugging) => {
+let drawUpTriangle = (startX, startY, height, width, colors, count, debugging) => {
   return drawBlock([colors[0], colors[1], colors[1], colors[0]], startX, startY, height, width, count, debugging)
 }
 
-let drawHourglass =  (quiltID, idName, startX, startY, height, width, colors, count, debugging) => {
+let drawHourglass =  (startX, startY, height, width, colors, count, debugging) => {
   return drawBlock([colors[0], colors[1], colors[0], colors[1]], startX, startY, height, width, count, debugging)
 }
+
+let drawRecursiveBlock = () => {}
 
 export { drawBlock, drawSolid, drawDownTriangle, drawUpTriangle, drawHourglass }
