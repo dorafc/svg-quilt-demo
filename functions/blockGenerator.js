@@ -59,6 +59,12 @@ const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recurs
       // pick valid colors for 0,1 edges
       colors = getColorSet(edgeColors, blockEdges, colorPalette)
 
+      // set edge colors
+      newEdges.top = colors[blockEdges[0]]
+      newEdges.right = colors[blockEdges[1]]
+      newEdges.bottom = colors[blockEdges[2]]
+      newEdges.left = colors[blockEdges[3]]
+
     } else {
       // get random block type
       blockType = blockTypes.selectObj(1, true)[0].draw.name;
@@ -69,14 +75,12 @@ const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recurs
       
       // update colors
       colors = blockEdges.map(x => colorPick[x])
+    
+      newEdges.top = colors[0]
+      newEdges.right = colors[1]
+      newEdges.bottom = colors[2]
+      newEdges.left = colors[3]
     }
-
-    // set edge colors
-    newEdges.top = colors[blockEdges[0]]
-    newEdges.right = colors[blockEdges[1]]
-    newEdges.bottom = colors[blockEdges[2]]
-    newEdges.left = colors[blockEdges[3]]
-
 
     // update blockQueue
     blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
