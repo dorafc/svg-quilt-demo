@@ -32,7 +32,7 @@ let matchEdges = false
 // debugging : show rendered block order
 let debugging = false
 
-// likelyhood of recursive blocks (will only work on un matched edges)
+// likelihood of recursive blocks (will only work on un matched edges)
 let recursiveBlock = .1
 
 let newQuilt = new QuiltSettings(quiltID, spaceName, testDimensions, colors, blocks, matchEdges, recursiveBlock, debugging)
