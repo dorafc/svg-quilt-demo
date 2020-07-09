@@ -31,15 +31,13 @@ const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recurs
   // go through to push to blocks / generate pattern
   do {
     let currBlock = blockQueue.getNextBlock()
-    let colorPick
-    let blockType, blockEdges
+    let colorPick, blockType
 
     // order that the blocks are generateds
     count++;
 
     // get edges as iterable object
-    let edges = Object.entries(blockQueue.getEdges(currBlock.r, currBlock.c))
-    let edgeColors = edges.map(edge => edge[1])
+    let blockEdges
 
     // store new edges
     let newEdges = {}
@@ -48,6 +46,9 @@ const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recurs
     let colors
 
     if (matchEdges){
+      // get edges that the new block needs to map too
+      let edges = Object.entries(blockQueue.getEdges(currBlock.r, currBlock.c))
+      let edgeColors = edges.map(edge => edge[1])
 
       // pick a valid block
       do {
