@@ -31,69 +31,30 @@ const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recurs
   // go through to push to blocks / generate pattern
   do {
     let currBlock = blockQueue.getNextBlock()
-    let colorPick, blockType
 
     // order that the blocks are generateds
     count++;
 
-    // get edges as iterable object
-    let blockEdges
-
-    // store new edges
-    let newEdges = {}
-
-    // store edge colors
-    let colors
-
     if (matchEdges){
-      // get edges that the new block needs to map too
-      let edges = Object.entries(blockQueue.getEdges(currBlock.r, currBlock.c))
-      let edgeColors = edges.map(edge => edge[1])
+      // store new edges
+      let newEdges = {}
+      let block
 
-      // pick a valid block
-      do {
-        // TO DO: add a check to stop if all blocktypes have been tried
-        blockType = blockTypes.selectObj(1, true)[0].draw.name
-        blockEdges = blockColors[blockType]
-      } while (!checkMatch(edgeColors, blockEdges))
-      
-      // pick valid colors for 0,1 edges
-      colors = getColorSet(edgeColors, blockEdges, colorPalette)
+      // geneerate block and new edges
+      [block, newEdges] = pickMatchBlock(blockQueue, currBlock, blockTypes, blockColors, colorPalette, dimensions, count)
 
-      // set edge colors
-      newEdges.top = colors[blockEdges[0]]
-      newEdges.right = colors[blockEdges[1]]
-      newEdges.bottom = colors[blockEdges[2]]
-      newEdges.left = colors[blockEdges[3]]
+      // add blocks to block queue
+      blocks.push(block)
+
+      // update blockQueue
+      blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
 
     } else {
-      // get random block type
-      blockType = blockTypes.selectObj(1, true)[0].draw.name;
-      blockEdges = blockColors[blockType]
+      let block = pickBlock(recursiveBlock, blockTypes, blockColors, colorPalette, currBlock, dimensions, count)
 
-      // generate two color palette
-      colorPick = colorPalette.selectObj(2, true).map(color => color.fill)   
-      
-      // update colors
-      colors = blockEdges.map(x => colorPick[x])
-    
-      newEdges.top = colors[0]
-      newEdges.right = colors[1]
-      newEdges.bottom = colors[2]
-      newEdges.left = colors[3]
+      // add block to render queue
+      blocks.push( block)
     }
-
-    // update blockQueue
-    blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
-    blocks.push( new BlockRender(drawBlock,
-      `block${currBlock.r}c${currBlock.c}`,
-      currBlock.startX,
-      currBlock.startY,
-      dimensions.blockHeight,
-      dimensions.blockWidth,
-      [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
-      count
-    ))
 
     // add neighbors to queue, update edge pattern
     // block above
@@ -130,6 +91,76 @@ const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recurs
 
   } while (blockQueue.hasNextBlock())
   return blocks;
+}
+
+// function to pick a block for matching edges
+const pickMatchBlock = (blockQueue, currBlock, blockTypes, blockColors, colorPalette, dimensions, count) => {
+  let block, blockType, blockEdges, colors
+  // store new edges
+  let newEdges = {}
+
+  // get edges that the new block needs to map too
+  let edges = Object.entries(blockQueue.getEdges(currBlock.r, currBlock.c))
+  let edgeColors = edges.map(edge => edge[1])
+
+  // pick a valid block
+  do {
+    // TO DO: add a check to stop if all blocktypes have been tried
+    blockType = blockTypes.selectObj(1, true)[0].draw.name
+    blockEdges = blockColors[blockType]
+  } while (!checkMatch(edgeColors, blockEdges))
+  
+  // pick valid colors for 0,1 edges
+  colors = getColorSet(edgeColors, blockEdges, colorPalette)
+
+  // set edge colors
+  newEdges.top = colors[blockEdges[0]]
+  newEdges.right = colors[blockEdges[1]]
+  newEdges.bottom = colors[blockEdges[2]]
+  newEdges.left = colors[blockEdges[3]]
+
+  block = new BlockRender(drawBlock,
+    `block${currBlock.r}c${currBlock.c}`,
+    currBlock.startX,
+    currBlock.startY,
+    dimensions.blockHeight,
+    dimensions.blockWidth,
+    [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
+    count
+  )
+
+  return [block, newEdges]
+}
+
+// function to pick a block unmatched edges
+const pickBlock = (recursiveBlock, blockTypes, blockColors, colorPalette, currBlock, dimensions, count) =>{
+  let blockType, blockEdges, colorPick, colors
+  let block
+
+  // check if the block is recursive
+  let recurseBlock = (Math.random() < recursiveBlock)
+  console.log(recurseBlock)
+
+  // get random block type
+  blockType = blockTypes.selectObj(1, true)[0].draw.name;
+  blockEdges = blockColors[blockType]
+
+  // generate two color palette
+  colorPick = colorPalette.selectObj(2, true).map(color => color.fill)   
+  
+  // update colors
+  colors = blockEdges.map(x => colorPick[x])
+
+  block = new BlockRender(drawBlock,
+    `block${currBlock.r}c${currBlock.c}`,
+    currBlock.startX,
+    currBlock.startY,
+    dimensions.blockHeight,
+    dimensions.blockWidth,
+    colors,
+    count)
+
+  return block
 }
 
 // function to find valid edge colors
