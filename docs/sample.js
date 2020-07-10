@@ -27,7 +27,7 @@ let hourglass = new BlockOptions(0, drawHourglass)
 let blocks = new WeightedList(solid, upTriangle, downTriangle, hourglass)
 
 // match edges?
-let matchEdges = true
+let matchEdges = false
 
 // debugging : show rendered block order
 let debugging = false

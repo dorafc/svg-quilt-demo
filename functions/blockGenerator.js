@@ -146,21 +146,33 @@ const pickMatchBlock = (blockQueue, currBlock, blockTypes, colorPalette, dimensi
 // function to pick a block unmatched edges
 const pickBlock = (recursiveBlock, blockTypes, colorPalette, startX, startY, r, c, height, width, count) =>{
   let blockType, blockEdges, colorPick, colors
-  let block = []
+  let blocks = []
 
   // check if the block is recursive
   let recurseBlock = (Math.random() < recursiveBlock)
+  let blockList = []
 
   // call function again for recursive block
   if (recurseBlock){
-    block.push(new BlockRender(drawBlock,
-      `block${r}c${c}`,
-      startX,
-      startY,
-      height,
-      width,
-      ["grey", "grey", "grey", "grey"],
-      count))
+    let halfHeight = height / 2
+    let halfWidth = width / 2
+
+    for (let h = 0; h < height; h+=halfHeight){
+      for (let w = 0; w < width; w+=halfWidth){
+        blockList.push(
+          pickBlock(0, 
+            blockTypes, 
+            colorPalette, 
+            startX+w, 
+            startY+h, 
+            r, 
+            c,
+            halfHeight, 
+            halfWidth, 
+            count)
+        )
+      }
+    }
 
   // pick a block
   } else {
@@ -174,7 +186,7 @@ const pickBlock = (recursiveBlock, blockTypes, colorPalette, startX, startY, r, 
     // update colors
     colors = blockEdges.map(x => colorPick[x])
 
-    block.push(new BlockRender(drawBlock,
+    blockList.push(new BlockRender(drawBlock,
       `block${r}c${c}`,
       startX,
       startY,
@@ -184,7 +196,7 @@ const pickBlock = (recursiveBlock, blockTypes, colorPalette, startX, startY, r, 
       count))
   }
 
-  return block
+  return blockList.flat()
 }
 
 // function to find valid edge colors
