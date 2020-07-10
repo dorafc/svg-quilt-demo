@@ -41,19 +41,30 @@ const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recurs
       let block
 
       // geneerate block and new edges
-      [block, newEdges] = pickMatchBlock(blockQueue, currBlock, blockTypes, blockColors, colorPalette, dimensions, count)
+      [block, newEdges] = pickMatchBlock(blockQueue, currBlock, blockTypes, colorPalette, dimensions, count)
 
-      // add blocks to block queue
+      // add blocks to render queue
       blocks.push(block)
 
       // update blockQueue
       blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
 
     } else {
-      let block = pickBlock(recursiveBlock, blockTypes, blockColors, colorPalette, currBlock, dimensions, count)
+      let blockList = pickBlock(recursiveBlock, 
+        blockTypes, 
+        colorPalette, 
+        currBlock.startX, 
+        currBlock.startY, 
+        currBlock.r, 
+        currBlock.c,
+        dimensions.blockHeight, 
+        dimensions.blockWidth, 
+        count)
 
       // add block to render queue
-      blocks.push( block)
+      blockList.forEach((block) => {
+        blocks.push(block)
+      })
     }
 
     // add neighbors to queue, update edge pattern
@@ -94,7 +105,7 @@ const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recurs
 }
 
 // function to pick a block for matching edges
-const pickMatchBlock = (blockQueue, currBlock, blockTypes, blockColors, colorPalette, dimensions, count) => {
+const pickMatchBlock = (blockQueue, currBlock, blockTypes, colorPalette, dimensions, count) => {
   let block, blockType, blockEdges, colors
   // store new edges
   let newEdges = {}
@@ -133,32 +144,45 @@ const pickMatchBlock = (blockQueue, currBlock, blockTypes, blockColors, colorPal
 }
 
 // function to pick a block unmatched edges
-const pickBlock = (recursiveBlock, blockTypes, blockColors, colorPalette, currBlock, dimensions, count) =>{
+const pickBlock = (recursiveBlock, blockTypes, colorPalette, startX, startY, r, c, height, width, count) =>{
   let blockType, blockEdges, colorPick, colors
-  let block
+  let block = []
 
   // check if the block is recursive
   let recurseBlock = (Math.random() < recursiveBlock)
-  console.log(recurseBlock)
 
-  // get random block type
-  blockType = blockTypes.selectObj(1, true)[0].draw.name;
-  blockEdges = blockColors[blockType]
+  // call function again for recursive block
+  if (recurseBlock){
+    block.push(new BlockRender(drawBlock,
+      `block${r}c${c}`,
+      startX,
+      startY,
+      height,
+      width,
+      ["grey", "grey", "grey", "grey"],
+      count))
 
-  // generate two color palette
-  colorPick = colorPalette.selectObj(2, true).map(color => color.fill)   
-  
-  // update colors
-  colors = blockEdges.map(x => colorPick[x])
+  // pick a block
+  } else {
+    // get random block type
+    blockType = blockTypes.selectObj(1, true)[0].draw.name;
+    blockEdges = blockColors[blockType]
 
-  block = new BlockRender(drawBlock,
-    `block${currBlock.r}c${currBlock.c}`,
-    currBlock.startX,
-    currBlock.startY,
-    dimensions.blockHeight,
-    dimensions.blockWidth,
-    colors,
-    count)
+    // generate two color palette
+    colorPick = colorPalette.selectObj(2, true).map(color => color.fill)   
+    
+    // update colors
+    colors = blockEdges.map(x => colorPick[x])
+
+    block.push(new BlockRender(drawBlock,
+      `block${r}c${c}`,
+      startX,
+      startY,
+      height,
+      width,
+      colors,
+      count))
+  }
 
   return block
 }
