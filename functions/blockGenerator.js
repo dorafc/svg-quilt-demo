@@ -50,7 +50,8 @@ const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recurs
       blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
 
     } else {
-      let blockList = pickBlock(recursiveBlock, 
+      let blockList = pickBlock(recursiveBlock,
+        0, 
         blockTypes, 
         colorPalette, 
         currBlock.startX, 
@@ -144,23 +145,29 @@ const pickMatchBlock = (blockQueue, currBlock, blockTypes, colorPalette, dimensi
 }
 
 // function to pick a block unmatched edges
-const pickBlock = (recursiveBlock, blockTypes, colorPalette, startX, startY, r, c, height, width, count) =>{
+const pickBlock = (recursiveBlock, recurseLevel, blockTypes, colorPalette, startX, startY, r, c, height, width, count) =>{
   let blockType, blockEdges, colorPick, colors
-  let blocks = []
 
   // check if the block is recursive
-  let recurseBlock = (Math.random() < recursiveBlock)
+  let decay = Math.pow(recursiveBlock.decay, recurseLevel)
+  let validSize = height > recursiveBlock.minSize && width > recursiveBlock.minSize
+  let recurseBlock = (Math.random() < (recursiveBlock.frequency * decay) 
+                      && recurseLevel < recursiveBlock.levels
+                      && validSize)
   let blockList = []
 
   // call function again for recursive block
   if (recurseBlock){
+    let nextLevel = recurseLevel + 1
+    // console.log(recurseLevel, nextLevel, recursiveBlock.levels)
     let halfHeight = height / 2
     let halfWidth = width / 2
 
     for (let h = 0; h < height; h+=halfHeight){
       for (let w = 0; w < width; w+=halfWidth){
         blockList.push(
-          pickBlock(0, 
+          pickBlock(recursiveBlock,
+            nextLevel, 
             blockTypes, 
             colorPalette, 
             startX+w, 
