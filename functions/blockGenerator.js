@@ -41,7 +41,17 @@ const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recurs
       let block
 
       // geneerate block and new edges
-      [block, newEdges] = pickMatchBlock(blockQueue, currBlock, blockTypes, colorPalette, dimensions, count)
+      [block, newEdges] = pickMatchBlock(
+        blockQueue, 
+        blockTypes, 
+        colorPalette,
+        currBlock.startX, 
+        currBlock.startY, 
+        currBlock.r, 
+        currBlock.c, 
+        dimensions.blockHeight,
+        dimensions.blockWidth, 
+        count)
 
       // add blocks to render queue
       blocks.push(block)
@@ -106,13 +116,13 @@ const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recurs
 }
 
 // function to pick a block for matching edges
-const pickMatchBlock = (blockQueue, currBlock, blockTypes, colorPalette, dimensions, count) => {
+const pickMatchBlock = (blockQueue, blockTypes, colorPalette, startX, startY, r, c, height, width, count) => {
   let block, blockType, blockEdges, colors
   // store new edges
   let newEdges = {}
 
   // get edges that the new block needs to map too
-  let edges = Object.entries(blockQueue.getEdges(currBlock.r, currBlock.c))
+  let edges = Object.entries(blockQueue.getEdges(r, c))
   let edgeColors = edges.map(edge => edge[1])
 
   // pick a valid block
@@ -132,11 +142,11 @@ const pickMatchBlock = (blockQueue, currBlock, blockTypes, colorPalette, dimensi
   newEdges.left = colors[blockEdges[3]]
 
   block = new BlockRender(drawBlock,
-    `block${currBlock.r}c${currBlock.c}`,
-    currBlock.startX,
-    currBlock.startY,
-    dimensions.blockHeight,
-    dimensions.blockWidth,
+    `block${r}c${c}`,
+    startX,
+    startY,
+    height,
+    width,
     [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
     count
   )
