@@ -126,10 +126,14 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, startX, startY, r,
   let edgeColors = edges.map(edge => edge[1])
 
   // pick a valid block
+  let checkedBlocks = new Set()
   do {
-    // TO DO: add a check to stop if all blocktypes have been tried
     blockType = blockTypes.selectObj(1, true)[0].draw.name
     blockEdges = blockColors[blockType]
+    checkedBlocks.add(blockType)
+    if(checkedBlocks.size === blockTypes.list.length){
+      console.log("uh oh, nothing matches :-/")
+    }
   } while (!checkMatch(edgeColors, blockEdges))
   
   // pick valid colors for 0,1 edges

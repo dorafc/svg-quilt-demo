@@ -17,7 +17,7 @@ let deeppink = new ColorOptions(1, "deeppink")
 let teal = new ColorOptions(1, "teal")
 let yellow = new ColorOptions(1, "yellow")
 let background = new ColorOptions(14000, "#c5b9c7")
-let colors = new WeightedList(hotpink, green, limeGreen, deeppink, teal, yellow, background)
+let colors = new WeightedList(hotpink, green, limeGreen, deeppink, teal, yellow)
 
 // blocks
 let solid = new BlockOptions(1, drawSolid)
