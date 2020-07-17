@@ -21,8 +21,8 @@ let colors = new WeightedList(hotpink, green, limeGreen, deeppink, teal, yellow)
 
 // blocks
 let solid = new BlockOptions(1, drawSolid)
-let upTriangle = new BlockOptions(1, drawUpTriangle)
-let downTriangle = new BlockOptions(0, drawDownTriangle)
+let upTriangle = new BlockOptions(0, drawUpTriangle)
+let downTriangle = new BlockOptions(1, drawDownTriangle)
 let hourglass = new BlockOptions(0, drawHourglass)
 let blocks = new WeightedList(solid, upTriangle, downTriangle, hourglass)
 

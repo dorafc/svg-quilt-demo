@@ -141,11 +141,12 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, startX, startY, r,
   // if no blocks match...
   if (noMatches){
     blockType = ""
-    blockEdges = []
+    blockEdges = [0,1,2,3]
   }
   
   // pick valid colors for 0,1 edges
   colors = getColorSet(edgeColors, blockEdges, colorPalette)
+  console.log(colors, blockEdges)
 
   // set edge colors
   newEdges.top = colors[blockEdges[0]]
@@ -233,7 +234,6 @@ const getColorSet = (edges, pattern, colorPalette) => {
   let colorSet = []
   // get set of color patterns in pattern
   const colorPatterns = new Set(pattern)
-  // console.log(colorPatterns, edges)
 
   // loop through all color patterns in set
   colorPatterns.forEach((colPattern, iColPatt) => {
@@ -268,10 +268,6 @@ const getColorSet = (edges, pattern, colorPalette) => {
       }
     })
   })
-
-  if (colorPatterns.size === 0){
-    colorSet = edges.map(edge => (!edge) ? "blue" : edge)
-  }
 
   // pick colors for any values of -1 in colorSet
   return colorSet;
