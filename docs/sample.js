@@ -22,7 +22,7 @@ let colors = new WeightedList(hotpink, green, limeGreen, deeppink, teal, yellow)
 // blocks
 let solid = new BlockOptions(1, drawSolid)
 let upTriangle = new BlockOptions(1, drawUpTriangle)
-let downTriangle = new BlockOptions(1, drawDownTriangle)
+let downTriangle = new BlockOptions(0, drawDownTriangle)
 let hourglass = new BlockOptions(0, drawHourglass)
 let blocks = new WeightedList(solid, upTriangle, downTriangle, hourglass)
 
@@ -30,7 +30,7 @@ let blocks = new WeightedList(solid, upTriangle, downTriangle, hourglass)
 let matchEdges = true
 
 // debugging : show rendered block order
-let debugging = false
+let debugging = true
 
 // likelihood of recursive blocks (will only work on un matched edges)
 let recursiveBlock = {frequency : .4,

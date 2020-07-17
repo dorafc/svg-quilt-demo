@@ -121,20 +121,28 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, startX, startY, r,
   // store new edges
   let newEdges = {}
 
+  //number of of valid blocks
+  const validBlockCount = blockTypes.list.filter(type => type.weight != 0).length
+
   // get edges that the new block needs to map too
   let edges = Object.entries(blockQueue.getEdges(r, c))
   let edgeColors = edges.map(edge => edge[1])
 
   // pick a valid block
   let checkedBlocks = new Set()
+  let noMatches = false
   do {
+    noMatches = checkedBlocks.size === validBlockCount
     blockType = blockTypes.selectObj(1, true)[0].draw.name
     blockEdges = blockColors[blockType]
     checkedBlocks.add(blockType)
-    if(checkedBlocks.size === blockTypes.list.length){
-      console.log("uh oh, nothing matches :-/")
-    }
-  } while (!checkMatch(edgeColors, blockEdges))
+  } while (!checkMatch(edgeColors, blockEdges) && !noMatches)
+
+  // if no blocks match...
+  if (noMatches){
+    blockType = ""
+    blockEdges = []
+  }
   
   // pick valid colors for 0,1 edges
   colors = getColorSet(edgeColors, blockEdges, colorPalette)
@@ -173,7 +181,6 @@ const pickBlock = (recursiveBlock, recurseLevel, blockTypes, colorPalette, start
   // call function again for recursive block
   if (recurseBlock){
     let nextLevel = recurseLevel + 1
-    // console.log(recurseLevel, nextLevel, recursiveBlock.levels)
     let halfHeight = height / 2
     let halfWidth = width / 2
 
@@ -226,6 +233,7 @@ const getColorSet = (edges, pattern, colorPalette) => {
   let colorSet = []
   // get set of color patterns in pattern
   const colorPatterns = new Set(pattern)
+  // console.log(colorPatterns, edges)
 
   // loop through all color patterns in set
   colorPatterns.forEach((colPattern, iColPatt) => {
@@ -260,6 +268,10 @@ const getColorSet = (edges, pattern, colorPalette) => {
       }
     })
   })
+
+  if (colorPatterns.size === 0){
+    colorSet = edges.map(edge => (!edge) ? "blue" : edge)
+  }
 
   // pick colors for any values of -1 in colorSet
   return colorSet;
