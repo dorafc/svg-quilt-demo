@@ -30,10 +30,10 @@ let blocks = new WeightedList(solid, upTriangle, downTriangle, hourglass)
 let matchEdges = true
 
 // debugging : show rendered block order
-let debugging = true
+let debugging = false
 
 // likelihood of recursive blocks (will only work on un matched edges)
-let recursiveBlock = {frequency : .4,
+let recursiveBlock = {frequency : 0,
                       levels : 3,
                       decay : .8,
                       minSize : 10}
