@@ -25,6 +25,23 @@ class WeightedList{
 
     return selected
   }
+
+  selectUnweightedObj(count, unique){
+    let selectionLength = count ? count : 1;            // number of objects selected from the list
+    let selected = []                                   // array of selected objects
+
+    // pick correct number of unique objects
+    do {
+      let randomPick = Math.floor(Math.random() * Math.floor(this.list.length));     // pick a random integer of index in list
+
+      let obj = this.list[randomPick]
+      if (!unique || !selected.includes(obj)){
+        selected.push(obj)
+      }
+    } while (selected.length < selectionLength)
+
+    return selected
+  }
 }
 
 // return normalized weights as an array
