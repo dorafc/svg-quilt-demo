@@ -29,6 +29,11 @@ let blocks = new WeightedList(solid, upTriangle, downTriangle, hourglass)
 // match edges?
 let matchEdges = true
 
+// Occassionally, there may be no valid blocks from the list of allowed blocks that match the edges of an ungenerated block. In this situation, quilt.b will need to either choose an unmatched block from the list or pick an unallowed block
+const matchEdgeFailureOptions = ['pickAllowedBlock', 'pickMatchedColor']
+let matchFallback = matchEdgeFailureOptions[1]
+
+
 // debugging : show rendered block order
 let debugging = false
 
@@ -38,6 +43,6 @@ let recursiveBlock = {frequency : 0,
                       decay : .8,
                       minSize : 10}
 
-let newQuilt = new QuiltSettings(quiltID, spaceName, testDimensions, colors, blocks, matchEdges, recursiveBlock, debugging)
+let newQuilt = new QuiltSettings(quiltID, spaceName, testDimensions, colors, blocks, matchEdges, matchFallback, recursiveBlock, debugging)
 
 export { newQuilt };

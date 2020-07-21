@@ -13,6 +13,7 @@ class Quilt{
     this.colorPalette = quiltSettings.colorPalette;         // color palette for the quilt to render
     this.blockTypes = quiltSettings.blockTypes              // block types for the quilt
     this.matchEdges = quiltSettings.matchEdges              // match edges along blocks or not
+    this.matchFallback = quiltSettings.matchFallback
     this.recursiveBlock = quiltSettings.recursiveBlock      // percentage of blocks with recursive subblocks
     this.debugging = quiltSettings.debugging                // display order of block rendering
 
