@@ -14,7 +14,7 @@ const blockColors = {
 }
 
 // generate random blocks based off of generator object
-const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recursiveBlock) => {
+const generateBlocks = (dimensions, matchEdges, matchFallback, blockTypes, colorPalette, recursiveBlock) => {
   let count = 0
   let blocks = []                   // blocks to be returned for rendering
   let blockQueue = new SetBlockMap(dimensions.rows, dimensions.cols)
@@ -45,6 +45,7 @@ const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recurs
         blockQueue, 
         blockTypes, 
         colorPalette,
+        matchFallback,
         currBlock.startX, 
         currBlock.startY, 
         currBlock.r, 
@@ -116,7 +117,7 @@ const generateBlocks = (dimensions, matchEdges, blockTypes, colorPalette, recurs
 }
 
 // function to pick a block for matching edges
-const pickMatchBlock = (blockQueue, blockTypes, colorPalette, startX, startY, r, c, height, width, count) => {
+const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, startX, startY, r, c, height, width, count) => {
   let block, blockType, blockEdges, colors
   // store new edges
   let newEdges = {}
@@ -136,7 +137,7 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, startX, startY, r,
     noMatches = checkedBlocks.size === validBlockCount
 
     // select block
-    if (noMatches){
+    if (noMatches && matchFallback === 'pickMatchedColor'){
       blockType = blockTypes.selectUnweightedObj(1, true)[0].draw.name
     } else {
       blockType = blockTypes.selectObj(1, true)[0].draw.name
