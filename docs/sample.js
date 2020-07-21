@@ -31,7 +31,7 @@ let matchEdges = true
 
 // Occassionally, there may be no valid blocks from the list of allowed blocks that match the edges of an ungenerated block. In this situation, quilt.b will need to either choose an unmatched block from the list or pick an unallowed block
 const matchEdgeFailureOptions = ['pickAllowedBlock', 'pickMatchedColor']
-let matchFallback = matchEdgeFailureOptions[1]
+let matchFallback = matchEdgeFailureOptions[0]
 
 
 // debugging : show rendered block order

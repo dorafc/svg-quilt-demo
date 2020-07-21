@@ -135,6 +135,7 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, sta
   do {
     // check if any of the weighted blocks match
     noMatches = checkedBlocks.size === validBlockCount
+    console.log(noMatches, matchFallback === 'pickAllowedBlock')
 
     // select block
     if (noMatches && matchFallback === 'pickMatchedColor'){
@@ -145,13 +146,13 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, sta
     
     blockEdges = blockColors[blockType]
     checkedBlocks.add(blockType)
-  } while (!checkMatch(edgeColors, blockEdges))
+  } while (!checkMatch(edgeColors, blockEdges) && !(noMatches && matchFallback === 'pickAllowedBlock'))
 
   // if no blocks match...
-  // if (noMatches){
-  //   blockType = blockTypes.selectObj(1, true)[0].draw.name
-  //   blockEdges = blockColors[blockType]
-  // }
+  if (noMatches && matchFallback === 'pickAllowedBlock'){
+    blockType = blockTypes.selectObj(1, true)[0].draw.name
+    blockEdges = blockColors[blockType]
+  }
   
   // pick valid colors for 0,1 edges
   colors = getColorSet(edgeColors, blockEdges, colorPalette)
