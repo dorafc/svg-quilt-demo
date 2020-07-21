@@ -136,16 +136,21 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, startX, startY, r,
     noMatches = checkedBlocks.size === validBlockCount
 
     // select block
-    blockType = blockTypes.selectObj(1, true)[0].draw.name
+    if (noMatches){
+      blockType = blockTypes.selectUnweightedObj(1, true)[0].draw.name
+    } else {
+      blockType = blockTypes.selectObj(1, true)[0].draw.name
+    }
+    
     blockEdges = blockColors[blockType]
     checkedBlocks.add(blockType)
-  } while (!checkMatch(edgeColors, blockEdges) && !noMatches)
+  } while (!checkMatch(edgeColors, blockEdges))
 
   // if no blocks match...
-  if (noMatches){
-    blockType = blockTypes.selectObj(1, true)[0].draw.name
-    blockEdges = blockColors[blockType]
-  }
+  // if (noMatches){
+  //   blockType = blockTypes.selectObj(1, true)[0].draw.name
+  //   blockEdges = blockColors[blockType]
+  // }
   
   // pick valid colors for 0,1 edges
   colors = getColorSet(edgeColors, blockEdges, colorPalette)
