@@ -14,10 +14,12 @@ const blockColors = {
 }
 
 // generate random blocks based off of generator object
-const generateBlocks = (dimensions, matchEdges, matchFallback, blockTypes, colorPalette, recursiveBlock) => {
+const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, blockTypes, colorPalette, recursiveBlock) => {
   let count = 0
   let blocks = []                   // blocks to be returned for rendering
   let blockQueue = new SetBlockMap(dimensions.rows, dimensions.cols)
+
+  console.log("starting seeds", startSeeds)
 
   // generate random start block
   const startRow = Math.floor(Math.random() * dimensions.rows)
@@ -135,7 +137,6 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, sta
   do {
     // check if any of the weighted blocks match
     noMatches = checkedBlocks.size === validBlockCount
-    console.log(noMatches, matchFallback === 'pickAllowedBlock')
 
     // select block
     if (noMatches && matchFallback === 'pickMatchedColor'){
