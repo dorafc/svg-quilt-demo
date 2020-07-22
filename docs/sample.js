@@ -36,6 +36,7 @@ let matchFallback = matchEdgeFailureOptions[0]
 
 // debugging : show rendered block order
 let debugging = false
+let showSeam = true
 
 // likelihood of recursive blocks (will only work on un matched edges)
 let recursiveBlock = {frequency : 0,
@@ -43,6 +44,6 @@ let recursiveBlock = {frequency : 0,
                       decay : .8,
                       minSize : 10}
 
-let newQuilt = new QuiltSettings(quiltID, spaceName, testDimensions, colors, blocks, matchEdges, matchFallback, recursiveBlock, debugging)
+let newQuilt = new QuiltSettings(quiltID, spaceName, testDimensions, colors, blocks, matchEdges, matchFallback, recursiveBlock, showSeam, debugging)
 
 export { newQuilt };

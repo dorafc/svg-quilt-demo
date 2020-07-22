@@ -8,7 +8,7 @@
  * @param {int} width         block width dimension
  * @param {string} quiltID    ID of the quilt in the HTML
  */
-let drawBlock = (edges, startX, startY, height, width, count, debugging) => {
+let drawBlock = (edges, startX, startY, height, width, count, debugging, showSeam) => {
   // get quilt DOM element and create block
   let block = document.createElementNS("http://www.w3.org/2000/svg", "g")
 
@@ -81,7 +81,9 @@ let drawBlock = (edges, startX, startY, height, width, count, debugging) => {
   }
 
   // add border for debugging
-  block.setAttribute("style", "stroke-width:.25; stroke:#000")
+  if (showSeam){
+    block.setAttribute("style", "stroke-width:.25; stroke:#000")
+  }
 
   return block
 

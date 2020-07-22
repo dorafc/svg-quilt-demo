@@ -15,12 +15,18 @@ class Quilt{
     this.matchEdges = quiltSettings.matchEdges              // match edges along blocks or not
     this.matchFallback = quiltSettings.matchFallback
     this.recursiveBlock = quiltSettings.recursiveBlock      // percentage of blocks with recursive subblocks
+    this.showSeam = quiltSettings.showSeam
     this.debugging = quiltSettings.debugging                // display order of block rendering
 
-    this.blocks = generateBlocks(this.dimensions, this.matchEdges, this.matchFallback, this.blockTypes, this.colorPalette, this.recursiveBlock)
+    this.blocks = generateBlocks(this.dimensions, 
+      this.matchEdges, 
+      this.matchFallback,
+      this.blockTypes, 
+      this.colorPalette, 
+      this.recursiveBlock)
 
     insertQuiltSVG(this.spaceName, this.quiltID, this.dimensions)
-    renderBlocks(this.blocks, this.quiltID, this.debugging)
+    renderBlocks(this.blocks, this.quiltID, this.debugging, this.showSeam)
   }
 }
 
