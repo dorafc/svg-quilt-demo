@@ -19,17 +19,17 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
   let blocks = []                   // blocks to be returned for rendering
   let blockQueue = new SetBlockMap(dimensions.rows, dimensions.cols)
 
-  // TODO: take advantage of start seed count
-  console.log("starting seeds", startSeeds)
-
   // generate random start block
-  const startRow = Math.floor(Math.random() * dimensions.rows)
-  const startCol = Math.floor(Math.random() * dimensions.cols)
-
-  blockQueue.addGenerateQueue(startRow, 
-    startCol, 
-    startCol * dimensions.blockWidth, 
-    startRow * dimensions.blockHeight)
+  for (let i = startSeeds; i > 0; i--){
+    const startRow = Math.floor(Math.random() * dimensions.rows)
+    const startCol = Math.floor(Math.random() * dimensions.cols)
+  
+    blockQueue.addGenerateQueue(startRow, 
+      startCol, 
+      startCol * dimensions.blockWidth, 
+      startRow * dimensions.blockHeight)
+  }
+  
 
   // go through to push to blocks / generate pattern
   do {
@@ -163,25 +163,32 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, sta
     
     // pick valid colors for 0,1 edges
     colors = getColorSet(edgeColors, blockEdges, colorPalette)
+
+    // set edge colors
+    newEdges.top = colors[blockEdges[0]]
+    newEdges.right = colors[blockEdges[1]]
+    newEdges.bottom = colors[blockEdges[2]]
+    newEdges.left = colors[blockEdges[3]]
   } else 
   
   if (setEdgeCount === 3){
     // pick fourth edge from set of three colors
     console.log("edge count 3")
 
-    colors = edgeColors.map(col => col ? col : "blue")
+    colors = edgeColors.map(col => col ? col : colorPalette.selectObj(1, true)[0].fill)
+    newEdges.top = colors[0]
+    newEdges.right = colors[1]
+    newEdges.bottom = colors[2]
+    newEdges.left = colors[3]
   } else {
     // draw block based on four edges
     console.log("edge count 4")
     colors = edgeColors
+    newEdges.top = colors[0]
+    newEdges.right = colors[1]
+    newEdges.bottom = colors[2]
+    newEdges.left = colors[3]
   }
-  
-
-  // set edge colors
-  newEdges.top = colors[blockEdges[0]]
-  newEdges.right = colors[blockEdges[1]]
-  newEdges.bottom = colors[blockEdges[2]]
-  newEdges.left = colors[blockEdges[3]]
 
   block = new BlockRender(drawBlock,
     `block${r}c${c}`,
