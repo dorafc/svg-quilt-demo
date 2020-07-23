@@ -19,6 +19,7 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
   let blocks = []                   // blocks to be returned for rendering
   let blockQueue = new SetBlockMap(dimensions.rows, dimensions.cols)
 
+  // TODO: take advantage of start seed count
   console.log("starting seeds", startSeeds)
 
   // generate random start block
@@ -130,33 +131,51 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, sta
   // get edges that the new block needs to map too
   let edges = Object.entries(blockQueue.getEdges(r, c))
   let edgeColors = edges.map(edge => edge[1])
+  console.log(edgeColors)
 
-  // pick a valid block
-  let checkedBlocks = new Set()
-  let noMatches = false
-  do {
-    // check if any of the weighted blocks match
-    noMatches = checkedBlocks.size === validBlockCount
+  // get the number of edges that have been set
+  const setEdgeCount = edgeColors.filter(edge => edge !== undefined).length
 
-    // select block
-    if (noMatches && matchFallback === 'pickMatchedColor'){
-      blockType = blockTypes.selectUnweightedObj(1, true)[0].draw.name
-    } else {
+  if (setEdgeCount <= 2){
+    // pick a valid block
+    let checkedBlocks = new Set()
+    let noMatches = false
+    do {
+      // check if any of the weighted blocks match
+      noMatches = checkedBlocks.size === validBlockCount
+
+      // select block
+      if (noMatches && matchFallback === 'pickMatchedColor'){
+        blockType = blockTypes.selectUnweightedObj(1, true)[0].draw.name
+      } else {
+        blockType = blockTypes.selectObj(1, true)[0].draw.name
+      }
+      
+      blockEdges = blockColors[blockType]
+      checkedBlocks.add(blockType)
+    } while (!checkMatch(edgeColors, blockEdges) && !(noMatches && matchFallback === 'pickAllowedBlock'))
+
+    // if no blocks match...
+    if (noMatches && matchFallback === 'pickAllowedBlock'){
       blockType = blockTypes.selectObj(1, true)[0].draw.name
+      blockEdges = blockColors[blockType]
     }
     
-    blockEdges = blockColors[blockType]
-    checkedBlocks.add(blockType)
-  } while (!checkMatch(edgeColors, blockEdges) && !(noMatches && matchFallback === 'pickAllowedBlock'))
+    // pick valid colors for 0,1 edges
+    colors = getColorSet(edgeColors, blockEdges, colorPalette)
+  } else 
+  
+  if (setEdgeCount === 3){
+    // pick fourth edge from set of three colors
+    console.log("edge count 3")
 
-  // if no blocks match...
-  if (noMatches && matchFallback === 'pickAllowedBlock'){
-    blockType = blockTypes.selectObj(1, true)[0].draw.name
-    blockEdges = blockColors[blockType]
+    colors = edgeColors.map(col => col ? col : "blue")
+  } else {
+    // draw block based on four edges
+    console.log("edge count 4")
+    colors = edgeColors
   }
   
-  // pick valid colors for 0,1 edges
-  colors = getColorSet(edgeColors, blockEdges, colorPalette)
 
   // set edge colors
   newEdges.top = colors[blockEdges[0]]
