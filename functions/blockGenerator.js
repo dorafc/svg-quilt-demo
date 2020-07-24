@@ -131,7 +131,6 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, sta
   // get edges that the new block needs to map too
   let edges = Object.entries(blockQueue.getEdges(r, c))
   let edgeColors = edges.map(edge => edge[1])
-  console.log(edgeColors)
 
   // get the number of edges that have been set
   const setEdgeCount = edgeColors.filter(edge => edge !== undefined).length
@@ -173,16 +172,13 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, sta
   
   if (setEdgeCount === 3){
     // pick fourth edge from set of three colors
-    console.log("edge count 3")
-
-    colors = edgeColors.map(col => col ? col : colorPalette.selectObj(1, true)[0].fill)
+    colors = edgeColors.map(col => col ? col : edgeColors.filter(col => col != undefined)[Math.floor(Math.random() * 3)])
     newEdges.top = colors[0]
     newEdges.right = colors[1]
     newEdges.bottom = colors[2]
     newEdges.left = colors[3]
   } else {
     // draw block based on four edges
-    console.log("edge count 4")
     colors = edgeColors
     newEdges.top = colors[0]
     newEdges.right = colors[1]
