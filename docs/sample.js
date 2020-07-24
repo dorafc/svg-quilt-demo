@@ -1,13 +1,12 @@
 import { drawSolid, drawDownTriangle, drawUpTriangle, drawHourglass } from "../functions/drawBlocks.js"
 import { Dimensions } from "../classes/Dimensions.js"
-import { QuiltSettings } from "../classes/QuiltSettings.js"
 import { ColorOptions } from "../classes/weighted_obj/ColorOptions.js"
 import { WeightedList } from "../classes/weighted_obj/WeightedList.js"
 import { BlockOptions } from "../classes/weighted_obj/BlockOptions.js"
 
 let quiltID = "sampleQuilt"
 let spaceName = "quiltSpace"
-let testDimensions = new Dimensions(20, 20, 40, 40)
+let dimensions = new Dimensions(20, 20, 40, 40)
 
 // colors
 let hotpink = new ColorOptions(1, "hotpink")
@@ -17,14 +16,14 @@ let deeppink = new ColorOptions(1, "deeppink")
 let teal = new ColorOptions(1, "teal")
 let yellow = new ColorOptions(1, "yellow")
 let background = new ColorOptions(14000, "#c5b9c7")
-let colors = new WeightedList(hotpink, green, limeGreen, deeppink, teal, yellow)
+let colorPalette = new WeightedList(hotpink, green, limeGreen, deeppink, teal, yellow)
 
 // blocks
 let solid = new BlockOptions(1, drawSolid)
 let upTriangle = new BlockOptions(1, drawUpTriangle)
 let downTriangle = new BlockOptions(1, drawDownTriangle)
 let hourglass = new BlockOptions(0, drawHourglass)
-let blocks = new WeightedList(solid, upTriangle, downTriangle, hourglass)
+let blockTypes = new WeightedList(solid, upTriangle, downTriangle, hourglass)
 
 // match edges?
 let matchEdges = true
@@ -47,16 +46,18 @@ let recursiveBlock = {frequency : .1,
                       decay : .8,
                       minSize : 10}
 
-let newQuilt = new QuiltSettings(quiltID, 
-  spaceName, 
-  testDimensions, 
-  colors, 
-  blocks, 
-  matchEdges, 
-  startSeeds,
-  matchFallback, 
-  recursiveBlock, 
-  showSeam, 
-  debugging)
+let newQuilt = {
+  quiltID : quiltID,                    // unique identifier for the quilt
+  spaceName : spaceName,                // id of the element to append the quilt SVG
+  dimensions : dimensions,              // dimensions of the quilt
+  colorPalette : colorPalette,          // color palette for the quilt to render
+  blockTypes : blockTypes,              // block types for the quilt
+  matchEdges : matchEdges,              // generate blocks to match edges of neighboring blocks
+  startSeeds : startSeeds,              // number of starting seeds for generating blocks
+  matchFallback : matchFallback,        // how the block will match edges if no matching edges exist
+  recursiveBlock : recursiveBlock,      // allow recursive blocks
+  showSeam : showSeam,                  // show an outline for the seams
+  debugging : debugging,
+}
 
 export { newQuilt };
