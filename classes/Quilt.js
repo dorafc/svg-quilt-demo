@@ -1,7 +1,7 @@
 /*-------
 Quilt object contains information about a quilt to render
 -------*/
-import { generateBlocks } from '../functions/blockGenerator.js'
+import { generateBlocks, updateDimensions } from '../functions/blockGenerator.js'
 import { insertQuiltSVG, renderBlocks } from '../functions/quiltRender.js'
 
 class Quilt{
@@ -19,7 +19,8 @@ class Quilt{
     this.showSeam = quiltSettings.showSeam
     this.debugging = quiltSettings.debugging                // display order of block rendering
 
-    this.blocks = generateBlocks(this.dimensions, 
+    // TO DO: remove dimensions so that quilts measurements can be modified, just pass rows and cols
+    const blocks = generateBlocks(this.dimensions, 
       this.matchEdges, 
       this.startSeeds,
       this.matchFallback,
@@ -27,8 +28,11 @@ class Quilt{
       this.colorPalette, 
       this.recursiveBlock)
 
+    // TO DO: call a function that add dimensions to list of block objects (probably do this first)
+    const toRenderBlocks = updateDimensions(blocks, 30, 30)
+
     insertQuiltSVG(this.spaceName, this.quiltID, this.dimensions)
-    renderBlocks(this.blocks, this.quiltID, this.debugging, this.showSeam)
+    renderBlocks(toRenderBlocks, this.quiltID, this.debugging, this.showSeam)
   }
 }
 

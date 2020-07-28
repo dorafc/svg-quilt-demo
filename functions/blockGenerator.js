@@ -13,6 +13,7 @@ const blockColors = {
   drawHourglass : [0, 1, 0, 1]
 }
 
+// TO DO : remove dimensions from function (except rows and cols)
 // generate random blocks based off of generator object
 const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, blockTypes, colorPalette, recursiveBlock) => {
   let count = 0
@@ -24,6 +25,7 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
     const startRow = Math.floor(Math.random() * dimensions.rows)
     const startCol = Math.floor(Math.random() * dimensions.cols)
   
+    // TO DO: look into why the queue needs to know the height and width
     blockQueue.addGenerateQueue(startRow, 
       startCol, 
       startCol * dimensions.blockWidth, 
@@ -44,6 +46,7 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
       let block
 
       // geneerate block and new edges
+      // TO DO : remove height & width
       [block, newEdges] = pickMatchBlock(
         blockQueue, 
         blockTypes, 
@@ -64,6 +67,7 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
       blockQueue.setEdges(currBlock.r, currBlock.c, newEdges)
 
     } else {
+      // TO DO : remove height and width
       let blockList = pickBlock(recursiveBlock,
         0, 
         blockTypes, 
@@ -83,6 +87,7 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
     }
 
     // add neighbors to queue, update edge pattern
+    // TO DO : remove height and width
     // block above
     if (currBlock.r - 1 >= 0){
       blockQueue.addGenerateQueue( currBlock.r-1, 
@@ -193,7 +198,9 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, sta
     height,
     width,
     [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
-    count
+    count,
+    r,
+    c
   )
 
   return [block, newEdges]
@@ -254,7 +261,9 @@ const pickBlock = (recursiveBlock, recurseLevel, blockTypes, colorPalette, start
       height,
       width,
       colors,
-      count))
+      count,
+      r, c
+      ))
   }
 
   return blockList.flat()
@@ -335,4 +344,22 @@ const checkMatch = (colors, pattern) => {
   return isValid
 }
 
-export { generateBlocks }
+/* 
+ *  returns BlockRender list with updated height and width
+ */
+const updateDimensions = (blocks, height, width) => {
+  let toRenderBlocks = blocks.map(block => {
+    let newBlock = JSON.parse(JSON.stringify(block));
+    newBlock.draw = block.draw
+    newBlock.height = height
+    newBlock.width = width
+    newBlock.startX = width * newBlock.col
+    newBlock.startY = height * newBlock.row
+    return newBlock
+  })
+
+  return toRenderBlocks
+}
+
+
+export { generateBlocks, updateDimensions }
