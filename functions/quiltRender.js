@@ -3,10 +3,17 @@ Functions to render quilt SVG
 -------*/
 
 // render blocks
-const renderBlocks = (blocks, quiltID, debugging, showSeam) => {
+const renderBlocks = (blocks, quiltID, debugging, showSeam, dimensions) => {
   let quiltSVG = document.getElementById(quiltID)
   blocks.forEach((block, i) => {
-    const blockGroup = block.draw(block.colors, block.startX, block.startY, block.height, block.width, block.count, debugging, showSeam)
+    const blockGroup = block.draw(block.colors, 
+                                  block.col * dimensions.blockWidth, 
+                                  block.row * dimensions.blockHeight, 
+                                  dimensions.blockHeight, 
+                                  dimensions.blockWidth, 
+                                  block.count, 
+                                  debugging, 
+                                  showSeam)
     quiltSVG.appendChild(blockGroup)
   })
 }

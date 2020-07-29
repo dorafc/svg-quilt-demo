@@ -29,10 +29,10 @@ class Quilt{
       this.recursiveBlock)
 
     // TO DO: call a function that add dimensions to list of block objects (probably do this first)
-    const toRenderBlocks = updateDimensions(blocks, 30, 30)
+    // const toRenderBlocks = updateDimensions(blocks, this.dimensions.blockHeight, this.dimensions.blockWidth)
 
     insertQuiltSVG(this.spaceName, this.quiltID, this.dimensions)
-    renderBlocks(toRenderBlocks, this.quiltID, this.debugging, this.showSeam)
+    renderBlocks(blocks, this.quiltID, this.debugging, this.showSeam, this.dimensions)
   }
 }
 

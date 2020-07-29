@@ -193,10 +193,6 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, sta
 
   block = new BlockRender(drawBlock,
     `block${r}c${c}`,
-    startX,
-    startY,
-    height,
-    width,
     [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
     count,
     r,
@@ -256,10 +252,6 @@ const pickBlock = (recursiveBlock, recurseLevel, blockTypes, colorPalette, start
 
     blockList.push(new BlockRender(drawBlock,
       `block${r}c${c}`,
-      startX,
-      startY,
-      height,
-      width,
       colors,
       count,
       r, c
