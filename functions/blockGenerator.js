@@ -81,9 +81,10 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
         count)
 
       // add block to render queue
-      blockList.forEach((block) => {
-        blocks.push(block)
-      })
+      // blockList.forEach((block) => {
+      //   blocks.push(block)
+      // })
+      blocks.push(blockList)
     }
 
     // add neighbors to queue, update edge pattern
@@ -191,13 +192,13 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, sta
     newEdges.left = colors[3]
   }
 
-  block = new BlockRender(drawBlock,
+  block = [new BlockRender(drawBlock,
     `block${r}c${c}`,
     [newEdges.top, newEdges.right, newEdges.bottom, newEdges.left],
     count,
     r,
     c
-  )
+  )]
 
   return [block, newEdges]
 }
@@ -258,7 +259,7 @@ const pickBlock = (recursiveBlock, recurseLevel, blockTypes, colorPalette, start
       ))
   }
 
-  return blockList.flat()
+  return blockList
 }
 
 // function to find valid edge colors

@@ -41,7 +41,7 @@ let debugging = false
 let showSeam = true
 
 // likelihood of recursive blocks (will only work on un matched edges)
-let recursiveBlock = {frequency : .1,
+let recursiveBlock = {frequency : 0,
                       levels : 3,
                       decay : .8,
                       minSize : 10}
