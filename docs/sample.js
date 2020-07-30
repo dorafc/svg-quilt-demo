@@ -33,7 +33,7 @@ let startSeeds = 10
 
 // Occassionally, there may be no valid blocks from the list of allowed blocks that match the edges of an ungenerated block. In this situation, quilt.b will need to either choose an unmatched block from the list or pick an unallowed block
 const matchEdgeFailureOptions = ['pickAllowedBlock', 'pickMatchedColor']
-let matchFallback = matchEdgeFailureOptions[0]
+let matchFallback = matchEdgeFailureOptions[1]
 
 
 // debugging : show rendered block order
@@ -42,8 +42,8 @@ let showSeam = true
 
 // likelihood of recursive blocks (will only work on un matched edges)
 let recursiveBlock = {frequency : .5,
-                      levels : 2,
-                      decay : .8,
+                      levels : 3,
+                      decay : .5,
                       minSize : 10}
 
 let newQuilt = {

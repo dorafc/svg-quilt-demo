@@ -20,12 +20,15 @@ const renderBlocks = (blocks, quiltID, debugging, showSeam, dimensions) => {
 const renderBlocksFunc = (blocks, quiltID, offsetX, offsetY, debugging, showSeam, width, height, recurseDivision) => {
   let quiltSVG = document.getElementById(quiltID)
   if (blocks.length === 1){
+    if (recurseDivision === 4){
+      console.log(offsetX, offsetY)
+    }
     const block = blocks[0]
     const blockGroup = block.draw(block.colors, 
       block.col * width + offsetX, 
       block.row * height + offsetY, 
       height / recurseDivision, 
-      width /recurseDivision, 
+      width / recurseDivision, 
       block.count, 
       debugging, 
       showSeam)
@@ -33,8 +36,9 @@ const renderBlocksFunc = (blocks, quiltID, offsetX, offsetY, debugging, showSeam
     quiltSVG.appendChild(blockGroup)
   } else {
     blocks.forEach((block, i) => {
-      let newOffsetX = (i === 1 || i === 3) ? offsetX + (width / 2) : offsetX
-      let newOffsetY = (i === 2 || i === 3) ? offsetY + (height / 2) : offsetY
+      let division = recurseDivision * 2
+      let newOffsetX = (i === 1 || i === 3) ? offsetX + (width / division) : offsetX
+      let newOffsetY = (i === 2 || i === 3) ? offsetY + (height / division) : offsetY
       renderBlocksFunc(block, 
         quiltID,
         newOffsetX,
@@ -43,7 +47,7 @@ const renderBlocksFunc = (blocks, quiltID, offsetX, offsetY, debugging, showSeam
         showSeam,  
         width, 
         height,
-        recurseDivision * 2)
+        division)
     })
   }
 }
