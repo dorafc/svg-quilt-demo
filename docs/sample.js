@@ -6,7 +6,7 @@ import { BlockOptions } from "../classes/weighted_obj/BlockOptions.js"
 
 let quiltID = "sampleQuilt"
 let spaceName = "quiltSpace"
-let dimensions = new Dimensions(20, 20, 40, 40)
+let dimensions = new Dimensions(10, 10, 80, 80)
 
 // colors
 let hotpink = new ColorOptions(1, "hotpink")
@@ -26,7 +26,7 @@ let hourglass = new BlockOptions(0, drawHourglass)
 let blockTypes = new WeightedList(solid, upTriangle, downTriangle, hourglass)
 
 // match edges?
-let matchEdges = true
+let matchEdges = false
 
 // number of starting seeds for generating blocks
 let startSeeds = 10
@@ -41,7 +41,7 @@ let debugging = false
 let showSeam = true
 
 // likelihood of recursive blocks (will only work on un matched edges)
-let recursiveBlock = {frequency : 0,
+let recursiveBlock = {frequency : .1,
                       levels : 3,
                       decay : .8,
                       minSize : 10}

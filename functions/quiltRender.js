@@ -4,15 +4,24 @@ Functions to render quilt SVG
 
 // render blocks
 const renderBlocks = (blocks, quiltID, debugging, showSeam, dimensions) => {
+  renderBlocksFunc(blocks, 
+    quiltID, 
+    debugging, 
+    showSeam,  
+    dimensions.blockWidth, 
+    dimensions.blockHeight)
+}
+
+const renderBlocksFunc = (blocks, quiltID, debugging, showSeam, width, height) => {
   let quiltSVG = document.getElementById(quiltID)
 
-  blocks.forEach((block, i) => {
-    block.forEach((block, i) => {
+  blocks.forEach((blockArr) => {
+    blockArr.forEach(block => {
       const blockGroup = block.draw(block.colors, 
-        block.col * dimensions.blockWidth, 
-        block.row * dimensions.blockHeight, 
-        dimensions.blockHeight, 
-        dimensions.blockWidth, 
+        block.col * width, 
+        block.row * height, 
+        height, 
+        width, 
         block.count, 
         debugging, 
         showSeam)
