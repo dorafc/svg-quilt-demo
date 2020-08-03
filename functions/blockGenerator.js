@@ -27,9 +27,7 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
   
     // TO DO: look into why the queue needs to know the height and width
     blockQueue.addGenerateQueue(startRow, 
-      startCol, 
-      startCol * dimensions.blockWidth, 
-      startRow * dimensions.blockHeight)
+      startCol)
   }
   
 
@@ -51,9 +49,7 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
         blockQueue, 
         blockTypes, 
         colorPalette,
-        matchFallback,
-        currBlock.startX, 
-        currBlock.startY, 
+        matchFallback, 
         currBlock.r, 
         currBlock.c, 
         dimensions.blockHeight,
@@ -72,8 +68,6 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
         0, 
         blockTypes, 
         colorPalette, 
-        currBlock.startX, 
-        currBlock.startY, 
         currBlock.r, 
         currBlock.c,
         dimensions.blockHeight, 
@@ -81,14 +75,10 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
         count)
 
       // add block to render queue
-      // blockList.forEach((block) => {
-      //   blocks.push(block)
-      // })
       blocks.push(blockList)
     }
 
     // add neighbors to queue, update edge pattern
-    // TO DO : remove height and width
     // block above
     if (currBlock.r - 1 >= 0){
       blockQueue.addGenerateQueue( currBlock.r-1, 
@@ -126,7 +116,7 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
 }
 
 // function to pick a block for matching edges
-const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, startX, startY, r, c, height, width, count) => {
+const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, r, c, count) => {
   let block, blockType, blockEdges, colors
   // store new edges
   let newEdges = {}
@@ -204,7 +194,7 @@ const pickMatchBlock = (blockQueue, blockTypes, colorPalette, matchFallback, sta
 }
 
 // function to pick a block unmatched edges
-const pickBlock = (recursiveBlock, recurseLevel, blockTypes, colorPalette, startX, startY, r, c, height, width, count) =>{
+const pickBlock = (recursiveBlock, recurseLevel, blockTypes, colorPalette, r, c, height, width, count) =>{
   let blockType, blockEdges, colorPick, colors
 
   // check if the block is recursive
@@ -228,8 +218,6 @@ const pickBlock = (recursiveBlock, recurseLevel, blockTypes, colorPalette, start
             nextLevel, 
             blockTypes, 
             colorPalette, 
-            startX+w, 
-            startY+h, 
             r, 
             c,
             halfHeight, 

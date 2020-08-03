@@ -20,9 +20,6 @@ const renderBlocks = (blocks, quiltID, debugging, showSeam, dimensions) => {
 const renderBlocksFunc = (blocks, quiltID, offsetX, offsetY, debugging, showSeam, width, height, recurseDivision) => {
   let quiltSVG = document.getElementById(quiltID)
   if (blocks.length === 1){
-    if (recurseDivision === 4){
-      console.log(offsetX, offsetY)
-    }
     const block = blocks[0]
     const blockGroup = block.draw(block.colors, 
       block.col * width + offsetX, 

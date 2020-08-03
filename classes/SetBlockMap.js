@@ -8,13 +8,11 @@ class SetBlockMap{
   // [top, right, bottom, left]
 
   // method for generating blocks
-  addGenerateQueue(r, c, startX, startY){
+  addGenerateQueue(r, c){
     if (!this.setBlocks.has(`${r},${c}`)){
       this.blockQueue.push({
         r : r,
         c : c,
-        startX : startX,
-        startY : startY
       })
   
       //add block to rendered set

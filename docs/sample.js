@@ -26,7 +26,7 @@ let hourglass = new BlockOptions(0, drawHourglass)
 let blockTypes = new WeightedList(solid, upTriangle, downTriangle, hourglass)
 
 // match edges?
-let matchEdges = false
+let matchEdges = true
 
 // number of starting seeds for generating blocks
 let startSeeds = 10
