@@ -343,4 +343,4 @@ const updateDimensions = (blocks, height, width) => {
 }
 
 
-export { generateBlocks, updateDimensions }
+export { generateBlocks }

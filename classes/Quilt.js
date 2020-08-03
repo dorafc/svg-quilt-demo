@@ -1,7 +1,7 @@
 /*-------
 Quilt object contains information about a quilt to render
 -------*/
-import { generateBlocks, updateDimensions } from '../functions/blockGenerator.js'
+import { generateBlocks } from '../functions/blockGenerator.js'
 import { insertQuiltSVG, renderBlocks } from '../functions/quiltRender.js'
 
 class Quilt{
@@ -27,9 +27,6 @@ class Quilt{
       this.blockTypes, 
       this.colorPalette, 
       this.recursiveBlock)
-
-    // TO DO: call a function that add dimensions to list of block objects (probably do this first)
-    // const toRenderBlocks = updateDimensions(blocks, this.dimensions.blockHeight, this.dimensions.blockWidth)
 
     insertQuiltSVG(this.spaceName, this.quiltID, this.dimensions)
     renderBlocks(blocks, this.quiltID, this.debugging, this.showSeam, this.dimensions)
