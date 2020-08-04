@@ -325,22 +325,4 @@ const checkMatch = (colors, pattern) => {
   return isValid
 }
 
-/* 
- *  returns BlockRender list with updated height and width
- */
-const updateDimensions = (blocks, height, width) => {
-  let toRenderBlocks = blocks.map(block => {
-    let newBlock = JSON.parse(JSON.stringify(block));
-    newBlock.draw = block.draw
-    newBlock.height = height
-    newBlock.width = width
-    newBlock.startX = width * newBlock.col
-    newBlock.startY = height * newBlock.row
-    return newBlock
-  })
-
-  return toRenderBlocks
-}
-
-
 export { generateBlocks }
