@@ -20,7 +20,8 @@ class Quilt{
     this.debugging = quiltSettings.debugging                // display order of block rendering
 
     // TO DO: remove dimensions so that quilts measurements can be modified, just pass rows and cols
-    const blocks = generateBlocks(this.dimensions, 
+    const blocks = generateBlocks(this.dimensions.rows,
+      this.dimensions.cols, 
       this.matchEdges, 
       this.startSeeds,
       this.matchFallback,

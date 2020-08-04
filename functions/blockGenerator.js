@@ -15,15 +15,15 @@ const blockColors = {
 
 // TO DO : remove dimensions from function (except rows and cols)
 // generate random blocks based off of generator object
-const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, blockTypes, colorPalette, recursiveBlock) => {
+const generateBlocks = (rows, cols, matchEdges, startSeeds, matchFallback, blockTypes, colorPalette, recursiveBlock) => {
   let count = 0
   let blocks = []                   // blocks to be returned for rendering
-  let blockQueue = new SetBlockMap(dimensions.rows, dimensions.cols)
+  let blockQueue = new SetBlockMap(rows, cols)
 
   // generate random start block
   for (let i = startSeeds; i > 0; i--){
-    const startRow = Math.floor(Math.random() * dimensions.rows)
-    const startCol = Math.floor(Math.random() * dimensions.cols)
+    const startRow = Math.floor(Math.random() * rows)
+    const startCol = Math.floor(Math.random() * cols)
   
     // TO DO: look into why the queue needs to know the height and width
     blockQueue.addGenerateQueue(startRow, 
@@ -52,8 +52,6 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
         matchFallback, 
         currBlock.r, 
         currBlock.c, 
-        dimensions.blockHeight,
-        dimensions.blockWidth, 
         count)
 
       // add blocks to render queue
@@ -69,9 +67,7 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
         blockTypes, 
         colorPalette, 
         currBlock.r, 
-        currBlock.c,
-        dimensions.blockHeight, 
-        dimensions.blockWidth, 
+        currBlock.c, 
         count)
 
       // add block to render queue
@@ -82,33 +78,25 @@ const generateBlocks = (dimensions, matchEdges, startSeeds, matchFallback, block
     // block above
     if (currBlock.r - 1 >= 0){
       blockQueue.addGenerateQueue( currBlock.r-1, 
-        currBlock.c, 
-        currBlock.startX, 
-        currBlock.startY - dimensions.blockHeight)
+        currBlock.c)
     }
 
     // block below
-    if (currBlock.r + 1 < dimensions.rows){
+    if (currBlock.r + 1 < rows){
       blockQueue.addGenerateQueue( currBlock.r+1, 
-        currBlock.c, 
-        currBlock.startX, 
-        currBlock.startY + dimensions.blockHeight)
+        currBlock.c)
     }
 
     // block right
-    if (currBlock.c + 1 < dimensions.cols){
+    if (currBlock.c + 1 < cols){
       blockQueue.addGenerateQueue( currBlock.r, 
-        currBlock.c+1, 
-        currBlock.startX + dimensions.blockWidth, 
-        currBlock.startY)
+        currBlock.c+1)
     }
 
     // block left
     if (currBlock.c - 1 >= 0){
       blockQueue.addGenerateQueue( currBlock.r, 
-        currBlock.c-1, 
-        currBlock.startX - dimensions.blockWidth, 
-        currBlock.startY)
+        currBlock.c-1)
     }
 
   } while (blockQueue.hasNextBlock())
