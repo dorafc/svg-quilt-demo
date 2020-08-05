@@ -18,6 +18,7 @@ class Quilt{
     this.recursiveBlock = quiltSettings.recursiveBlock      // percentage of blocks with recursive subblocks
     this.showSeam = quiltSettings.showSeam
     this.debugging = quiltSettings.debugging                // display order of block rendering
+    this.animDelay = quiltSettings.animDelay
 
     // TO DO: remove dimensions so that quilts measurements can be modified, just pass rows and cols
     const blocks = generateBlocks(this.dimensions.rows,
@@ -30,7 +31,7 @@ class Quilt{
       this.recursiveBlock)
 
     insertQuiltSVG(this.spaceName, this.quiltID, this.dimensions)
-    renderBlocks(blocks, this.quiltID, this.debugging, this.showSeam, this.dimensions)
+    renderBlocks(blocks, this.quiltID, this.debugging, this.showSeam, this.dimensions, this.animDelay)
   }
 }
 

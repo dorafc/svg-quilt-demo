@@ -3,8 +3,8 @@ Functions to render quilt SVG
 -------*/
 
 // render blocks
-const renderBlocks = (blocks, quiltID, debugging, showSeam, dimensions) => {
-  blocks.forEach(block => {
+const renderBlocks = (blocks, quiltID, debugging, showSeam, dimensions, animDelay) => {
+  blocks.forEach((block, i) => {
     renderBlocksFunc(block,
       quiltID, 
       0,
@@ -13,11 +13,14 @@ const renderBlocks = (blocks, quiltID, debugging, showSeam, dimensions) => {
       showSeam,  
       dimensions.blockWidth, 
       dimensions.blockHeight,
-      1)
+      1,
+      animDelay * i)
   })
+
+  
 }
 
-const renderBlocksFunc = (blocks, quiltID, offsetX, offsetY, debugging, showSeam, width, height, recurseDivision) => {
+const renderBlocksFunc = (blocks, quiltID, offsetX, offsetY, debugging, showSeam, width, height, recurseDivision, animDelay) => {
   let quiltSVG = document.getElementById(quiltID)
   if (blocks.length === 1){
     const block = blocks[0]
@@ -28,7 +31,8 @@ const renderBlocksFunc = (blocks, quiltID, offsetX, offsetY, debugging, showSeam
       width / recurseDivision, 
       block.count, 
       debugging, 
-      showSeam)
+      showSeam,
+      animDelay)
 
     quiltSVG.appendChild(blockGroup)
   } else {
@@ -44,7 +48,8 @@ const renderBlocksFunc = (blocks, quiltID, offsetX, offsetY, debugging, showSeam
         showSeam,  
         width, 
         height,
-        division)
+        division,
+        animDelay)
     })
   }
 }

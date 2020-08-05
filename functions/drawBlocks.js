@@ -8,7 +8,7 @@
  * @param {int} width         block width dimension
  * @param {string} quiltID    ID of the quilt in the HTML
  */
-let drawBlock = (edges, startX, startY, height, width, count, debugging, showSeam) => {
+let drawBlock = (edges, startX, startY, height, width, count, debugging, showSeam, animDelay) => {
   // get quilt DOM element and create block
   let block = document.createElementNS("http://www.w3.org/2000/svg", "g")
 
@@ -67,7 +67,11 @@ let drawBlock = (edges, startX, startY, height, width, count, debugging, showSea
   }
 
   paths.forEach(path => {
-    block.appendChild(path)
+    if (animDelay > 0){
+      setTimeout(() => {block.appendChild(path)}, animDelay)
+    } else {
+      block.appendChild(path)
+    }
   })
 
   // add block counts for debugging

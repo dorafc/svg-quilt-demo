@@ -6,7 +6,7 @@ import { BlockOptions } from "../classes/weighted_obj/BlockOptions.js"
 
 let quiltID = "sampleQuilt"
 let spaceName = "quiltSpace"
-let dimensions = new Dimensions(10, 10, 80, 80)
+let dimensions = new Dimensions(30, 30, 20, 20)
 
 // colors
 let hotpink = new ColorOptions(1, "hotpink")
@@ -38,7 +38,13 @@ let matchFallback = matchEdgeFailureOptions[1]
 
 // debugging : show rendered block order
 let debugging = false
+
+// showSeam : show a dark line where the block seams will be
 let showSeam = true
+
+// animDelay : delay between block rendering as an animation
+// setting as 0 will render everything at once
+let animDelay = 1
 
 // likelihood of recursive blocks (will only work on un matched edges)
 let recursiveBlock = {frequency : .5,
@@ -58,6 +64,7 @@ let newQuilt = {
   recursiveBlock : recursiveBlock,      // allow recursive blocks
   showSeam : showSeam,                  // show an outline for the seams
   debugging : debugging,
+  animDelay : animDelay
 }
 
 export { newQuilt };
