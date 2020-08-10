@@ -6,7 +6,9 @@ import { BlockOptions } from "../classes/weighted_obj/BlockOptions.js"
 
 let quiltID = "sampleQuilt"
 let spaceName = "quiltSpace"
-let dimensions = new Dimensions(30, 30, 20, 20)
+
+// rows, cols, width, height
+let dimensions = new Dimensions(20, 20, 40, 40)
 
 // colors
 let hotpink = new ColorOptions(1, "hotpink")
@@ -44,7 +46,7 @@ let showSeam = true
 
 // animDelay : delay between block rendering as an animation
 // setting as 0 will render everything at once
-let animDelay = 1
+let animDelay = 0
 
 // likelihood of recursive blocks (will only work on un matched edges)
 let recursiveBlock = {frequency : .5,
