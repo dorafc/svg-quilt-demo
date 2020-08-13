@@ -3,8 +3,6 @@ Quilt object contains information about a quilt to render
 -------*/
 import { generateBlocks } from '../functions/blockGenerator.js'
 import { insertQuiltSVG, renderBlocks } from '../functions/quiltRender.js'
-import { Color } from "../classes/color_palette/Colors.js"
-import { generateMonochrome, generateAnalogous, generateComplementary, generateTriadic, generateCompound } from "../classes/color_palette/Palette.js"
 
 
 class Quilt{

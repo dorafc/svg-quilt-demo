@@ -3,6 +3,7 @@ import { Dimensions } from "../classes/Dimensions.js"
 import { ColorOptions } from "../classes/weighted_obj/ColorOptions.js"
 import { WeightedList } from "../classes/weighted_obj/WeightedList.js"
 import { BlockOptions } from "../classes/weighted_obj/BlockOptions.js"
+import { generateHexPalette } from "../classes/color_palette/Palette.js"
 
 let quiltID = "sampleQuilt"
 let spaceName = "quiltSpace"
@@ -10,7 +11,7 @@ let spaceName = "quiltSpace"
 // rows, cols, width, height
 let dimensions = new Dimensions(20, 20, 40, 40)
 
-// colors
+// colors -> user generated
 let hotpink = new ColorOptions(1, "hotpink")
 let green = new ColorOptions(1, "green")
 let limeGreen = new ColorOptions(1, "limegreen")
@@ -19,6 +20,10 @@ let teal = new ColorOptions(1, "teal")
 let yellow = new ColorOptions(1, "yellow")
 let background = new ColorOptions(14000, "#c5b9c7")
 let colorPalette = new WeightedList(hotpink, green, limeGreen, deeppink, teal, yellow)
+
+// colors -> robot generated
+let roboPalettePick = generateHexPalette().map(col => new ColorOptions(1, col))
+let roboPalette = new WeightedList(roboPalettePick[0], roboPalettePick[1], roboPalettePick[2], roboPalettePick[3], roboPalettePick[4])
 
 // blocks
 let solid = new BlockOptions(1, drawSolid)
@@ -35,7 +40,7 @@ let startSeeds = 10
 
 // Occassionally, there may be no valid blocks from the list of allowed blocks that match the edges of an ungenerated block. In this situation, quilt.b will need to either choose an unmatched block from the list or pick an unallowed block
 const matchEdgeFailureOptions = ['pickAllowedBlock', 'pickMatchedColor']
-let matchFallback = matchEdgeFailureOptions[1]
+let matchFallback = matchEdgeFailureOptions[0]
 
 
 // debugging : show rendered block order
@@ -58,7 +63,7 @@ let newQuilt = {
   quiltID : quiltID,                    // unique identifier for the quilt
   spaceName : spaceName,                // id of the element to append the quilt SVG
   dimensions : dimensions,              // dimensions of the quilt
-  colorPalette : colorPalette,          // color palette for the quilt to render
+  colorPalette : roboPalette,          // color palette for the quilt to render
   blockTypes : blockTypes,              // block types for the quilt
   matchEdges : matchEdges,              // generate blocks to match edges of neighboring blocks
   startSeeds : startSeeds,              // number of starting seeds for generating blocks

@@ -31,7 +31,7 @@ class Color{
     return new Color(this.hue + h, this.saturation + s, this.lightness + l)
   }
 
-  toRGB(){
+  toHex(){
     // from https://css-tricks.com/converting-color-spaces-in-javascript/ and https://en.wikipedia.org/wiki/HSL_and_HSV#HSL_to_RGB
     let color = ""
     let red, green, blue

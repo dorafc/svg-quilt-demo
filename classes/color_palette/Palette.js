@@ -51,8 +51,25 @@ const generateCompound = (color) => {
     posColor.shiftColor(0, randomNum(-20, 20), randomNum(-20, -10))]
 }
 
+
+// function for selecting colors
+const generateHexPalette = () => {
+  // get palette type
+  const types = [generateMonochrome, generateAnalogous, generateComplementary, generateTriadic, generateCompound]
+  const type = types[randomNum(0, types.length - 1)]
+
+  // pick hue (between 0 and 360), saturation (between 0 and 100), and lightness (between 30 and 70)
+  const hue = Math.floor(Math.random() * 360)
+  const saturation = Math.floor(Math.random() * 40) + 20
+  const lightness = Math.floor(Math.random() * 50) + 30
+  const color = new Color(hue, saturation, lightness)
+
+  // return as list of HEX values
+  return(type(color).map(col => col.toHex()))
+}
+
 const randomNum = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min
 }
 
-export { generateMonochrome, generateAnalogous, generateComplementary, generateTriadic, generateCompound }
+export { generateHexPalette }
