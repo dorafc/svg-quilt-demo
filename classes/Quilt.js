@@ -4,7 +4,6 @@ Quilt object contains information about a quilt to render
 import { generateBlocks } from '../functions/blockGenerator.js'
 import { insertQuiltSVG, renderBlocks } from '../functions/quiltRender.js'
 
-
 class Quilt{
   // constructor
   constructor(quiltSettings){

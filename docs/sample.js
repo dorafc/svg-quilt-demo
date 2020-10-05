@@ -3,7 +3,9 @@ import { Dimensions } from "../classes/Dimensions.js"
 import { ColorOptions } from "../classes/weighted_obj/ColorOptions.js"
 import { WeightedList } from "../classes/weighted_obj/WeightedList.js"
 import { BlockOptions } from "../classes/weighted_obj/BlockOptions.js"
-import { generateHexPalette } from "../classes/color_palette/Palette.js"
+import { generateHexPalette } from "../node_modules/color-a-tron/src/index.js"
+
+// let generateHexPalette = require('color-a-tron')
 
 let quiltID = "sampleQuilt"
 let spaceName = "quiltSpace"

@@ -10,6 +10,7 @@
   "author": "Dora Caswell",
   "license": "BSD 3 clause",
   "dependencies": {
+    "color-a-tron": "1.2.0",
     "live-server": "^1.2.1"
   },
   "devDependencies": {}
